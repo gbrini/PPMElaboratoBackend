@@ -1,8 +1,16 @@
+@baseUrl = http://127.0.0.1:8000/api
+
 ### GET JWT token
-POST http://127.0.0.1:8000/api/users/login/ HTTP/1.1
+POST {{baseUrl}}/users/login/ HTTP/1.1
 Content-Type: application/json
 
 {
     "username": "",
     "password": ""
 }
+
+
+### GET forecast
+GET {{baseUrl}}/weather/forecast/?location=Tokyo HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer 
