@@ -7,4 +7,5 @@ class WeatherQueryInputSerializer(serializers.Serializer):
 class WeatherQueryOutputSerializer(serializers.ModelSerializer):
     class Meta:
         model = WeatherQuery
-        fields = [ 'id', 'location', 'temperature', 'condition', 'created_at' ]
+        # fields = '__all__'
+        exclude = [ 'user' ]
