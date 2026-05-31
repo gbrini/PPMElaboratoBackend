@@ -46,6 +46,7 @@ class WeatherForecastView(APIView):
         return Response(output_serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
+        print(request.data)
         serializer = WeatherQueryCreateSerializer(data=request.data)
 
         if not serializer.is_valid():

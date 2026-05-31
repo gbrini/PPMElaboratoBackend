@@ -12,10 +12,15 @@ class WeatherQueryOutputSerializer(serializers.ModelSerializer):
         # fields = '__all__'
         exclude = [ 'user' ]
 
-class WeatherQueryCreateSerializer(serializers.Serializer):
+class WeatherQueryCreateSerializer(serializers.ModelSerializer):
+    location = serializers.CharField(max_length=50)
+    temperature = serializers.FloatField(required=True)
+    condition = serializers.CharField(max_length=100, required=True)
+    forecast_date = serializers.DateTimeField(required=True)
+    
     class Meta:
         model = WeatherQuery
         fields = [ 'location', 'forecast_date', 'temperature', 'condition' ]
     
-    def valiate_forecast_date(self, value):
+    def validate_forecast_date(self, value):
         return value.replace(minute = 0, second = 0, microsend = 0)
