@@ -9,8 +9,12 @@ Content-Type: application/json
     "password": ""
 }
 
-
 ### GET forecast
 GET {{baseUrl}}/weather/forecast/?location=Tokyo HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer 
+
+### POST forecast
+POST {{baseUrl}}/weather/forecast/ HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer 

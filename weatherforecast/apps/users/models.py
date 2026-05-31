@@ -4,7 +4,8 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     ROLE_CHOICES = (
         ( 'standard', 'Standard' ),
-        ( 'premium', 'Premium' )
+        ( 'premium', 'Premium' ),
+        ( 'admin', 'Admin' )
     )
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='standard')
 
