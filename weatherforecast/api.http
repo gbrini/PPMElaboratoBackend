@@ -21,7 +21,7 @@ Authorization: Bearer
 ### POST forecast
 POST {{baseUrl}}/weather/forecast/ HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwMjM1NzM4LCJpYXQiOjE3ODAyMzU0MzgsImp0aSI6ImZjYmM2ZDJlNWNkNDQzMTc4MGQ0NGRkNDg3MjI1ODhmIiwidXNlcl9pZCI6IjEifQ.O-_6tfEcIK71efIQUo7nB3UF8QtDaDQV3h5M3dRaIac
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwMjM2MDgyLCJpYXQiOjE3ODAyMzU3ODIsImp0aSI6IjI5ZGY2NzU5NzBjYTQwMTBiNmE2NzJjZmM1NjZjZDZhIiwidXNlcl9pZCI6IjEifQ.J43cyecazguiyGEAvb4LuaC3iyP6OcKeGRVHeQADMTc
 
 {
     "location": "Tokyo",
@@ -29,3 +29,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
     "temperature": 25,
     "condition": "Rain"
 }
+
+### DELETE forecast
+DELETE {{baseUrl}}/weather/forecast/29 HTTP/1.1
+Content-Type: application/jsoneyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwMjM3MDI4LCJpYXQiOjE3ODAyMzY3MjgsImp0aSI6ImRjMGU5ZWM2ZmU1ODQwODc5MDYzNDg3Njk1NjQ5NjJmIiwidXNlcl9pZCI6IjEifQ.PkdTVVbqyITeSNYc9x-OuSt8N2XJA28P3Kk8xVj-9L0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwMjM3MDI4LCJpYXQiOjE3ODAyMzY3MjgsImp0aSI6ImRjMGU5ZWM2ZmU1ODQwODc5MDYzNDg3Njk1NjQ5NjJmIiwidXNlcl9pZCI6IjEifQ.PkdTVVbqyITeSNYc9x-OuSt8N2XJA28P3Kk8xVj-9L0

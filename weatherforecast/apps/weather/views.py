@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -16,7 +16,7 @@ class WeatherForecastView(APIView):
     #def get_throttles(self)
 
     def get_permissions(self):
-        if self.request.method in [ 'POST', 'DELETE' ]:
+        if self.request.method == 'POST':
             return [ IsAdminUser() ]
 
         return super().get_permissions()
@@ -57,5 +57,23 @@ class WeatherForecastView(APIView):
 
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
 
-    def delete(self, request):
-        return Response()
+class WeatherForecastDetailView(APIView):
+    permission_classes = [ AllowAny ]
+
+    #def get_throttles(self)
+
+    def get_permissions(self):
+        if self.request.method in [ 'DELETE', 'PUT' ]:
+            return [ IsAdminUser() ]
+
+        return super().get_permissions()
+
+    def delete(self, request, pk):
+        forecast = get_object_or_404(WeatherQuery, pk=pk)
+
+        forecast.delete()
+
+        return Response({ "message": "Forecast deleted successfully!" }, status=status.HTTP_204_NO_CONTENT)
+
+    def put(self, request, pk):
+        pass
