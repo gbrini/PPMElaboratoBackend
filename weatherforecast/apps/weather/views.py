@@ -76,4 +76,15 @@ class WeatherForecastDetailView(APIView):
         return Response({ "message": "Forecast deleted successfully!" }, status=status.HTTP_204_NO_CONTENT)
 
     def put(self, request, pk):
-        pass
+        forecast = get_object_or_404(WeatherQuery, pk=pk)
+
+        serializer = WeatherQueryCreateSerializer(forecast, data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        instance = serializer.save()
+
+        output_serializer = WeatherQueryOutputSerializer(instance)
+
+        return Response(output_serializer.data, status=status.HTTP_200_OK)

@@ -31,6 +31,26 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 }
 
 ### DELETE forecast
-DELETE {{baseUrl}}/weather/forecast/29 HTTP/1.1
-Content-Type: application/jsoneyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwMjM3MDI4LCJpYXQiOjE3ODAyMzY3MjgsImp0aSI6ImRjMGU5ZWM2ZmU1ODQwODc5MDYzNDg3Njk1NjQ5NjJmIiwidXNlcl9pZCI6IjEifQ.PkdTVVbqyITeSNYc9x-OuSt8N2XJA28P3Kk8xVj-9L0
+DELETE {{baseUrl}}/weather/forecast/22 HTTP/1.1
+Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwMjM3MDI4LCJpYXQiOjE3ODAyMzY3MjgsImp0aSI6ImRjMGU5ZWM2ZmU1ODQwODc5MDYzNDg3Njk1NjQ5NjJmIiwidXNlcl9pZCI6IjEifQ.PkdTVVbqyITeSNYc9x-OuSt8N2XJA28P3Kk8xVj-9L0
+
+### PUT forecast
+PUT {{baseUrl}}/weather/forecast/19 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwMjM3MjYyLCJpYXQiOjE3ODAyMzY5NjIsImp0aSI6IjNlYzFiYTA5NmI4ZjRjYTdiZGIzZDVkMzBlNmZiNGI5IiwidXNlcl9pZCI6IjEifQ.iYSl5l_FbBO6xFv4KjIh77xIKoDkYHHY1gZXf6k0O3I
+
+{
+    "location": "Tokyo",
+    "temperature": 2.5,
+    "condition": "Sunnyq",
+    "forecast_date": "2026-06-03T13:53:49.887296Z"
+}
+
+#   {
+#     "id": 19,
+#     "location": "Tokyo",
+#     "temperature": 2.2,
+#     "condition": "Sunny",
+#     "forecast_date": "2026-06-03T13:52:49.887296Z"
+#   }
