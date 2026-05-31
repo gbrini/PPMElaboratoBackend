@@ -12,16 +12,20 @@ Content-Type: application/json
 ### GET forecast
 GET {{baseUrl}}/weather/forecast/?location=Tokyo HTTP/1.1
 Content-Type: application/json
+
+### GET forecast
+GET {{baseUrl}}/weather/forecast/?location=Tokyo HTTP/1.1
+Content-Type: application/json
 Authorization: Bearer 
 
 ### POST forecast
 POST {{baseUrl}}/weather/forecast/ HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwMjMzNzg2LCJpYXQiOjE3ODAyMzM0ODYsImp0aSI6IjY3M2E4YmE3MDU1NzRkMDg5YmQ5NTBmZDRhMDMwZDUyIiwidXNlcl9pZCI6IjEifQ.1KRYNyv3DQceba6Rl6ZHVU9WORt3gSu4dU5oqZuQMro
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwMjM1NzM4LCJpYXQiOjE3ODAyMzU0MzgsImp0aSI6ImZjYmM2ZDJlNWNkNDQzMTc4MGQ0NGRkNDg3MjI1ODhmIiwidXNlcl9pZCI6IjEifQ.O-_6tfEcIK71efIQUo7nB3UF8QtDaDQV3h5M3dRaIac
 
 {
-    "location": "Florence",
-    "forecast_date": "",
-    "temperature": 23,
-    "condition": "Sunny"
+    "location": "Tokyo",
+    "forecast_date": "2026-05-31T15:54",
+    "temperature": 25,
+    "condition": "Rain"
 }
