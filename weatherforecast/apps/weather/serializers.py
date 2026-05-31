@@ -11,3 +11,11 @@ class WeatherQueryOutputSerializer(serializers.ModelSerializer):
         model = WeatherQuery
         # fields = '__all__'
         exclude = [ 'user' ]
+
+class WeatherQueryCreateSerializer(serializers.Serializer):
+    class Meta:
+        model = WeatherQuery
+        fields = [ 'location', 'forecast_date', 'temperature', 'condition' ]
+    
+    def valiate_forecast_date(self, value):
+        return value.replace(minute = 0, second = 0, microsend = 0)

@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
-from .serializers import WeatherQueryInputSerializer, WeatherQueryOutputSerializer
+from .serializers import WeatherQueryInputSerializer, WeatherQueryOutputSerializer, WeatherQueryCreateSerializer
 from .models import WeatherQuery
 from ..users.permissions import IsAdminUser
 
@@ -15,7 +15,7 @@ class WeatherForecastView(APIView):
     #def get_throttles(self)
 
     def get_permissions(self):
-        if self.request.method == 'POST':
+        if self.request.method in [ 'POST', 'DELETE' ]:
             return [ IsAdminUser() ]
 
         return super().get_permissions()
@@ -45,4 +45,14 @@ class WeatherForecastView(APIView):
         return Response(output_serializer.data)
 
     def post(self, request):
+        serializer = WeatherQueryCreateSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=400)
+
+        print(serializer.data)
+
+        return Response()
+
+    def delete(self, request):
         return Response()
