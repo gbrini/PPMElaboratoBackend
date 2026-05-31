@@ -5,8 +5,8 @@ POST {{baseUrl}}/users/login/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "",
-    "password": ""
+    "username": "root",
+    "password": "root"
 }
 
 ### GET forecast
@@ -17,4 +17,4 @@ Authorization: Bearer
 ### POST forecast
 POST {{baseUrl}}/weather/forecast/ HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwMjMyNzQwLCJpYXQiOjE3ODAyMzI0NDAsImp0aSI6IjZhZTc5MTc3NWJkMDQ1Mzc4ZDgxZmU5ODQxZTI1MGUxIiwidXNlcl9pZCI6IjEifQ.__ucp8CMQI10b5KsTH9lBZtei3O7YutmusHAPFlkxas
