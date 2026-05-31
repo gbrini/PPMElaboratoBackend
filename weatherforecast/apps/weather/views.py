@@ -7,6 +7,8 @@ from .serializers import WeatherQueryInputSerializer, WeatherQueryOutputSerializ
 from .models import WeatherQuery
 from ..users.permissions import IsAdminUser
 
+from datetime import timedelta, datetime
+
 class WeatherForecastView(APIView):
     permission_classes = [ AllowAny ]
 
@@ -24,13 +26,24 @@ class WeatherForecastView(APIView):
         if not input_serializer.is_valid():
             return Response(input_serializer.errors, status=400)
 
-        location = input_serializer.validated_data['location']
+        data = input_serializer.validated_data
+
+        location = data['location']
 
         weather_data = WeatherQuery.objects.filter(location=location)
+
+        if data.get('date'):
+            weather_data = weather_data.filter(forecast_date__date = data['date'])
+
+        if data.get('time'):
+            time = data['time']
+
+            weather_data = weather_data.filter(forecast_date__hour = time.hour)
 
         output_serializer = WeatherQueryOutputSerializer(weather_data, many=True)
 
         return Response(output_serializer.data)
 
     def post(self, request):
+
         return Response()
