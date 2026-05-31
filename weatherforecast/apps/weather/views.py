@@ -45,5 +45,4 @@ class WeatherForecastView(APIView):
         return Response(output_serializer.data)
 
     def post(self, request):
-
         return Response()
