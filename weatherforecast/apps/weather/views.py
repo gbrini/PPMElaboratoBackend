@@ -4,9 +4,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.pagination import PageNumberPagination
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .serializers import WeatherQueryInputSerializer, WeatherQueryOutputSerializer, WeatherQueryCreateSerializer, UserSearchHistorySerializer
 from .models import WeatherQuery, UserSearchHistory
+from .filters import WeatherQueryFilter
 from ..users.permissions import IsAdminUser
 
 from datetime import timedelta, datetime
@@ -23,10 +25,8 @@ class WeatherForecastView(APIView):
         return super().get_permissions()
 
     def get(self, request):
-        input_serializer = WeatherQueryInputSerializer(data=request.query_params)
-
-        if not input_serializer.is_valid():
-            return Response(input_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        filter_backend = WeatherQueryFilter(request.query_params, queryset=WeatherQuery.objects.all())
+        filtered_queryset = filter_backend.qs
 
         if request.user.is_authenticated and request.user.role in [ 'premium', 'admin' ]:
             UserSearchHistory.objects.create(
@@ -34,26 +34,41 @@ class WeatherForecastView(APIView):
                 search_params=request.query_params
             )
 
-        data = input_serializer.validated_data
-
-        location = data['location']
-
-        weather_data = WeatherQuery.objects.filter(location=location)
-
-        if data.get('date'):
-            weather_data = weather_data.filter(forecast_date__date = data['date'])
-
-        if data.get('time'):
-            time = data['time']
-
-            weather_data = weather_data.filter(forecast_date__hour = time.hour)
-
-            if time.minute != 0:
-                weather_data = weather_data.filter(forecast_date__minute = time.minute)
-
-        output_serializer = WeatherQueryOutputSerializer(weather_data, many=True)
+        output_serializer = WeatherQueryOutputSerializer(filtered_queryset, many=True)
 
         return Response(output_serializer.data, status=status.HTTP_200_OK)
+
+        # input_serializer = WeatherQueryInputSerializer(data=request.query_params)
+
+        # if not input_serializer.is_valid():
+        #     return Response(input_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # if request.user.is_authenticated and request.user.role in [ 'premium', 'admin' ]:
+        #     UserSearchHistory.objects.create(
+        #         user=request.user,
+        #         search_params=request.query_params
+        #     )
+
+        # data = input_serializer.validated_data
+
+        # location = data['location']
+
+        # weather_data = WeatherQuery.objects.filter(location=location)
+
+        # if data.get('date'):
+        #     weather_data = weather_data.filter(forecast_date__date = data['date'])
+
+        # if data.get('time'):
+        #     time = data['time']
+
+        #     weather_data = weather_data.filter(forecast_date__hour = time.hour)
+
+        #     if time.minute != 0:
+        #         weather_data = weather_data.filter(forecast_date__minute = time.minute)
+
+        # output_serializer = WeatherQueryOutputSerializer(weather_data, many=True)
+
+        # return Response(output_serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
         serializer = WeatherQueryCreateSerializer(data=request.data)
