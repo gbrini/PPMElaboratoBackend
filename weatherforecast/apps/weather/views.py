@@ -28,47 +28,20 @@ class WeatherForecastView(APIView):
         filter_backend = WeatherQueryFilter(request.query_params, queryset=WeatherQuery.objects.all())
         filtered_queryset = filter_backend.qs
 
+        paginator = PageNumberPagination()
+        paginator.page_size = 25
+
+        result_page = paginator.paginate_queryset(filtered_queryset, request)
+
         if request.user.is_authenticated and request.user.role in [ 'premium', 'admin' ]:
             UserSearchHistory.objects.create(
                 user=request.user,
                 search_params=request.query_params
             )
 
-        output_serializer = WeatherQueryOutputSerializer(filtered_queryset, many=True)
+        output_serializer = WeatherQueryOutputSerializer(result_page, many=True)
 
-        return Response(output_serializer.data, status=status.HTTP_200_OK)
-
-        # input_serializer = WeatherQueryInputSerializer(data=request.query_params)
-
-        # if not input_serializer.is_valid():
-        #     return Response(input_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        # if request.user.is_authenticated and request.user.role in [ 'premium', 'admin' ]:
-        #     UserSearchHistory.objects.create(
-        #         user=request.user,
-        #         search_params=request.query_params
-        #     )
-
-        # data = input_serializer.validated_data
-
-        # location = data['location']
-
-        # weather_data = WeatherQuery.objects.filter(location=location)
-
-        # if data.get('date'):
-        #     weather_data = weather_data.filter(forecast_date__date = data['date'])
-
-        # if data.get('time'):
-        #     time = data['time']
-
-        #     weather_data = weather_data.filter(forecast_date__hour = time.hour)
-
-        #     if time.minute != 0:
-        #         weather_data = weather_data.filter(forecast_date__minute = time.minute)
-
-        # output_serializer = WeatherQueryOutputSerializer(weather_data, many=True)
-
-        # return Response(output_serializer.data, status=status.HTTP_200_OK)
+        return paginator.get_paginated_response(output_serializer.data)
 
     def post(self, request):
         serializer = WeatherQueryCreateSerializer(data=request.data)
