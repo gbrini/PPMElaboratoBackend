@@ -22,4 +22,4 @@ class WeatherQueryCreateSerializer(serializers.ModelSerializer):
         fields = [ 'location', 'forecast_date', 'temperature', 'condition' ]
     
     def validate_forecast_date(self, value):
-        return value.replace(minute = 0, second = 0, microsecond = 0)
+        return value.replace(second = 0, microsecond = 0)

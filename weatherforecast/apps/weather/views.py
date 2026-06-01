@@ -27,6 +27,8 @@ class WeatherForecastView(APIView):
         if not input_serializer.is_valid():
             return Response(input_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+        #premium user save query
+
         data = input_serializer.validated_data
 
         location = data['location']
@@ -40,6 +42,9 @@ class WeatherForecastView(APIView):
             time = data['time']
 
             weather_data = weather_data.filter(forecast_date__hour = time.hour)
+
+            if time.minute != 0:
+                weather_data = weather_data.filter(forecast_date__minute = time.minute)
 
         output_serializer = WeatherQueryOutputSerializer(weather_data, many=True)
 
