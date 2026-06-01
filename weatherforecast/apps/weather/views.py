@@ -3,8 +3,9 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from rest_framework.pagination import PageNumberPagination
 
-from .serializers import WeatherQueryInputSerializer, WeatherQueryOutputSerializer, WeatherQueryCreateSerializer
+from .serializers import WeatherQueryInputSerializer, WeatherQueryOutputSerializer, WeatherQueryCreateSerializer, UserSearchHistorySerializer
 from .models import WeatherQuery, UserSearchHistory
 from ..users.permissions import IsAdminUser
 
@@ -102,6 +103,13 @@ class WeatherForecastQueryHistoryView(APIView):
     permission_classes = [ AllowAny ]
 
     def get(self, request):
-        data = UserSearchHistory.objects.filter(user=request.user)
+        data = UserSearchHistory.objects.filter(user=request.user).order_by("-timestamp")
 
-        return Response(data)
+        paginator = PageNumberPagination()
+        paginator.page_size = 25
+
+        result_page = paginator.paginate_queryset(data, request)
+
+        output_serializer = UserSearchHistorySerializer(result_page, many=True)
+
+        return paginator.get_paginated_response(output_serializer.data)

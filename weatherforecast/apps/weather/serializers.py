@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import WeatherQuery
+from .models import WeatherQuery, UserSearchHistory
 
 class WeatherQueryInputSerializer(serializers.Serializer):
     location = serializers.CharField(max_length=50, required=True)
@@ -23,3 +23,8 @@ class WeatherQueryCreateSerializer(serializers.ModelSerializer):
     
     def validate_forecast_date(self, value):
         return value.replace(second = 0, microsecond = 0)
+
+class UserSearchHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserSearchHistory
+        fields = '__all__'
