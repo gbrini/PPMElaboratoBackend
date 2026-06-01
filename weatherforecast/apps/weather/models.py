@@ -15,9 +15,9 @@ class WeatherQuery(models.Model):
 class UserSearchHistory(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE,
-        related_name='weather_queries'
+        related_name='history_queries'
     )
-    search_params = models.JSONField(help='Stores filters used')
+    search_params = models.JSONField(help_text='Stores filters used')
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
