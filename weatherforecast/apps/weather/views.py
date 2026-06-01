@@ -97,3 +97,11 @@ class WeatherForecastDetailView(APIView):
         output_serializer = WeatherQueryOutputSerializer(instance)
 
         return Response(output_serializer.data, status=status.HTTP_200_OK)
+
+class WeatherForecastQueryHistoryView(APIView):
+    permission_classes = [ AllowAny ]
+
+    def get(self, request):
+        data = UserSearchHistory.objects.filter(user=request.user)
+
+        return Response(data)
