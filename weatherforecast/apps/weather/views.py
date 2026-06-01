@@ -27,7 +27,7 @@ class WeatherForecastView(APIView):
         if not input_serializer.is_valid():
             return Response(input_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        if request.user.role == 'premium':
+        if request.user.is_authenticated and request.user.role == 'premium':
             UserSearchHistory.objects.create(
                 role=request.user,
                 search_fields=request.query_params

@@ -21,7 +21,7 @@ Authorization: Bearer
 ### POST forecast
 POST {{baseUrl}}/weather/forecast/ HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwMjM2MDgyLCJpYXQiOjE3ODAyMzU3ODIsImp0aSI6IjI5ZGY2NzU5NzBjYTQwMTBiNmE2NzJjZmM1NjZjZDZhIiwidXNlcl9pZCI6IjEifQ.J43cyecazguiyGEAvb4LuaC3iyP6OcKeGRVHeQADMTc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwMzE1MzMwLCJpYXQiOjE3ODAzMTUwMzAsImp0aSI6ImM3NTI5OTI5MDIwMjRhMzE5M2UwMDBlNDFiNGE3YzM1IiwidXNlcl9pZCI6IjEifQ.lTU54GxXa7Gb8nkCwIUmgPN4d_j-fMGAFbN1IA_UpwY
 
 {
     "location": "Tokyo",
