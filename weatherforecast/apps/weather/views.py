@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 from .serializers import WeatherQueryInputSerializer, WeatherQueryOutputSerializer, WeatherQueryCreateSerializer
-from .models import WeatherQuery
+from .models import WeatherQuery, UserSearchHistory
 from ..users.permissions import IsAdminUser
 
 from datetime import timedelta, datetime
@@ -27,7 +27,11 @@ class WeatherForecastView(APIView):
         if not input_serializer.is_valid():
             return Response(input_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        #premium user save query
+        if request.user.role == 'premium':
+            UserSearchHistory.objects.create(
+                role=request.user,
+                search_fields=request.query_params
+            )
 
         data = input_serializer.validated_data
 

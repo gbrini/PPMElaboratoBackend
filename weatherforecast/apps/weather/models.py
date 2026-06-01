@@ -11,3 +11,14 @@ class WeatherQuery(models.Model):
     condition = models.CharField(max_length=100, null=True, blank=True)
     forecast_date = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+class UserSearchHistory(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE,
+        related_name='weather_queries'
+    )
+    search_params = models.JSONField(help='Stores filters used')
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} searched at {self.timestamp}"
