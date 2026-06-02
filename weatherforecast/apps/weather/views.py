@@ -5,6 +5,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.pagination import PageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
+from django.utils import timezone
+from django.db.models import Count
+from django.db.models.functions import TruncDate
 
 from .serializers import WeatherQueryInputSerializer, WeatherQueryOutputSerializer, WeatherQueryCreateSerializer, UserSearchHistorySerializer
 from .models import WeatherQuery, UserSearchHistory
@@ -97,4 +100,19 @@ class WeatherForecastQueryHistoryView(APIView):
         return paginator.get_paginated_response(output_serializer.data)
 
 class WeatherForecastRequestTrackingView(APIView):
-    pass
+    permission_classes = [ IsAdminUser | IsPremiumUser ]
+
+    def get(self, request):
+        days = timezone.now() - timedelta(days=30)
+
+        data = UserSearchHistory.objects.filter(user=request.user, timestamp__gte=days)
+
+        daily_count = (
+            UserSearchHistory.objects.filter(user=request.user, timestamp__gte=days)
+            .annotate(date=TruncDate('timestamp'))
+            .values('date')
+            .annotate(count=Count('id'))
+            .order_by('-date')
+        )
+
+        return Response(daily_count)
