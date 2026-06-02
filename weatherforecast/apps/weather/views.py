@@ -9,7 +9,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import WeatherQueryInputSerializer, WeatherQueryOutputSerializer, WeatherQueryCreateSerializer, UserSearchHistorySerializer
 from .models import WeatherQuery, UserSearchHistory
 from .filters import WeatherQueryFilter
-from ..users.permissions import IsAdminUser
+from ..users.permissions import IsAdminUser, IsPremiumUser
 
 from datetime import timedelta, datetime
 
@@ -56,15 +56,9 @@ class WeatherForecastView(APIView):
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
 
 class WeatherForecastDetailView(APIView):
-    permission_classes = [ AllowAny ]
+    permission_classes = [ IsAdminUser ]
 
     #def get_throttles(self)
-
-    def get_permissions(self):
-        if self.request.method in [ 'DELETE', 'PUT' ]:
-            return [ IsAdminUser() ]
-
-        return super().get_permissions()
 
     def delete(self, request, pk):
         forecast = get_object_or_404(WeatherQuery, pk=pk)
@@ -88,7 +82,7 @@ class WeatherForecastDetailView(APIView):
         return Response(output_serializer.data, status=status.HTTP_200_OK)
 
 class WeatherForecastQueryHistoryView(APIView):
-    permission_classes = [ AllowAny ]
+    permission_classes = [ IsAdminUser | IsPremiumUser ]
 
     def get(self, request):
         data = UserSearchHistory.objects.filter(user=request.user).order_by("-timestamp")
@@ -101,3 +95,6 @@ class WeatherForecastQueryHistoryView(APIView):
         output_serializer = UserSearchHistorySerializer(result_page, many=True)
 
         return paginator.get_paginated_response(output_serializer.data)
+
+class WeatherForecastRequestTrackingView(APIView):
+    pass
