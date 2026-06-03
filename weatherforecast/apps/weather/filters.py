@@ -5,7 +5,7 @@ class WeatherQueryFilter(filters.FilterSet):
     date = filters.DateFilter(field_name="forecast_date", lookup_expr='date')
     date_range = filters.DateFromToRangeFilter(field_name="forecast_date")
     time = filters.TimeFilter(field_name="forecast_date", lookup_expr="time")
-    location = filters.CharFilter(field_name="location", lookup_expr="icontains")
+    location = filters.CharFilter(field_name="location", lookup_expr="icontains", required=True)
 
     class Meta:
         model = WeatherQuery
