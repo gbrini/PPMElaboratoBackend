@@ -8,7 +8,7 @@ class RoleBasedThrottle(UserRateThrottle):
             user_role = getattr(request.user, 'role', None)
 
             if user_role == 'admin':
-                return None
+                return None #no throttle for the admin
 
             self.scope = role if role in [ 'standard', 'premium' ] else 'standard'
         

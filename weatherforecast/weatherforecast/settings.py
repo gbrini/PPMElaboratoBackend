@@ -133,7 +133,7 @@ REST_FRAMEWORK = {
         'anon': '2/day',
         'standard': '50/day',
         'premium': '100/day',
-        'user': '25/day'
+        'user': '25/day' #fallback
     }
 }
 

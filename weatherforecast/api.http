@@ -16,7 +16,7 @@ Content-Type: application/json
 ### GET forecast
 GET {{baseUrl}}/weather/forecast/?location=Tokyo HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwNDk5NzQzLCJpYXQiOjE3ODA0OTk0NDMsImp0aSI6IjhhY2FhYzQ0MTkzMDQwMDdiZjBkNzIzNjNiYjM3Y2I2IiwidXNlcl9pZCI6IjEifQ.CZORS9WySoLoLOhh-BwjxeSdU5Y8-jl5sKxB9jJRSBw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwNTAyMDI2LCJpYXQiOjE3ODA1MDE3MjYsImp0aSI6IjYyMjkxYjFhMjE4ZDQ3YmU4OGJlOWJkYmQ5ZWQ2MmZiIiwidXNlcl9pZCI6IjEifQ.SbZWznkFZm7TcSIJ5E7ErXuzbj3UrSCTm4wOvooKUNo
 
 ### POST forecast
 POST {{baseUrl}}/weather/forecast/ HTTP/1.1
