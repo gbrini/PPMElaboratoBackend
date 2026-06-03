@@ -19,8 +19,10 @@ class WeatherQueryFilter(filters.FilterSet):
                 data.pop('date')
             elif not has_date and not has_range:
                 now = timezone.now()
-                data['date'] = now.date().isoformat()
-                data['time'] = now.replace(minute=0, second=0, microsecond=0).time().isoformat()
+                now_local = timezone.localtime(now)
+
+                data['date'] = now_local.date().isoformat()
+                data['time'] = now_local.replace(minute=0, second=0, microsecond=0).time().isoformat()
 
         super().__init__(data, *args, **kwargs)
 
