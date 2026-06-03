@@ -99,6 +99,16 @@ class WeatherForecastQueryHistoryView(APIView):
 
         return paginator.get_paginated_response(output_serializer.data)
 
+class WeatherForecastQueryHistoryDetailView(APIView):
+    permission_classes = [ IsAdminUser | IsPremiumUser ]
+
+    def get(self, request, pk):
+        data = get_object_or_404(UserSearchHistory, pk=pk, user=request.user)
+
+        output_serializer = UserSearchHistorySerializer(data)
+
+        return Response(output_serializer.data, status=status.HTTP_200_OK)
+
 class WeatherForecastRequestTrackingView(APIView):
     permission_classes = [ IsAdminUser | IsPremiumUser ]
 
