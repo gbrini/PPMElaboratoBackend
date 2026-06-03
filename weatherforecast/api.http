@@ -16,7 +16,7 @@ Content-Type: application/json
 ### GET forecast
 GET {{baseUrl}}/weather/forecast/?location=Tokyo HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwNDk0MDg3LCJpYXQiOjE3ODA0OTM3ODcsImp0aSI6IjcwMjYzNDBkYjk0ZjRkZWY5ZTFhZjgwYzg2NDI2ZDRmIiwidXNlcl9pZCI6IjEifQ.Bw2J4_khlNHflAIkbY_ZKQbPL-nAvc0vi-Z_Safz3k4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwNDk5NzQzLCJpYXQiOjE3ODA0OTk0NDMsImp0aSI6IjhhY2FhYzQ0MTkzMDQwMDdiZjBkNzIzNjNiYjM3Y2I2IiwidXNlcl9pZCI6IjEifQ.CZORS9WySoLoLOhh-BwjxeSdU5Y8-jl5sKxB9jJRSBw
 
 ### POST forecast
 POST {{baseUrl}}/weather/forecast/ HTTP/1.1
@@ -61,7 +61,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwNDk4MTI2LCJpYXQiOjE3ODA0OTc4MjYsImp0aSI6ImZjNWE5NzFlOThjNzQ5MWM5MmE3N2RhMmY3MGJmZmIyIiwidXNlcl9pZCI6IjEifQ.A2fny1RCAsYZa6SiUe1PrX8vGngYpo3WkWim4fALdWw
 
 ### GET forecast by id
-GET {{baseUrl}}/weather/forecast/history HTTP/1.1
+GET {{baseUrl}}/weather/forecast/history/3 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwNDk4MTI2LCJpYXQiOjE3ODA0OTc4MjYsImp0aSI6ImZjNWE5NzFlOThjNzQ5MWM5MmE3N2RhMmY3MGJmZmIyIiwidXNlcl9pZCI6IjEifQ.A2fny1RCAsYZa6SiUe1PrX8vGngYpo3WkWim4fALdWw
 

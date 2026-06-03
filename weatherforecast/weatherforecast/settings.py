@@ -126,12 +126,14 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication'
     ],
     'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.UserRateThrottle',
+        'apps.users.throttles.RoleBasedThrottle',
         'rest_framework.throttling.AnonRateThrottle'
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '5/day', #limit for unauthenticated
-        'user': '100/day' #limit for authenticated
+        'anon': '2/day',
+        'standard': '50/day',
+        'premium': '100/day',
+        'user': '25/day'
     }
 }
 
