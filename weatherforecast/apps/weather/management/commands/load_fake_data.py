@@ -25,7 +25,7 @@ class Command(BaseCommand):
             WeatherQuery.objects.create(
                 user=user,
                 location=random.choice(cities),
-                temperature=round(random.uniform(-5.0, 35.0), 1),
+                temperature=round(random.uniform(-5.0, 30.0), 1),
                 condition=random.choice(conditions),
                 forecast_date=timezone.now() + timedelta(days=random.randint(0, 7))
             )

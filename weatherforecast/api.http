@@ -58,7 +58,7 @@ Authorization: Bearer
 ### GET forecast
 GET {{baseUrl}}/weather/forecast/history HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwNTEwODUwLCJpYXQiOjE3ODA1MTA1NTAsImp0aSI6ImYxZmU0NTRlNmI3NTQyNDVhMDMxNjEyYWZlNTg3ZmYxIiwidXNlcl9pZCI6IjEifQ.40rFuZDGaKO37maiTlJU0PP0yG8toyuS8drqQwHswvA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwNTExMjg1LCJpYXQiOjE3ODA1MTA5ODUsImp0aSI6IjY2MjFmY2RlMjJhMDQwODA4NDcwZWYyMzgyMTk1MDBkIiwidXNlcl9pZCI6IjEifQ.2xLRUHZnNkHhkM1s9bMBMKI_f5V7S2B2-5XLJmpiGx4
 
 ### GET forecast by id
 GET {{baseUrl}}/weather/forecast/history/3 HTTP/1.1
