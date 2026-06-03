@@ -40,10 +40,18 @@ class WeatherForecastView(APIView):
 
         result_page = paginator.paginate_queryset(filtered_queryset, request)
 
+        json_serialized_params = {}
+
+        for k, v in filter_backend.form.cleaned_data.items():
+            if hasattr(v, 'isoformat'):
+                json_serialized_params[k] = v.isoformat()
+            else:
+                json_serialized_params[k] = v
+        
         if request.user.is_authenticated and request.user.role in [ 'premium', 'admin' ]:
             UserSearchHistory.objects.create(
                 user=request.user,
-                search_params=request.query_params
+                search_params=json_serialized_params
             )
 
         output_serializer = WeatherQueryOutputSerializer(result_page, many=True)

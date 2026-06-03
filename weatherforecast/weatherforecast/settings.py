@@ -108,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Rome'
 
 USE_I18N = True
 
@@ -130,7 +130,7 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.AnonRateThrottle'
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '2/day',
+        'anon': '100/day',
         'standard': '50/day',
         'premium': '100/day',
         'user': '25/day' #fallback
