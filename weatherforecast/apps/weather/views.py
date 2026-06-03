@@ -103,7 +103,12 @@ class WeatherForecastRequestTrackingView(APIView):
     permission_classes = [ IsAdminUser | IsPremiumUser ]
 
     def get(self, request):
-        days = timezone.now() - timedelta(days=30)
+        days_number = 30
+
+        if request.query_params.get("today", "false").lower() == "true":
+            days_number = 1
+
+        days = timezone.now() - timedelta(days=days_number)
 
         data = UserSearchHistory.objects.filter(user=request.user, timestamp__gte=days)
 
