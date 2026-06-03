@@ -110,8 +110,6 @@ class WeatherForecastRequestTrackingView(APIView):
 
         days = timezone.now() - timedelta(days=days_number)
 
-        data = UserSearchHistory.objects.filter(user=request.user, timestamp__gte=days)
-
         daily_count = (
             UserSearchHistory.objects.filter(user=request.user, timestamp__gte=days)
             .annotate(date=TruncDate('timestamp'))
