@@ -10,14 +10,9 @@ The table below sets out all the features and the availability of the roles.
 |:---:|:---:|:---:|:---:|:---:|:---:|
 | weather_forecast | GET | X| X| X|X|
 | weather_forecast | POST | | | |X|
-| method_name | method_type | | | |X|
-| method_name | method_type | | | |X|
-| method_name | method_type | | | |X|
-| method_name | method_type | | | |X|
-| method_name | method_type | | | |X|
-| method_name | method_type | | | |X|
-| method_name | method_type | | | |X|
-| method_name | method_type | | | |X|
-| method_name | method_type | | | |X|
-| method_name | method_type | | | |X| 
+| weather_forecast_detail | DELETE | | | |X|
+| weather_forecast_detail | PUT | | | |X|
+| weather_forecast_query_history | GET | | |X |X|
+| weather_forecast_query_history_detail | GET | | |X |X|
+| weather_forecast_tracking | GET | | |X |X|
 | Rate Limit     |        |5/day |   5/day    |5/day    | Unlimited    |
