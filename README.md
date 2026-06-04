@@ -7,7 +7,7 @@ This API defines three user roles, as well as allowing access by unregistered us
 The table below sets out all the features and the availability of the roles.
 
 | API description | Method| Anon | Standard | Premium | Admin |
-|:---:|:---:|:---:|:---:|:---:|:---:|
+|:---|:---|:---:|:---:|:---:|:---:|
 | weather_forecast | GET | X| X| X|X|
 | weather_forecast | POST | | | |X|
 | weather_forecast_detail | DELETE | | | |X|
