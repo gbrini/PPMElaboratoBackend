@@ -17,15 +17,25 @@ The table below sets out all the features and the availability of the roles.
 | weather_forecast_tracking | GET | | |X |X|
 | Rate Limit     |        |5/day |   5/day    |5/day    | Unlimited    |
 
-# Local installation
+## Local installation
 ```bash
 #First of all clone the repo in you desidered folder  
 git clone https://github.com/user/repo.git
 cd project-folder
 
+#Create and activate the virtual environment
 python -m venv .venv
 source .venv/bin/activate
 
 #Install the requirements
 pip install -r requirements.txt
 ```
+
+## Demo accounts
+For this API there are already set up 3 different users:
+
+| ROLE | Username | Password |
+|:---|:---|:---:|
+| Admin | aaa | aaa |
+| Premium | aaa | aaa |
+| Standard | aaa | aaa |
