@@ -39,3 +39,81 @@ For this API there are already set up 3 different users:
 | Admin | aaa | aaa |
 | Premium | aaa | aaa |
 | Standard | aaa | aaa |
+
+## Endpoint documentation
+
+### weather_forecast
+Retrieves the forecast information
+
+* **URL:** `/weather/forecast/`
+* **Method:** `GET`
+* **Auth Required:** `Optional`
+
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+
+#### Query Parameters
+
+
+| Parameter | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+| `location` | `string` | **Yes** | The location name of the city you want to query. |
+
+#### Request Example
+
+```bash
+curl -X GET "http://127.0.0.1:8000/weather/forecast/?location=Tokyo" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Accept: application/json"
+
+curl -X GET "http://127.0.0.1:8000/weather/forecast/?location=Tokyo" \
+  -H "Accept: application/json"
+```
+
+#### Response Examples
+
+**Success (200 OK)**
+
+```json
+{
+  "count": 1,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 93,
+      "location": "Tokyo",
+      "temperature": 15.0,
+      "condition": "Sunny",
+      "forecast_date": "2026-06-01T18:02:19+02:00"
+    }
+  ]
+}
+```
+
+**Error (400 Bad Request)**
+
+```json
+{
+  "location": [
+    "This field is required."
+  ]
+}
+```
+
+## Tests
+
+
+
+
+
+
+
+
+
+
+
+
+[1]: https://localhost
