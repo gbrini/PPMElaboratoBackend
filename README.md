@@ -48,66 +48,119 @@ For this API there are already set up 3 different users:
 
 ## Endpoint documentation
 
-### weather_forecast
-Retrieves the forecast information
+- ### weather_forecast
+    Retrieves the forecast information
 
-* **URL:** `/weather/forecast/`
-* **Method:** `GET`
-* **Auth Required:** `Optional`
+    * **URL:** `/weather/forecast/`
+    * **Method:** `GET`
+    * **Auth Required:** `Optional`
+    * **Role:** `Any + Anon`
 
-#### Path Parameters
+    #### Path Parameters
 
-| Parameter | Type | Required | Description |
-| :--- | :--- | :--- | :--- |
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
 
-#### Query Parameters
+    #### Query Parameters
 
 
-| Parameter | Type | Required | Description |
-| :--- | :--- | :--- | :--- |
-| `location` | `string` | **Yes** | The location name of the city you want to query. |
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `location` | `string` | **Yes** | The location name of the city you want to query. |
 
-#### Request Example
+    #### Request Example
 
-```bash
-curl -X GET "http://127.0.0.1:8000/weather/forecast/?location=Tokyo" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Accept: application/json"
+    ```bash
+    curl -X GET "http://127.0.0.1:8000/weather/forecast/?location=Tokyo" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Accept: application/json"
 
-curl -X GET "http://127.0.0.1:8000/weather/forecast/?location=Tokyo" \
-  -H "Accept: application/json"
-```
+    curl -X GET "http://127.0.0.1:8000/weather/forecast/?location=Tokyo" \
+    -H "Accept: application/json"
+    ```
 
-#### Response Examples
+    #### Response Examples
 
-**Success (200 OK)**
+    **Success (200 OK)**
 
-```json
-{
-  "count": 1,
-  "next": null,
-  "previous": null,
-  "results": [
+    ```json
     {
-      "id": 93,
-      "location": "Tokyo",
-      "temperature": 15.0,
-      "condition": "Sunny",
-      "forecast_date": "2026-06-01T18:02:19+02:00"
+        "count": 1,
+        "next": null,
+        "previous": null,
+        "results": [
+            {
+            "id": 93,
+            "location": "Tokyo",
+            "temperature": 15.0,
+            "condition": "Sunny",
+            "forecast_date": "2026-06-01T18:02:19+02:00"
+            }
+        ]
     }
-  ]
-}
-```
+    ```
 
-**Error (400 Bad Request)**
+    **Error (400 Bad Request)**
 
-```json
-{
-  "location": [
-    "This field is required."
-  ]
-}
-```
+    ```json
+    {
+        "location": [
+            "This field is required."
+        ]
+    }
+    ```
+
+- ### weather_forecast
+    Add a forecast object
+
+    * **URL:** `/weather/forecast/`
+    * **Method:** `POST`
+    * **Auth Required:** `Required`
+    * **Role:** `Admin`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `data` | `object` | **Yes** | The forecast object. |
+
+    #### Request Example
+
+    ```bash
+    curl -X POST "http://127.0.0.1:8000/weather/forecast/" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Accept: application/json"
+    -d '{ "location": "Tokyo",  "forecast_date": "2026-05-31T15:54", "temperature": 28, "condition": "Rain" }'
+    ```
+
+    #### Response Examples
+
+    **Success (201 CREATED)**
+
+    ```json
+    {
+        "id": 94,
+        "location": "Tokyo",
+        "temperature": 28.0,
+        "condition": "Rain",
+        "forecast_date": "2026-05-31T15:54:00+02:00"
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        "location": [
+            "This field is required."
+        ]
+    }
+    ```
 
 ## Tests
 
