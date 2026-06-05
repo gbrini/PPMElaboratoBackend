@@ -8,6 +8,8 @@ The table below sets out all the features and the availability of the roles.
 
 | API description | Method| Anon | Standard | Premium | Admin |
 |:---|:---|:---:|:---:|:---:|:---:|
+| login | POST | | | ||
+| refresh | POST | | | ||
 | weather_forecast | GET | X| X| X|X|
 | weather_forecast | POST | | | |X|
 | weather_forecast_detail | DELETE | | | |X|
@@ -47,6 +49,56 @@ For this API there are already set up 3 different users:
 | Standard | aaa | aaa |
 
 ## Endpoint documentation
+- ### login
+    Get the access token
+
+    * **URL:** `/users/login/`
+    * **Method:** `POST`
+    * **Auth Required:** `No`
+    * **Role:** `Anon`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `data` | `object` | **Yes** | Username and password. |
+
+    #### Request Example
+
+    ```bash
+    curl -X POST "http://127.0.0.1:8000/users/login/" \
+    -H "Accept: application/json"
+    -d '{ "username": "",  "password": "" }'
+    ```
+
+    #### Response Examples
+
+    **Success (200 OK)**
+
+    ```json
+    {
+        "refresh": "",
+        "access": ""
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+   {
+        "username": [
+            "This field is required."
+        ],
+        "password": [
+            "This field is required."
+        ]
+    }
+    ```
 
 - ### weather_forecast
     Retrieves the forecast information
@@ -62,7 +114,6 @@ For this API there are already set up 3 different users:
     | :--- | :--- | :--- | :--- |
 
     #### Query Parameters
-
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |

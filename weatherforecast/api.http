@@ -21,10 +21,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 ### POST forecast
 POST {{baseUrl}}/weather/forecast/ HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwMzE1OTExLCJpYXQiOjE3ODAzMTU2MTEsImp0aSI6ImZiZWFlZTc1MzZlMTQyNDBiOTc0NDFmOTVkNTJkMmNiIiwidXNlcl9pZCI6IjEifQ.Miydm2c6mNdIPkFiDQvTmvTHBd26uQ7PT4qmMneZdXo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwNjgzNzcwLCJpYXQiOjE3ODA2ODM0NzAsImp0aSI6ImEyNTczYjVjZjAyNzRhNzY5ZDIzYjQxODBkNGNkNGRhIiwidXNlcl9pZCI6IjEifQ.MrvM6UjEPDeNPj1-oQTbYMugpAJ6qy_bdCT4b_TUHrg
 
 {
-    "location": "Tokyo",
     "forecast_date": "2026-05-31T15:54",
     "temperature": 28,
     "condition": "Rain"
