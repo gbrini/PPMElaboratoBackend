@@ -31,6 +31,12 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+## Start the application
+```bash
+#Inside the project folder
+python manage.py runserver
+```
+
 ## Demo accounts
 For this API there are already set up 3 different users:
 
