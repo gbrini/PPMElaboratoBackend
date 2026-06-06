@@ -8,8 +8,8 @@ The table below sets out all the features and the availability of the roles.
 
 | API description | Method| Anon | Standard | Premium | Admin |
 |:---|:---|:---:|:---:|:---:|:---:|
-| login | POST | | | ||
-| refresh | POST | | | ||
+| login | POST | X| | ||
+| refresh | POST | X| | ||
 | weather_forecast | GET | X| X| X|X|
 | weather_forecast | POST | | | |X|
 | weather_forecast_detail | DELETE | | | |X|
@@ -35,7 +35,9 @@ pip install -r requirements.txt
 
 ## Start the application
 ```bash
-#Inside the project folder
+#Inside the cloned project folder
+cd weatherforecast
+python manage.py migrate
 python manage.py runserver
 ```
 
@@ -215,6 +217,9 @@ For this API there are already set up 3 different users:
 
 ## Tests
 
+```bash
+python manage.py test
+```
 
 
 
@@ -225,5 +230,8 @@ For this API there are already set up 3 different users:
 
 
 
+
+## License
+This project is available for use under the MIT License.
 
 [1]: https://localhost
