@@ -4,6 +4,8 @@ The Weather API, as the name suggests, is a REST API project developed using the
 
 This API defines three user roles, as well as allowing access by unregistered users.
 
+The APIs are available using this url URL
+
 The table below sets out all the features and the availability of the roles.
 
 | API description | Method| Anon | Standard | Premium | Admin |
@@ -27,7 +29,11 @@ cd project-folder
 
 #Create and activate the virtual environment
 python -m venv .venv
+#if using linux
 source .venv/bin/activate
+#if using windows
+.venv\Scripts\Activate.ps1
+.venv\Scripts\activate.bat 
 
 #Install the requirements
 pip install -r requirements.txt
@@ -101,6 +107,52 @@ The file **weatherforecast/db.sqlite3** contains all the data necessary to run t
         ],
         "password": [
             "This field is required."
+        ]
+    }
+    ```
+- ### refresh
+    Refresh the access token
+
+    * **URL:** `/users/refresh/`
+    * **Method:** `POST`
+    * **Auth Required:** `No`
+    * **Role:** `Anon`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `data` | `object` | **Yes** | Refresh token |
+
+    #### Request Example
+
+    ```bash
+    curl -X POST "http://127.0.0.1:8000/users/refresh/" \
+    -H "Accept: application/json"
+    -d '{ "refresh": "" }'
+    ```
+
+    #### Response Examples
+
+    **Success (200 OK)**
+
+    ```json
+    {
+        "access": ""
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        "refresh": [
+            "This field may not be blank."
         ]
     }
     ```
