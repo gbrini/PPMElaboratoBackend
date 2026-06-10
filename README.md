@@ -184,7 +184,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     }
     ```
 
-- ### weather_forecast
+- ### weather_forecast (GET)
     Retrieves the forecast information
 
     * **URL:** `/weather/forecast/`
@@ -245,7 +245,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     }
     ```
 
-- ### weather_forecast
+- ### weather_forecast (POST)
     Add a forecast object
 
     * **URL:** `/weather/forecast/`
@@ -276,6 +276,102 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Response Examples
 
     **Success (201 CREATED)**
+
+    ```json
+    {
+        "id": 94,
+        "location": "Tokyo",
+        "temperature": 28.0,
+        "condition": "Rain",
+        "forecast_date": "2026-05-31T15:54:00+02:00"
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        "location": [
+            "This field is required."
+        ]
+    }
+    ```
+
+- ### weather_forecast_detail (DELETE)
+    DELETE a forecast object
+
+    * **URL:** `/weather/forecast/`
+    * **Method:** `DELETE`
+    * **Auth Required:** `Required`
+    * **Role:** `Admin`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `pk` | `int` | **Yes** | The forecast object id. |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Request Example
+
+    ```bash
+    curl -X DELETE "http://127.0.0.1:8000/weather/forecast/6" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Accept: application/json"
+    ```
+
+    #### Response Examples
+
+    **Success (204 NO CONTENT)**
+
+    ```json
+    
+    ```
+
+    **Error (404 NOT FOUND)**
+
+    ```json
+    {
+        "detail": "No WeatherQuery matches the given query."
+    }
+    ```
+
+- ### weather_forecast_detail (PUT)
+    Modify a forecast object
+
+    * **URL:** `/weather/forecast/`
+    * **Method:** `PUT`
+    * **Auth Required:** `Required`
+    * **Role:** `Admin`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `pk` | `int` | **Yes** | The forecast object id. |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `data` | `object` | **Yes** | The forecast object. |
+
+    #### Request Example
+
+    ```bash
+    curl -X PUT "http://127.0.0.1:8000/weather/forecast/6" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Accept: application/json"
+    -d '{ "location": "Tokyo",  "forecast_date": "2026-05-31T15:54", "temperature": 28, "condition": "Rain" }'
+    ```
+
+    #### Response Examples
+
+    **Success (200 OK)**
 
     ```json
     {
