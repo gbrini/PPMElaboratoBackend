@@ -1,12 +1,22 @@
 # Weather API - Guido Brini
 
-The Weather API, as the name suggests, is a REST API project developed using the Django REST Framework for UNIFI’s PPM courses.
+**Chosen Project Type:** REST API  
+**Framework Used:** Django REST Framework (DRF)
 
-This API defines three user roles, as well as allowing access by unregistered users.
+The Weather API is a REST API project developed using the Django REST Framework for UNIFI’s PPM course. The purpose of this application is to manage and serve weather forecast data, tracking user query history and implementing role-based access control along with strict rate-limiting.
 
-The APIs are available using this url URL
+---
 
-The table below sets out all the features and the availability of the roles.
+## Implemented Features by User Role
+
+This API defines three distinct user roles, alongside allowing limited access for unregistered (anonymous) users. 
+
+* **Anonymous (Anon):** Can log in, refresh JWT tokens, and check current weather forecasts (up to 5 requests per day).
+* **Standard User:** Can check weather forecasts (up to 5 requests per day).
+* **Premium User:** Can check weather forecasts (up to 5 requests per day), view their own query history, and track custom weather data.
+* **Admin:** Full CRUD capabilities on weather data, access to all tracking/history logs, and enjoys unlimited API requests.
+
+### Role & Feature Matrix
 
 | API description | Method| Anon | Standard | Premium | Admin |
 |:---|:---|:---:|:---:|:---:|:---:|
@@ -21,29 +31,46 @@ The table below sets out all the features and the availability of the roles.
 | weather_forecast_tracking | GET | | |X |X|
 | Rate Limit     |        |5/day |   5/day    |5/day    | Unlimited    |
 
-## Local installation
+---
+
+## Online Deployment
+The APIs are live and available at the following production URL: [URL Here]
+
+---
+
+## Local Installation
+
+Follow these steps to get the project running locally:
+
 ```bash
-#First of all clone the repo in you desidered folder  
+# 1. Clone the repository into your desired folder
 git clone https://github.com/user/repo.git
 cd project-folder
 
-#Create and activate the virtual environment
+# 2. Create and activate the virtual environment
 python -m venv .venv
-#if using linux
+
+# If using Linux/macOS
 source .venv/bin/activate
-#if using windows
+
+# If using Windows (PowerShell)
 .venv\Scripts\Activate.ps1
+# If using Windows (CMD)
 .venv\Scripts\activate.bat 
 
-#Install the requirements
+# 3. Install the requirements
 pip install -r requirements.txt
 ```
 
 ## Start the application
 ```bash
-#Inside the cloned project folder
+# Navigate to the Django project directory
 cd weatherforecast
+
+# Apply database migrations
 python manage.py migrate
+
+# Start the local development server
 python manage.py runserver
 ```
 
@@ -57,7 +84,7 @@ For this API there are already set up 3 different users:
 | Standard | aaa | aaa |
 
 ## Database
-The file **weatherforecast/db.sqlite3** contains all the data necessary to run the REST APIs
+The included SQLite database file is located at **weatherforecast/db.sqlite3**. This file is pre-populated and contains all the necessary demo data, tables, and roles required to test the REST APIs immediately.
 
 ## Endpoint documentation
 - ### login
