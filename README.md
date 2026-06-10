@@ -50,6 +50,9 @@ For this API there are already set up 3 different users:
 | Premium | aaa | aaa |
 | Standard | aaa | aaa |
 
+## Database
+The file **weatherforecast/db.sqlite3** contains all the data necessary to run the REST APIs
+
 ## Endpoint documentation
 - ### login
     Get the access token
