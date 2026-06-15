@@ -29,7 +29,7 @@ This API defines three distinct user roles, alongside allowing limited access fo
 | weather_forecast_query_history | GET | | |X |X|
 | weather_forecast_query_history_detail | GET | | |X |X|
 | weather_forecast_tracking | GET | | |X |X|
-| Rate Limit     |        |5/day |   5/day    |5/day    | Unlimited    |
+| Rate Limit     |        |5/day |   50/day    |100/day    | Unlimited    |
 
 ---
 
