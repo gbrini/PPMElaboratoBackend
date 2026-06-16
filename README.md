@@ -87,7 +87,8 @@ For this API there are already set up 3 different users:
 The included SQLite database file is located at **weatherforecast/db.sqlite3**. This file is pre-populated and contains all the necessary demo data, tables, and roles required to test the REST APIs immediately.
 
 ## Endpoint documentation
-    All the endpoint listed down below can be tested using the Httpie (installed from requirements.txt)
+- All the endpoint listed down below can be tested using Httpie (installed from requirements.txt)
+- All the endpoints that supports the pagination will return 25 items per page.
 
 - ### login
     Get the access token
@@ -189,7 +190,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     * **URL:** `/weather/forecast/`
     * **Method:** `GET`
-    * **Auth Required:** `Optional` Using this endpoint under an auth session, the query data will be saved in the db
+    * **Auth Required:** `Optional`
     * **Role:** `Any + Anon`
 
     #### Path Parameters
@@ -202,6 +203,21 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `location` | `string` | **Yes** | The location name of the city you want to query. |
+    | `date` | `string` | **No** | The date you want to query, in the format yyyy-mm-dd. |
+    | `date_range_before` | `string` | **No** | The date range you want to query, in the format yyyy-mm-dd. |
+    | `date_range_after` | `string` | **No** | The date range you want to query, in the format yyyy-mm-dd. |
+    | `hour_min` | `string` | **No** | The hour range you want to query (Both 09 and 9 are valid). |
+    | `hour_max` | `string` | **No** | The hour range you want to query (Both 09 and 9 are valid). |
+
+    These are the assumptions for these filters:
+    - If neither date or date range is provided then the default date is the request day.
+    - If both date and at least one date range filter is provided, the the range will be discarded.
+    - Both bour_min and hour_max are constrained between 0 and 23, hour_max has to be greater or equal then hour_min.
+
+    Api behaviour:
+    - If the hour_range is not provided will return all the data that matches the other filter starting from the midnight of the initial date
+    - Queryng as **admin** or **advanced user** will grant that the query with the filters will be saved in the history, so it might be retrieved with the appropriate API call.
+    - This endpoint handles the pagination. In fact in the object response count will provide the number of the total elements retrieved, next and previous instead will provide the link for the pages keeping the filters. Queryng a page that doesn't exist will return raise a 404 error.
 
     #### Request Example
 
@@ -210,11 +226,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     "Authorization: Bearer YOUR_API_KEY" \
 
     http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo"
-    ```
-
-        This endpoint handles the pagination (25 items per page), below an example
     
-    ```bash
     http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo&page=2"
     ```
 
