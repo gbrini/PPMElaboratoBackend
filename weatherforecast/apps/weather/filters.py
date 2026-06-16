@@ -51,7 +51,7 @@ class WeatherQueryFilter(filters.FilterSet):
                 "hour_max": "Hour max must be between 0 and 23."
             })
 
-        if hour_min is not None and hour_max is not None and hour_min > hour_max:
+        if hour_min is not None and hour_max is not None and int(hour_min) > int(hour_max):
             raise ValidationError({
                 "hour_min": "Hour min cannot be greater than hour max."
             })
