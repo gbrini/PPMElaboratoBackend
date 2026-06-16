@@ -38,7 +38,7 @@ class WeatherForecastView(APIView):
         paginator = PageNumberPagination()
         paginator.page_size = 25
 
-        result_page = paginator.paginate_queryset(WeatherQuery.objects.all(), request)
+        result_page = paginator.paginate_queryset(filtered_queryset, request)
 
         json_serialized_params = {}
 
