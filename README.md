@@ -12,8 +12,8 @@ The Weather API is a REST API project developed using the Django REST Framework 
 This API defines three distinct user roles, alongside allowing limited access for unregistered (anonymous) users. 
 
 * **Anonymous (Anon):** Can log in, refresh JWT tokens, and check current weather forecasts (up to 5 requests per day).
-* **Standard User:** Can check weather forecasts (up to 5 requests per day).
-* **Premium User:** Can check weather forecasts (up to 5 requests per day), view their own query history, and track custom weather data.
+* **Standard User:** Can check weather forecasts (up to 50 requests per day).
+* **Premium User:** Can check weather forecasts (up to 100 requests per day), view their own query history, and track custom weather data.
 * **Admin:** Full CRUD capabilities on weather data, access to all tracking/history logs, and enjoys unlimited API requests.
 
 ### Role & Feature Matrix
@@ -87,6 +87,8 @@ For this API there are already set up 3 different users:
 The included SQLite database file is located at **weatherforecast/db.sqlite3**. This file is pre-populated and contains all the necessary demo data, tables, and roles required to test the REST APIs immediately.
 
 ## Endpoint documentation
+    All the endpoint listed down below can be tested using the Httpie (installed from requirements.txt)
+
 - ### login
     Get the access token
 
@@ -109,9 +111,8 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    curl -X POST "http://127.0.0.1:8000/users/login/" \
-    -H "Accept: application/json"
-    -d '{ "username": "",  "password": "" }'
+    http POST http://127.0.0.1:8000/api/users/login/ \
+    username="root" password="root"
     ```
 
     #### Response Examples
@@ -159,9 +160,8 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    curl -X POST "http://127.0.0.1:8000/users/refresh/" \
-    -H "Accept: application/json"
-    -d '{ "refresh": "" }'
+    http POST http://127.0.0.1:8000/api/users/refresh/ \
+    refresh=""
     ```
 
     #### Response Examples
@@ -206,12 +206,10 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    curl -X GET "http://127.0.0.1:8000/weather/forecast/?location=Tokyo" \
-    -H "Authorization: Bearer YOUR_API_KEY" \
-    -H "Accept: application/json"
+    http GET http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo \
+    "Authorization: Bearer YOUR_API_KEY" \
 
-    curl -X GET "http://127.0.0.1:8000/weather/forecast/?location=Tokyo" \
-    -H "Accept: application/json"
+    http GET http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo
     ```
 
     #### Response Examples
@@ -267,10 +265,9 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    curl -X POST "http://127.0.0.1:8000/weather/forecast/" \
-    -H "Authorization: Bearer YOUR_API_KEY" \
-    -H "Accept: application/json"
-    -d '{ "location": "Tokyo",  "forecast_date": "2026-05-31T15:54", "temperature": 28, "condition": "Rain" }'
+    http POST http://127.0.0.1:8000/api/weather/forecast/ \
+    "Authorization: Bearer YOUR_API_KEY" \
+    location="Tokyo", forecast_date="2026-05-31T15:54", temperature=28, condition="Rain"
     ```
 
     #### Response Examples
@@ -319,9 +316,8 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    curl -X DELETE "http://127.0.0.1:8000/weather/forecast/6" \
-    -H "Authorization: Bearer YOUR_API_KEY" \
-    -H "Accept: application/json"
+    http DELETE http://127.0.0.1:8000/api/weather/forecast/6 \
+    "Authorization: Bearer YOUR_API_KEY" \
     ```
 
     #### Response Examples
@@ -363,10 +359,9 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    curl -X PUT "http://127.0.0.1:8000/weather/forecast/6" \
-    -H "Authorization: Bearer YOUR_API_KEY" \
-    -H "Accept: application/json"
-    -d '{ "location": "Tokyo",  "forecast_date": "2026-05-31T15:54", "temperature": 28, "condition": "Rain" }'
+    http PUT http://127.0.0.1:8000/api/weather/forecast/6 \
+    "Authorization: Bearer YOUR_API_KEY" \
+    location="Tokyo", forecast_date="2026-05-31T15:54", temperature=28, condition="Rain"
     ```
 
     #### Response Examples

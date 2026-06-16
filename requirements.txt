@@ -3,3 +3,4 @@ django-extensions
 djangorestframework
 djangorestframework-simplejwt
 django-filter
+httpie
