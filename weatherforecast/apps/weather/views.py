@@ -16,6 +16,11 @@ from ..users.permissions import IsAdminUser, IsPremiumUser
 
 from datetime import timedelta, datetime
 
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 25
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
 class WeatherForecastView(APIView):
     permission_classes = [ AllowAny ]
 
@@ -35,8 +40,7 @@ class WeatherForecastView(APIView):
         
         filtered_queryset = filter_backend.qs
 
-        paginator = PageNumberPagination()
-        paginator.page_size = 25
+        paginator = StandardResultsSetPagination()
 
         result_page = paginator.paginate_queryset(filtered_queryset, request)
 
@@ -102,8 +106,7 @@ class WeatherForecastQueryHistoryView(APIView):
     def get(self, request):
         data = UserSearchHistory.objects.filter(user=request.user).order_by("-timestamp")
 
-        paginator = PageNumberPagination()
-        paginator.page_size = 25
+        paginator = StandardResultsSetPagination()
 
         result_page = paginator.paginate_queryset(data, request)
 

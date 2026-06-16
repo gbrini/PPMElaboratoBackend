@@ -88,12 +88,12 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
 ## Endpoint documentation
 - All the endpoint listed down below can be tested using Httpie (installed from requirements.txt)
-- All the endpoints that supports the pagination will return 25 items per page.
+- All the endpoints that supports the pagination will return `25` items per page by default, but that number can be changed using the parameter `page_size`, the maximum value is `100`.
 
 - ### login
     Get the access token
 
-    * **URL:** `/users/login/`
+    * **URL:** `/api/users/login/`
     * **Method:** `POST`
     * **Auth Required:** `No`
     * **Role:** `Anon`
@@ -113,7 +113,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     ```bash
     http POST "http://127.0.0.1:8000/api/users/login/" \
-    username="root" password="root"
+    username="" password=""
     ```
 
     #### Response Examples
@@ -142,7 +142,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 - ### refresh
     Refresh the access token
 
-    * **URL:** `/users/refresh/`
+    * **URL:** `/api/users/refresh/`
     * **Method:** `POST`
     * **Auth Required:** `No`
     * **Role:** `Anon`
@@ -156,7 +156,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-    | `data` | `object` | **Yes** | Refresh token |
+    | `refresh` | `object` | **Yes** | Refresh token |
 
     #### Request Example
 
@@ -188,17 +188,12 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 - ### weather_forecast (GET)
     Retrieves the forecast information
 
-    * **URL:** `/weather/forecast/`
+    * **URL:** `/api/weather/forecast/`
     * **Method:** `GET`
     * **Auth Required:** `Optional`
     * **Role:** `Any + Anon`
 
     #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
-    #### Query Parameters
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -208,6 +203,12 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     | `date_range_after` | `string` | **No** | The date range you want to query, in the format yyyy-mm-dd. |
     | `hour_min` | `string` | **No** | The hour range you want to query (Both 09 and 9 are valid). |
     | `hour_max` | `string` | **No** | The hour range you want to query (Both 09 and 9 are valid). |
+    | `page_size` | `string` | **No** | The page size. |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
 
     These are the assumptions for these filters:
     - If neither date or date range is provided then the default date is the request day.
@@ -219,7 +220,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     - Queryng as **admin** or **advanced user** will grant that the query with the filters will be saved in the history, so it might be retrieved with the appropriate API call.
     - This endpoint handles the pagination. In fact in the object response count will provide the number of the total elements retrieved, next and previous instead will provide the link for the pages keeping the filters. Queryng a page that doesn't exist will return raise a 404 error.
 
-    #### Request Example
+    #### Request Examples
 
     ```bash
     http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo" \
@@ -228,6 +229,12 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo"
     
     http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo&page=2"
+
+    http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo&date=2026-06-20"
+
+    http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo&date_range_before=2026-06-30&date_range_after=2026-06-20"
+
+    http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo&date=2026-06-30&hour_min=12&hour_max=15"
     ```
 
     #### Response Examples
@@ -264,7 +271,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 - ### weather_forecast (POST)
     Add a forecast object
 
-    * **URL:** `/weather/forecast/`
+    * **URL:** `/api/weather/forecast/`
     * **Method:** `POST`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
@@ -285,7 +292,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     ```bash
     http POST "http://127.0.0.1:8000/api/weather/forecast/" \
     "Authorization: Bearer YOUR_API_KEY" \
-    location="Tokyo", forecast_date="2026-05-31T15:54", temperature=28, condition="Rain"
+    location="Tokyo" forecast_date="2026-06-16T18:56" temperature=28 condition="Rain"
     ```
 
     #### Response Examples
@@ -315,7 +322,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 - ### weather_forecast_detail (DELETE)
     DELETE a forecast object
 
-    * **URL:** `/weather/forecast/`
+    * **URL:** `/api/weather/forecast/`
     * **Method:** `DELETE`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
@@ -357,7 +364,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 - ### weather_forecast_detail (PUT)
     Modify a forecast object
 
-    * **URL:** `/weather/forecast/`
+    * **URL:** `/api/weather/forecast/`
     * **Method:** `PUT`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
@@ -379,7 +386,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     ```bash
     http PUT "http://127.0.0.1:8000/api/weather/forecast/6" \
     "Authorization: Bearer YOUR_API_KEY" \
-    location="Tokyo", forecast_date="2026-05-31T15:54", temperature=28, condition="Rain"
+    location="Tokyo" forecast_date="2026-05-31T15:54" temperature=28 condition="Rain"
     ```
 
     #### Response Examples
