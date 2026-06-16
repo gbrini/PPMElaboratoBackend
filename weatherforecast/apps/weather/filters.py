@@ -1,5 +1,6 @@
 from django_filters import rest_framework as filters
 from django.utils import timezone
+from rest_framework.exceptions import ValidationError
 from .models import WeatherQuery
 
 class WeatherQueryFilter(filters.FilterSet):
@@ -25,23 +26,42 @@ class WeatherQueryFilter(filters.FilterSet):
 
                 data['date'] = now_local.date().isoformat()
                 data['hour_min'] = now_local.hour
-                data['hour_max'] = now_local.hour
+                # data['hour_max'] = now_local.hour
 
         super().__init__(data, *args, **kwargs)
 
     @property
     def qs(self):
-        parent = super().qs
+        data = self.data
 
-        has_hour = self.data.get('hour_min') or self.data.get('hour_max')
-        has_date = self.data.get('date') or self.data.get('date_range_before') or self.data.get('date_range_after')
+        has_hour = 'hour_min' in data or 'hour_max' in data
+        has_date = 'date' in data or 'date_range_before' in data or 'date_range_after' in data
 
         if has_hour and not has_date:
             raise ValidationError({
                 "error": "Hour range can be set only if a specific date, or date range is provided."
             })
 
-        return parent
+        hour_min = int(data.get('hour_min', 0))
+        hour_max = int(data.get('hour_max', 0))
+
+        if hour_min is not None and ( hour_min < 0 or hour_min > 23 ):
+            raise ValidationError({
+                "hour_min": "Hour min must be between 0 and 23."
+            })
+
+        if hour_max is not None and ( hour_max < 0 or hour_max > 23 ):
+            raise ValidationError({
+                "hour_max": "Hour max must be between 0 and 23."
+            })
+
+        if hour_min is not None and hour_max is not None:
+            if hour_min > hour_max:
+                raise ValidationError({
+                    "hour_min": "Hour min cannot be greater than hour max."
+                })
+        print(hour_min, hour_max)
+        return super().qs
 
     class Meta:
         model = WeatherQuery
