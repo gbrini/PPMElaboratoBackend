@@ -111,7 +111,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http POST http://127.0.0.1:8000/api/users/login/ \
+    http POST "http://127.0.0.1:8000/api/users/login/" \
     username="root" password="root"
     ```
 
@@ -160,7 +160,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http POST http://127.0.0.1:8000/api/users/refresh/ \
+    http POST "http://127.0.0.1:8000/api/users/refresh/" \
     refresh=""
     ```
 
@@ -206,16 +206,16 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http GET http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo \
+    http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo" \
     "Authorization: Bearer YOUR_API_KEY" \
 
-    http GET http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo
+    http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo"
     ```
 
         This endpoint handles the pagination (25 items per page), below an example
     
     ```bash
-    http GET http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo&page=2
+    http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo&page=2"
     ```
 
     #### Response Examples
@@ -271,7 +271,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http POST http://127.0.0.1:8000/api/weather/forecast/ \
+    http POST "http://127.0.0.1:8000/api/weather/forecast/" \
     "Authorization: Bearer YOUR_API_KEY" \
     location="Tokyo", forecast_date="2026-05-31T15:54", temperature=28, condition="Rain"
     ```
@@ -322,7 +322,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http DELETE http://127.0.0.1:8000/api/weather/forecast/6 \
+    http DELETE "http://127.0.0.1:8000/api/weather/forecast/6" \
     "Authorization: Bearer YOUR_API_KEY" \
     ```
 
@@ -365,7 +365,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http PUT http://127.0.0.1:8000/api/weather/forecast/6 \
+    http PUT "http://127.0.0.1:8000/api/weather/forecast/6" \
     "Authorization: Bearer YOUR_API_KEY" \
     location="Tokyo", forecast_date="2026-05-31T15:54", temperature=28, condition="Rain"
     ```

@@ -6,7 +6,6 @@ from .models import WeatherQuery
 class WeatherQueryFilter(filters.FilterSet):
     date = filters.DateFilter(field_name="forecast_date", lookup_expr='date')
     date_range = filters.DateFromToRangeFilter(field_name="forecast_date")
-    #hour = filters.NumericRangeFilter(field_name="forecast_date", lookup_expr="hour")
     hour_min = filters.NumberFilter(field_name="forecast_date", lookup_expr="hour__gte")
     hour_max = filters.NumberFilter(field_name="forecast_date", lookup_expr="hour__lte")
     location = filters.CharFilter(field_name="location", lookup_expr="icontains", required=True)
@@ -23,10 +22,7 @@ class WeatherQueryFilter(filters.FilterSet):
             elif not has_date and not has_range:
                 now = timezone.now()
                 now_local = timezone.localtime(now)
-
                 data['date'] = now_local.date().isoformat()
-                data['hour_min'] = now_local.hour
-                # data['hour_max'] = now_local.hour
 
         super().__init__(data, *args, **kwargs)
 
@@ -42,25 +38,24 @@ class WeatherQueryFilter(filters.FilterSet):
                 "error": "Hour range can be set only if a specific date, or date range is provided."
             })
 
-        hour_min = int(data.get('hour_min', 0))
-        hour_max = int(data.get('hour_max', 0))
+        hour_min = data.get('hour_min')
+        hour_max = data.get('hour_max')
 
-        if hour_min is not None and ( hour_min < 0 or hour_min > 23 ):
+        if hour_min is not None and not ( 0 <= int(hour_min) <= 23 ):
             raise ValidationError({
                 "hour_min": "Hour min must be between 0 and 23."
             })
 
-        if hour_max is not None and ( hour_max < 0 or hour_max > 23 ):
+        if hour_max is not None and not ( 0 <= int(hour_max) <= 23 ):
             raise ValidationError({
                 "hour_max": "Hour max must be between 0 and 23."
             })
 
-        if hour_min is not None and hour_max is not None:
-            if hour_min > hour_max:
-                raise ValidationError({
-                    "hour_min": "Hour min cannot be greater than hour max."
-                })
-        print(hour_min, hour_max)
+        if hour_min is not None and hour_max is not None and hour_min > hour_max:
+            raise ValidationError({
+                "hour_min": "Hour min cannot be greater than hour max."
+            })
+                
         return super().qs
 
     class Meta:
