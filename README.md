@@ -121,8 +121,8 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     ```json
     {
-        "refresh": "",
-        "access": ""
+        "refresh": "refresh_token",
+        "access": "access_token"
     }
     ```
 
@@ -189,7 +189,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     * **URL:** `/weather/forecast/`
     * **Method:** `GET`
-    * **Auth Required:** `Optional`
+    * **Auth Required:** `Optional` Using this endpoint under an auth session, the query data will be saved in the db
     * **Role:** `Any + Anon`
 
     #### Path Parameters
@@ -210,6 +210,12 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     "Authorization: Bearer YOUR_API_KEY" \
 
     http GET http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo
+    ```
+
+        This endpoint handles the pagination (25 items per page), below an example
+    
+    ```bash
+    http GET http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo&page=2
     ```
 
     #### Response Examples
