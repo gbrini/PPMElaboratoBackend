@@ -248,11 +248,11 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
         "previous": null,
         "results": [
             {
-            "id": 93,
-            "location": "Tokyo",
-            "temperature": 15.0,
-            "condition": "Sunny",
-            "forecast_date": "2026-06-01T18:02:19+02:00"
+                "id": 93,
+                "location": "Tokyo",
+                "temperature": 15.0,
+                "condition": "Sunny",
+                "forecast_date": "2026-06-01T18:02:19+02:00"
             }
         ]
     }
@@ -271,6 +271,9 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 - ### weather_forecast (POST)
     Add a forecast object
 
+    API reasoning:
+    - Every forecast date will be saved putting the seconds at 0
+
     * **URL:** `/api/weather/forecast/`
     * **Method:** `POST`
     * **Auth Required:** `Required`
@@ -285,7 +288,10 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-    | `data` | `object` | **Yes** | The forecast object. |
+    | `location` | `string` | **Yes** | The forecast location. |
+    | `forecast_date` | `string` | **Yes** | The forecast date, by the format YYYY-MM-DDTHH:mm:ss |
+    | `temperature` | `float` | **Yes** | The temperature. |
+    | `condition` | `string` | **Yes** | The forecast decription. |
 
     #### Request Example
 
