@@ -290,7 +290,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     | :--- | :--- | :--- | :--- |
     | `location` | `string` | **Yes** | The forecast location. |
     | `forecast_date` | `string` | **Yes** | The forecast date, by the format YYYY-MM-DDTHH:mm:ss |
-    | `temperature` | `float` | **Yes** | The temperature. |
+    | `temperature` | `float` | **Yes** | The temperature in Celsius. (e.g., `28.5`) |
     | `condition` | `string` | **Yes** | The forecast decription. |
 
     #### Request Example
