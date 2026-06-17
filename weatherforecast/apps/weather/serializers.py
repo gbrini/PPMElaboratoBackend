@@ -7,6 +7,24 @@ class WeatherQueryInputSerializer(serializers.Serializer):
     time = serializers.TimeField(required=False)
 
 class WeatherQueryOutputSerializer(serializers.ModelSerializer):
+    temperature = serializers.SerializerMethodField()
+
+    def get_temperature(self, obj):
+        request = self.context.get('request')
+        unit = request.query_params.get('unit', 'C').upper() if request else 'C'
+
+        temp_c = obj.temperature
+
+        if temp_c is None:
+            return None
+
+        if unit == 'F':
+            return round((temp_c * 1.8) + 32, 1)
+        elif unit == 'C':
+            return temp_c
+        else:
+            return temp_c
+
     class Meta:
         model = WeatherQuery
         fields = [ 'id', 'location', 'temperature', 'condition', 'forecast_date' ]

@@ -9,6 +9,7 @@ class WeatherQueryFilter(filters.FilterSet):
     hour_min = filters.NumberFilter(field_name="forecast_date", lookup_expr="hour__gte")
     hour_max = filters.NumberFilter(field_name="forecast_date", lookup_expr="hour__lte")
     location = filters.CharFilter(field_name="location", lookup_expr="icontains", required=True)
+    unit = filters.ChoiceFilter(choices=[( 'C', 'Celsius' ), ( 'F', 'Fahrenheit' )], method='filter_by_unit')
 
     def __init__(self, data=None, *args, **kwargs):
         if data is not None:
@@ -57,6 +58,9 @@ class WeatherQueryFilter(filters.FilterSet):
             })
                 
         return super().qs
+
+    def filter_by_unit(self, queryset, name, value):
+        return queryset
 
     class Meta:
         model = WeatherQuery

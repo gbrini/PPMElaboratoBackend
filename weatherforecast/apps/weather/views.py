@@ -58,7 +58,7 @@ class WeatherForecastView(APIView):
                 search_params=json_serialized_params
             )
 
-        output_serializer = WeatherQueryOutputSerializer(result_page, many=True)
+        output_serializer = WeatherQueryOutputSerializer(result_page, many=True, context = { "request": request })
 
         return paginator.get_paginated_response(output_serializer.data)
 
