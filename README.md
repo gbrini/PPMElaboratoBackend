@@ -203,6 +203,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     | `date_range_after` | `string` | **No** | The date range you want to query, in the format yyyy-mm-dd. |
     | `hour_min` | `string` | **No** | The hour range you want to query (Both 09 and 9 are valid). |
     | `hour_max` | `string` | **No** | The hour range you want to query (Both 09 and 9 are valid). |
+    | `unit` | `character` | **No** | Optional paramter to retrieve the temperature in the desired measurement unit (`C` the default value or `F`). |
     | `page_size` | `string` | **No** | The page size. |
 
     #### Query Parameters
