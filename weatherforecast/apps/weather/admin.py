@@ -17,7 +17,7 @@ class UserSearchHistoryAdmin(admin.ModelAdmin):
     def has_add_permission(self, request, obj=None):
         return False
 
-    list_display = ( 'user', 'search_params', 'timestamp', )
+    list_display = ( 'user', 'result_count', 'search_params', 'timestamp', )
 
     list_display_links = ( 'user', )
 
