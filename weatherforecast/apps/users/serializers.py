@@ -12,7 +12,7 @@ ROLE_CHOICES = (
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
-        required=True, 
+        required=False,
         validators=[UniqueValidator(queryset=CustomUser.objects.all())]
     )
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
@@ -23,7 +23,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ( 'username', 'password', 'password2', 'email', 'first_name', 'last_name', 'role' )
 
-    def valiate(self, attrs):
+    def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError( { "password": "Passwords fields didn't match." } )
         

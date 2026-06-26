@@ -6,8 +6,8 @@ Content-Type: application/json
 
 {
     "username": "guido",
-    "password": "root",
-    "password2": "root"
+    "password": "percyjackson",
+    "password2": "ewqrwq"
 }
 
 ### POST JWT token
