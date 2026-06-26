@@ -4,6 +4,12 @@ from django.contrib.auth.password_validation import validate_password
 #from django.contrib.auth.models import User
 from .models import CustomUser
 
+ROLE_CHOICES = (
+    ( 'standard', 'Standard' ),
+    ( 'premium', 'Premium' ),
+    ( 'admin', 'Admin' )
+)
+
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True, 
@@ -11,6 +17,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     )
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True)
+    role = serializers.ChoiceField(choices=ROLE_CHOICES, default='standard')
 
     class Meta:
         model = CustomUser
