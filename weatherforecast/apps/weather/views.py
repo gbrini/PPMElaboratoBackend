@@ -55,7 +55,8 @@ class WeatherForecastView(APIView):
         if request.user.is_authenticated and request.user.role in [ 'premium', 'admin' ]:
             UserSearchHistory.objects.create(
                 user=request.user,
-                search_params=json_serialized_params
+                search_params=json_serialized_params,
+                result_count=paginator.page.paginator.count
             )
 
         output_serializer = WeatherQueryOutputSerializer(result_page, many=True, context = { "request": request })

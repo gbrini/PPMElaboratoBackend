@@ -19,6 +19,10 @@ class UserSearchHistory(models.Model):
     )
     search_params = models.JSONField(help_text='Stores filters used')
     timestamp = models.DateTimeField(auto_now_add=True)
+    result_count = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.user.username} searched at {self.timestamp}"
+
+    class Meta:
+        ordering = ['-timestamp']
