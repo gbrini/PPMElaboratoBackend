@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import WeatherQuery
+from .models import WeatherQuery, UserSearchHistory
 
 @admin.register(WeatherQuery)
 class WeatherQueryAdmin(admin.ModelAdmin):
@@ -11,3 +11,16 @@ class WeatherQueryAdmin(admin.ModelAdmin):
     list_filter = ( 'user', 'forecast_date', )
 
     search_fields = ( 'location', 'user__username', )
+
+@admin.register(UserSearchHistory)
+class UserSearchHistoryAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    list_display = ( 'user', 'search_params', 'timestamp', )
+
+    list_display_links = ( 'user', )
+
+    list_filter = ( 'user', 'timestamp', )
+
+    search_fields = ( 'user__username', )
