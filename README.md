@@ -476,6 +476,52 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     }
     ```
 
+- ### weather_forecast_query_history
+    Retrieve personal search logs
+
+    * **URL:** `/api/weather/forecast/history`
+    * **Method:** `GET`
+    * **Auth Required:** `Required`
+    * **Role:** `Admin`, `Premium`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Request Example
+
+    ```bash
+    http PUT "http://127.0.0.1:8000/api/weather/history" \
+    "Authorization: Bearer YOUR_API_KEY"
+    ```
+
+    #### Response Examples
+
+    **Success (200 OK)**
+
+    ```json
+    {
+        
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        
+    }
+    ```
+
+| weather_forecast_query_history_detail | GET | | |X |X|
+| weather_forecast_tracking | GET | | |X |X|
+
 ## Tests
 
 ```bash
