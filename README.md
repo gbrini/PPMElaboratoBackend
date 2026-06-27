@@ -146,7 +146,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     ```
 
 - ### login
-    Get the access token
+    Get the access and refresh token
 
     * **URL:** `/api/users/login/`
     * **Method:** `POST`
@@ -162,7 +162,8 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-    | `data` | `object` | **Yes** | Username and password. |
+    | `username` | `string` | **Yes** | Username |
+    | `password` | `string` | **Yes** | Password |
 
     #### Request Example
 
@@ -211,7 +212,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-    | `refresh` | `object` | **Yes** | Refresh token |
+    | `refresh` | `string` | **Yes** | Refresh token |
 
     #### Request Example
 
@@ -259,7 +260,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     | `hour_min` | `string` | **No** | The hour range you want to query (Both 09 and 9 are valid). |
     | `hour_max` | `string` | **No** | The hour range you want to query (Both 09 and 9 are valid). |
     | `unit` | `string` | **No** | Optional paramter to retrieve the temperature in the desired measurement unit (`C` the default value or `F`). |
-    | `page_size` | `string` | **No** | The page size. |
+    | `page_size` | `int` | **No** | The page size. |
 
     #### Query Parameters
 
