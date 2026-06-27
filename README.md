@@ -92,7 +92,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 - All the endpoints that supports the pagination will return `25` items per page by default, but that number can be changed using the parameter `page_size`, the maximum value is `100`. On the result object tehre will be two different keys, next fot the following page, and previous.
 
 - ### register
-    Register a user, the assigned role is `standard`
+    Register a user, the assigned role is `standard`. The username must be unique.
 
     * **URL:** `/api/users/register/`
     * **Method:** `POST`
