@@ -12,6 +12,10 @@ class WeatherQuery(models.Model):
     forecast_date = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'Weather Forecast'
+        verbose_name_plural = 'Weather Forecasts'
+
 class UserSearchHistory(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE,
@@ -26,3 +30,5 @@ class UserSearchHistory(models.Model):
 
     class Meta:
         ordering = ['-timestamp']
+        verbose_name = 'Search Log'
+        verbose_name_plural = 'Search Logs'
