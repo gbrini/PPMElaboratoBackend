@@ -601,7 +601,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     ```
 
 - ### weather_forecast_tracking
-    Get the tracking of the request limit, grouped by day. There are shown only days with at least `1` request.
+    Get the tracking of the request limit, grouped by day. There are shown only days with at least `1` request. On the object with the date of the requesting day, will be added `throttle_rate`, displaying the user's throttle rate.
 
     * **URL:** `/api/weather/forecast/tracking/`
     * **Method:** `GET`
@@ -612,7 +612,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-    | `today` | `string` | **No** | `True` or `False` default `False` |
+    | `today` | `string` | **No** | `true` or `false` default `false` |
 
     #### Query Parameters
 
@@ -634,7 +634,8 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     [
         {
             "date": "2026-06-27",
-            "count": 1
+            "count": 1,
+            "throttle_rate": "100/day"
         }
     ]
     ```

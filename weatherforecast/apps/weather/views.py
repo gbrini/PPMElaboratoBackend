@@ -144,4 +144,9 @@ class WeatherForecastRequestTrackingView(APIView):
             .order_by('-date')
         )
 
+        for obj in daily_count:
+            if obj['date'] == datetime.today().date():
+                obj['throttle_rate'] = request.user.getMaximumRequestsNumber()
+                break
+
         return Response(daily_count)
