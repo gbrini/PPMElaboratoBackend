@@ -260,6 +260,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     | `hour_min` | `string` | **No** | The hour range you want to query (Both 09 and 9 are valid). |
     | `hour_max` | `string` | **No** | The hour range you want to query (Both 09 and 9 are valid). |
     | `unit` | `string` | **No** | Optional paramter to retrieve the temperature in the desired measurement unit (`C` the default value or `F`). |
+    | `page` | `int` | **No** | The page number. |
     | `page_size` | `int` | **No** | The page size. |
 
     #### Query Parameters
@@ -488,6 +489,8 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
+    | `page` | `int` | **No** | The page number. |
+    | `page_size` | `int` | **No** | The page size. |
 
     #### Query Parameters
 
@@ -507,7 +510,35 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     ```json
     {
-        
+        "count": 50,
+        "next": "http://127.0.0.1:8000/api/weather/forecast/history?page=2&page_size=2",
+        "previous": null,
+        "results": [
+            {
+                "id": 50,
+                "search_params": {
+                    "location": "Tokyo",
+                    "date": "2026-06-10",
+                    "date_range": null,
+                    "time": "17:00:00"
+                },
+                "timestamp": "2026-06-10T17:08:38.000994+02:00",
+                "result_count": null,
+                "user": 1
+            },
+            {
+                "id": 49,
+                "search_params": {
+                    "location": "Tokyo",
+                    "date": "2026-06-10",
+                    "date_range": null,
+                    "time": "17:00:00"
+                },
+                "timestamp": "2026-06-10T17:08:37.670434+02:00",
+                "result_count": null,
+                "user": 1
+            }
+        ]
     }
     ```
 
@@ -515,7 +546,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     ```json
     {
-        
+        "detail": "Invalid page."
     }
     ```
 
