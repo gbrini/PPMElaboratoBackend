@@ -600,7 +600,50 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     }
     ```
 
-| weather_forecast_tracking | GET | | |X |X|
+- ### weather_forecast_tracking
+    Get the tracking of the request limit, grouped by day. There are shown only days with at least `1` request.
+
+    * **URL:** `/api/weather/forecast/tracking/`
+    * **Method:** `GET`
+    * **Auth Required:** `Yes`
+    * **Role:** `Admin`, `Premium`, `Standard`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `today` | `string` | **No** | `True` or `False` default `False` |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Request Example
+
+    ```bash
+    http GET "http://127.0.0.1:8000/api/weather/forecast/tracking?today=true" \
+    username="" password=""
+    ```
+
+    #### Response Examples
+
+    **Success (200 OK)**
+
+    ```json
+    [
+        {
+            "date": "2026-06-27",
+            "count": 1
+        }
+    ]
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    
+    ```
 
 ## Tests
 
