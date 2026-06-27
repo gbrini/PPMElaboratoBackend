@@ -10,6 +10,6 @@ class RoleBasedThrottle(UserRateThrottle):
             if user_role == 'admin':
                 return None #no throttle for the admin
 
-            self.scope = role if role in [ 'standard', 'premium' ] else 'standard'
+            self.scope = user_role if user_role in [ 'standard', 'premium' ] else 'standard'
         
         return super().get_cache_key(request, view)

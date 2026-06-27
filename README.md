@@ -500,7 +500,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http PUT "http://127.0.0.1:8000/api/weather/history" \
+    http GET "http://127.0.0.1:8000/api/weather/history" \
     "Authorization: Bearer YOUR_API_KEY"
     ```
 
@@ -550,7 +550,56 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     }
     ```
 
-| weather_forecast_query_history_detail | GET | | |X |X|
+- ### weather_forecast_query_history_detail
+    Retrieve personal search log by id
+
+    * **URL:** `/api/weather/forecast/history/{pk}`
+    * **Method:** `GET`
+    * **Auth Required:** `Required`
+    * **Role:** `Admin`, `Premium`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `pk` | `int` | **Yes** | The log id. |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Request Example
+
+    ```bash
+    http GET "http://127.0.0.1:8000/api/weather/history/3" \
+    "Authorization: Bearer YOUR_API_KEY"
+    ```
+
+    #### Response Examples
+
+    **Success (200 OK)**
+
+    ```json
+    {
+        "id": 3,
+        "search_params": {
+            "location": "Tokyo"
+        },
+        "timestamp": "2026-06-02T09:56:03.830608+02:00",
+        "result_count": null,
+        "user": 1
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        "detail": "No UserSearchHistory matches the given query."
+    }
+    ```
+
 | weather_forecast_tracking | GET | | |X |X|
 
 ## Tests
