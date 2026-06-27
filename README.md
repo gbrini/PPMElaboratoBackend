@@ -20,8 +20,9 @@ This API defines three distinct user roles, alongside allowing limited access fo
 
 | API description | Method| Anon | Standard | Premium | Admin |
 |:---|:---|:---:|:---:|:---:|:---:|
+| register | POST | X| | ||
 | login | POST | X| | ||
-| refresh | POST | X| | ||
+| refresh token | POST | X| | ||
 | weather_forecast | GET | X| X| X|X|
 | weather_forecast | POST | | | |X|
 | weather_forecast_detail | DELETE | | | |X|
@@ -90,6 +91,60 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 - All the endpoint listed down below can be tested using Httpie (installed from requirements.txt)
 - All the endpoints that supports the pagination will return `25` items per page by default, but that number can be changed using the parameter `page_size`, the maximum value is `100`. On the result object tehre will be two different keys, next fot the following page, and previous.
 
+- ### register
+    Register a user, the assigned role is `standard`
+
+    * **URL:** `/api/users/register/`
+    * **Method:** `POST`
+    * **Auth Required:** `No`
+    * **Role:** `Anon`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `username` | `string` | **Yes** | Username |
+    | `password` | `string` | **Yes** | Password |
+    | `password2` | `string` | **Yes** | Password, must be the same as `password` |
+    | `email` | `string` | **No** | email |
+    | `first_name` | `string` | **No** | First name |
+    | `last_name` | `string` | **No** | Last name |
+
+    #### Request Example
+
+    ```bash
+    http POST "http://127.0.0.1:8000/api/users/register/" \
+    username="" password="" password2=""
+    ```
+
+    #### Response Examples
+
+    **Success (201 CREATED)**
+
+    ```json
+    {
+        "username": "",
+        "email": "",
+        "first_name": "",
+        "last_name": ""
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        "password": [
+            "Passwords fields didn't match."
+        ]
+    }
+    ```
+
 - ### login
     Get the access token
 
@@ -139,7 +194,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
         ]
     }
     ```
-- ### refresh
+- ### refresh token
     Refresh the access token
 
     * **URL:** `/api/users/refresh/`
