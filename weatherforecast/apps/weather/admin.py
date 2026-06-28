@@ -25,6 +25,8 @@ class UserSearchHistoryAdmin(admin.ModelAdmin):
 
     list_display = ( 'user', 'result_count', 'search_params', 'timestamp', )
 
+    readony_fields = ( 'user', 'result_count', 'search_params', 'timestamp', )
+
     list_display_links = ( 'user', )
 
     list_filter = ( 'user', 'timestamp', )

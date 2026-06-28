@@ -7,7 +7,7 @@ Content-Type: application/json
 {
     "username": "guido",
     "password": "percyjackson",
-    "password2": "ewqrwq"
+    "password2": "percyjackson"
 }
 
 ### POST JWT token
@@ -15,8 +15,8 @@ POST {{baseUrl}}/users/login/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "root",
-    "password": "root"
+    "username": "guido",
+    "password": "percyjackson"
 }
 
 ### POST JWT refresh token
@@ -34,7 +34,7 @@ Content-Type: application/json
 ### GET forecast
 GET {{baseUrl}}/weather/forecast/?location=Tokyo HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNTAzNTQzLCJpYXQiOjE3ODI1MDE3NDMsImp0aSI6IjFmNmY0MmRjYTRjNTQ5Y2Y5MjA1Njc2ZDdlMTQwZDlhIiwidXNlcl9pZCI6IjEifQ.0hOwuSoDjrqu1lsaH5TNUP_gB1D9vUQ2MJ-nTdisMKY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNTc1MTA5LCJpYXQiOjE3ODI1NzMzMDksImp0aSI6IjdiNGVmODRkOTliNDQ5N2JiZWE5Yzk1NDhiZDI5OTA5IiwidXNlcl9pZCI6IjUifQ.VXzT8WvHraLQHTkFd74v8UlKaLiaXLdZG9ERnVNWu4Y
 
 ### POST forecast
 POST {{baseUrl}}/weather/forecast/ HTTP/1.1
@@ -76,15 +76,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 ### GET forecast
 GET {{baseUrl}}/weather/forecast/history HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwNTExMjg1LCJpYXQiOjE3ODA1MTA5ODUsImp0aSI6IjY2MjFmY2RlMjJhMDQwODA4NDcwZWYyMzgyMTk1MDBkIiwidXNlcl9pZCI6IjEifQ.2xLRUHZnNkHhkM1s9bMBMKI_f5V7S2B2-5XLJmpiGx4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNjY4OTM4LCJpYXQiOjE3ODI2NjcxMzgsImp0aSI6IjZjODM0YzgxYTljZDRkMGE4NjY5OWNjY2Y3YjE4MzcxIiwidXNlcl9pZCI6IjUifQ.V32nnL0TJLOcvbge1MjH0rtyxCgDo7lctY_XoqI2rb8
 
 ### GET forecast by id
-GET {{baseUrl}}/weather/forecast/history/3 HTTP/1.1
+GET {{baseUrl}}/weather/forecast/history/51 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwNDk4MTI2LCJpYXQiOjE3ODA0OTc4MjYsImp0aSI6ImZjNWE5NzFlOThjNzQ5MWM5MmE3N2RhMmY3MGJmZmIyIiwidXNlcl9pZCI6IjEifQ.A2fny1RCAsYZa6SiUe1PrX8vGngYpo3WkWim4fALdWw
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNTc1MTA5LCJpYXQiOjE3ODI1NzMzMDksImp0aSI6IjdiNGVmODRkOTliNDQ5N2JiZWE5Yzk1NDhiZDI5OTA5IiwidXNlcl9pZCI6IjUifQ.VXzT8WvHraLQHTkFd74v8UlKaLiaXLdZG9ERnVNWu4Y
 
 ### GET tracking
-GET {{baseUrl}}/weather/forecast/tracking?today=true HTTP/1.1
+GET {{baseUrl}}/weather/forecast/tracking HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgwNTEwNTQwLCJpYXQiOjE3ODA1MTAyNDAsImp0aSI6ImMyYjU3MjFjOTQwMDQ2ZTdiMWI3ZGZlNDU2OWQyMzliIiwidXNlcl9pZCI6IjEifQ.DX35Hio1n1p1I3CEnHjPVoJfJIpqDzrWaJ_AsVQLrXE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNjY4OTM4LCJpYXQiOjE3ODI2NjcxMzgsImp0aSI6IjZjODM0YzgxYTljZDRkMGE4NjY5OWNjY2Y3YjE4MzcxIiwidXNlcl9pZCI6IjUifQ.V32nnL0TJLOcvbge1MjH0rtyxCgDo7lctY_XoqI2rb8
