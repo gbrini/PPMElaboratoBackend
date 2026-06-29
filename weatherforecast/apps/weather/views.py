@@ -47,10 +47,19 @@ class WeatherForecastView(APIView):
         json_serialized_params = {}
 
         for k, v in filter_backend.form.cleaned_data.items():
-            if hasattr(v, 'isoformat'):
+            if v is None:
+                json_serialized_params[k] = None
+            elif hasattr(v, 'isoformat'):
                 json_serialized_params[k] = v.isoformat()
-            else:
+            elif isinstance(v, slice):
+                json_serialized_params[k] = { 
+                    "start": v.start.isoformat() if v.start is not None else None, 
+                    "stop": v.stop.isoformat() if v.stop is not None else None 
+                }
+            elif isinstance(v, (str, int, float, bool)):
                 json_serialized_params[k] = v
+            else:
+                json_serialized_params[k] = str(v)
         
         if request.user.is_authenticated and request.user.role in [ 'premium', 'admin' ]:
             UserSearchHistory.objects.create(
