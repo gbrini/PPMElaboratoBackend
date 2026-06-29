@@ -1,0 +1,320 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: GuidoBriniWeatherApi
+meta:
+  id: wrk_738b2fb742a34d09b4e8d45272841a2d
+  created: 1782675647654
+  modified: 1782675647654
+  description: ""
+collection:
+  - name: Auth
+    meta:
+      id: fld_9b14e9a02a6f46a086fe6beb5ebd4fe0
+      created: 1782675663594
+      modified: 1782676002599
+      sortKey: -1782675663594
+      description: ""
+    children:
+      - url: "{{ _.local_url }}users/register/"
+        name: Register
+        meta:
+          id: req_7c7d27a36d614a97b31502c8033d9254
+          created: 1782675666984
+          modified: 1782750674268
+          isPrivate: false
+          description: ""
+          sortKey: -1782675666984
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+                "username": "",
+                "password": "",
+                "password2": ""
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: none
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.local_url }}users/login/"
+        name: Login
+        meta:
+          id: req_75538fc57a0b4752a89c1116246a0eb7
+          created: 1782675824011
+          modified: 1782750662608
+          isPrivate: false
+          description: ""
+          sortKey: -1782675666934
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+                "username": "guido",
+                "password": "percyjackson"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: none
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.local_url }}users/refresh/"
+        name: Refresh token
+        meta:
+          id: req_b160f44e3bdd48cca51cc0656b816497
+          created: 1782675832986
+          modified: 1782750678964
+          isPrivate: false
+          description: ""
+          sortKey: -1782675666884
+        method: POST
+        body:
+          mimeType: application/json
+          text: >-
+            {
+                "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4Mjc2MjMxOSwiaWF0IjoxNzgyNjc1OTE5LCJqdGkiOiJjZDBlMjUyYzkyZDc0YjQ2YmUyY2NiMGE4ODhhODJhMSIsInVzZXJfaWQiOiI1In0.1qJsy9kzCiY9g6BICs4HFy3GrfQVyM3fm1SdaQG9mEA"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: none
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Requests tracking
+    meta:
+      id: fld_2b1a907cbcb343d2bc36f3e1da988b85
+      created: 1782676224791
+      modified: 1782750484062
+      sortKey: -1782676224791
+      description: ""
+    children:
+      - url: "{{ _.local_url }}weather/forecast/tracking"
+        name: Track daily requests
+        meta:
+          id: req_a0e3d7f0b93e40a4a948812ae53275d6
+          created: 1782676038736
+          modified: 1782676229032
+          isPrivate: false
+          description: ""
+          sortKey: -1782676228933
+        method: GET
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNjc3NzE5LCJpYXQiOjE3ODI2NzU5MTksImp0aSI6IjQ1OGVhZGI1M2FkNjQ2ZmY4NjE4OTE4MjZlZGViOTc5IiwidXNlcl9pZCI6IjUifQ.yE_4LFarVLhqK29MNEmhPH-e1-3AMBJhnBQ_rKuRIrs
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Queries history
+    meta:
+      id: fld_d7b4f12a7ec249d59779563909cc48cd
+      created: 1782676256134
+      modified: 1782750495498
+      sortKey: -1782676256134
+      description: ""
+    children:
+      - url: "{{ _.local_url }}weather/forecast/history"
+        name: History
+        meta:
+          id: req_f8f215d1703844b08d1b05d99d669f84
+          created: 1782676269331
+          modified: 1782676288107
+          isPrivate: false
+          description: ""
+          sortKey: -1782676272161
+        method: GET
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNjc3NzE5LCJpYXQiOjE3ODI2NzU5MTksImp0aSI6IjQ1OGVhZGI1M2FkNjQ2ZmY4NjE4OTE4MjZlZGViOTc5IiwidXNlcl9pZCI6IjUifQ.yE_4LFarVLhqK29MNEmhPH-e1-3AMBJhnBQ_rKuRIrs
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.local_url }}weather/forecast/history/52"
+        name: History detail
+        meta:
+          id: req_edbe30535ec742f69548573056a35372
+          created: 1782676300438
+          modified: 1782676338528
+          isPrivate: false
+          description: ""
+          sortKey: -1782676250547
+        method: GET
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNjc3NzE5LCJpYXQiOjE3ODI2NzU5MTksImp0aSI6IjQ1OGVhZGI1M2FkNjQ2ZmY4NjE4OTE4MjZlZGViOTc5IiwidXNlcl9pZCI6IjUifQ.yE_4LFarVLhqK29MNEmhPH-e1-3AMBJhnBQ_rKuRIrs
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Forecast
+    meta:
+      id: fld_02ef4e7045224896be10f191635e09e4
+      created: 1782750522148
+      modified: 1782750529771
+      sortKey: -1782750522148
+      description: ""
+    children:
+      - url: "{{ _.local_url }}weather/forecast/"
+        name: Get Forecast no Auth
+        meta:
+          id: req_0ced24bdec8743f7957bafa417611ac4
+          created: 1782750563567
+          modified: 1782756430298
+          isPrivate: false
+          description: ""
+          sortKey: -1782750566369
+        method: GET
+        parameters:
+          - name: location
+            value: Tokyo
+            description: ""
+            disabled: false
+          - name: date_range_before
+            value: 2026-06-06
+            description: ""
+            disabled: false
+        headers:
+          - name: Content-Type
+            value: Application/{% jsonpath '', '' %}
+            description: ""
+            disabled: false
+        authentication:
+          type: none
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.local_url }}weather/forecast/"
+        name: Add forecast
+        meta:
+          id: req_3dfe7a196cc4486188ee0e7faa7f0e52
+          created: 1782756264763
+          modified: 1782756374702
+          isPrivate: false
+          description: ""
+          sortKey: -1782756264763
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"location": "Tokyo", 
+            	"forecast_date": "2026-06-16T18:56",
+            	"temperature": 28,
+            	"condition": "Rain"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNzU3Mzk0LCJpYXQiOjE3ODI3NTU1OTQsImp0aSI6ImUyYmYwYmRhNzU3NzQyMThiODNiODA0YjZjNTg5MjY4IiwidXNlcl9pZCI6IjUifQ.jJo8h0xK16OwYyTCnRZ0xikIP62VpRpVgTDSWIee0Cs
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.local_url }}weather/forecast/"
+        name: Get Forecast Auth
+        meta:
+          id: req_fb760356396e411ebd93b4836c77325c
+          created: 1782756397999
+          modified: 1782756397999
+          isPrivate: false
+          description: ""
+          sortKey: -1782713419265
+        method: GET
+        parameters:
+          - name: location
+            value: Tokyo
+            description: ""
+            disabled: false
+          - name: date_range_before
+            value: 2026-06-06
+            description: ""
+            disabled: false
+        headers:
+          - name: Content-Type
+            value: application/json
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNzUyNDYzLCJpYXQiOjE3ODI3NTA2NjMsImp0aSI6ImIxMTg5ZTU3YjUwMDQ4NDc5ZjNiODM3YzQxYzdjYmI1IiwidXNlcl9pZCI6IjUifQ.f8BpuvNV0rjKJdNE53BTJN57m9-ShZmQFc4qqOOUs6Q
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_dcc5a390d7add28ecf5feb4d148564e98af16292
+    created: 1782675647657
+    modified: 1782675647657
+environments:
+  name: Base Environment
+  meta:
+    id: env_dcc5a390d7add28ecf5feb4d148564e98af16292
+    created: 1782675647656
+    modified: 1782676402220
+    isPrivate: false
+  data:
+    local_url: " http://127.0.0.1:8000/api/"
+    deployed_url: " http://boh/"
+  subEnvironments:
+    - name: New Environment
+      meta:
+        id: env_8710716ea1a94ee7a8d11bea10a9457e
+        created: 1782676405407
+        modified: 1782676405407
+        isPrivate: false
+        sortKey: 1782676405407
