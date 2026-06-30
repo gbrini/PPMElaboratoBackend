@@ -51,7 +51,7 @@ collection:
         meta:
           id: req_75538fc57a0b4752a89c1116246a0eb7
           created: 1782675824011
-          modified: 1782750662608
+          modified: 1782846053171
           isPrivate: false
           description: ""
           sortKey: -1782675666934
@@ -60,8 +60,8 @@ collection:
           mimeType: application/json
           text: |-
             {
-                "username": "guido",
-                "password": "percyjackson"
+                "username": "root",
+                "password": "root"
             }
         headers:
           - name: Content-Type
@@ -226,21 +226,21 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.local_url }}weather/forecast/"
+      - url: "{{ _.local_url }}weather/forecast/94"
         name: Add forecast
         meta:
           id: req_3dfe7a196cc4486188ee0e7faa7f0e52
           created: 1782756264763
-          modified: 1782756374702
+          modified: 1782846224062
           isPrivate: false
           description: ""
           sortKey: -1782756264763
-        method: POST
+        method: PUT
         body:
           mimeType: application/json
           text: |-
             {
-            	"location": "Tokyo", 
+            	"location": "Seoul", 
             	"forecast_date": "2026-06-16T18:56",
             	"temperature": 28,
             	"condition": "Rain"
@@ -250,7 +250,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNzU3Mzk0LCJpYXQiOjE3ODI3NTU1OTQsImp0aSI6ImUyYmYwYmRhNzU3NzQyMThiODNiODA0YjZjNTg5MjY4IiwidXNlcl9pZCI6IjUifQ.jJo8h0xK16OwYyTCnRZ0xikIP62VpRpVgTDSWIee0Cs
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyODQ3ODU1LCJpYXQiOjE3ODI4NDYwNTUsImp0aSI6ImEyMWI0MzE5ZDZiMDQ4N2JiOGRjODZjNWQzODVlNTdiIiwidXNlcl9pZCI6IjEifQ.09lB2YeT8JzoA3q2Q9JBkzTaH7jyqVkJR_gbk8KkYgo
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -286,6 +286,60 @@ collection:
         authentication:
           type: bearer
           token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNzUyNDYzLCJpYXQiOjE3ODI3NTA2NjMsImp0aSI6ImIxMTg5ZTU3YjUwMDQ4NDc5ZjNiODM3YzQxYzdjYmI1IiwidXNlcl9pZCI6IjUifQ.f8BpuvNV0rjKJdNE53BTJN57m9-ShZmQFc4qqOOUs6Q
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.local_url }}weather/forecast/93"
+        name: Delete forecast
+        meta:
+          id: req_43d6463125b447a9a3cbb334070ad57f
+          created: 1782837359597
+          modified: 1782846113707
+          isPrivate: false
+          description: ""
+          sortKey: -1782837359597
+        method: DELETE
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyODQ3ODU1LCJpYXQiOjE3ODI4NDYwNTUsImp0aSI6ImEyMWI0MzE5ZDZiMDQ4N2JiOGRjODZjNWQzODVlNTdiIiwidXNlcl9pZCI6IjEifQ.09lB2YeT8JzoA3q2Q9JBkzTaH7jyqVkJR_gbk8KkYgo
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.local_url }}weather/forecast/"
+        name: Modify forecast
+        meta:
+          id: req_7a06613eaae74a519d90ffcbdd70647d
+          created: 1782846142109
+          modified: 1782846142109
+          isPrivate: false
+          description: ""
+          sortKey: -1782753415566
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"location": "Tokyo", 
+            	"forecast_date": "2026-06-16T18:56",
+            	"temperature": 28,
+            	"condition": "Rain"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNzU3Mzk0LCJpYXQiOjE3ODI3NTU1OTQsImp0aSI6ImUyYmYwYmRhNzU3NzQyMThiODNiODA0YjZjNTg5MjY4IiwidXNlcl9pZCI6IjUifQ.jJo8h0xK16OwYyTCnRZ0xikIP62VpRpVgTDSWIee0Cs
         settings:
           renderRequestBody: true
           encodeUrl: true
