@@ -9,9 +9,9 @@ from django.utils import timezone
 from django.db.models import Count
 from django.db.models.functions import TruncDate
 
-from .serializers import WeatherQueryInputSerializer, WeatherQueryOutputSerializer, WeatherQueryCreateSerializer, UserSearchHistorySerializer
-from .models import WeatherQuery, UserSearchHistory
-from .filters import WeatherQueryFilter
+from .serializers import WeatherQueryInputSerializer, WeatherQueryOutputSerializer, WeatherQueryCreateSerializer, UserSearchHistorySerializer, WeatherLocationSerializer
+from .models import WeatherQuery, UserSearchHistory, WeatherLocation
+from .filters import WeatherQueryFilter, WeatherLocationFilter
 from ..users.permissions import IsAdminUser, IsPremiumUser
 from .constants import PAGE_SIZE, MAX_PAGE_SIZE, TRACKING_DAYS
 
@@ -160,3 +160,40 @@ class WeatherForecastRequestTrackingView(APIView):
                 break
 
         return Response(daily_count)
+
+class WeatherLocationView(APIView):
+    permission_classes = [ AllowAny ]
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [ IsAdminUser() ]
+
+        return super().get_permissions()
+
+    def get(self, request):
+        filter_backend = WeatherLocationFilter(request.query_params, queryset=WeatherLocation.objects.all().order_by("-name"))
+        
+        if not filter_backend.is_valid():
+            return Response(filter_backend.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        filtered_queryset = filter_backend.qs
+
+        paginator = StandardResultsSetPagination()
+
+        result_page = paginator.paginate_queryset(filtered_queryset, request)
+
+        output_serializer = WeatherLocationSerializer(result_page, many=True, context = { "request": request })
+
+        return paginator.get_paginated_response(output_serializer.data)
+
+    def post(self, request):
+        serializer = WeatherLocationSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        instance = serializer.save(user=request.user)
+        
+        output_serializer = WeatherLocationSerializer(instance)
+
+        return Response(output_serializer.data, status=status.HTTP_201_CREATED)

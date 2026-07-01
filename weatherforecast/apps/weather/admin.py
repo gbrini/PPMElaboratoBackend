@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import WeatherQuery, UserSearchHistory
+from .models import WeatherQuery, UserSearchHistory, WeatherLocation
 
 @admin.register(WeatherQuery)
 class WeatherQueryAdmin(admin.ModelAdmin):
@@ -32,3 +32,14 @@ class UserSearchHistoryAdmin(admin.ModelAdmin):
     list_filter = ( 'user', 'timestamp', )
 
     search_fields = ( 'user__username', )
+
+
+@admin.register(WeatherLocation)
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ( 'name', 'latitude', 'longitude' )
+
+    list_display_links = ( 'name', )
+
+    list_filter = ( 'name', )
+
+    search_fields = ( 'name', )

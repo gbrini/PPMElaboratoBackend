@@ -1,7 +1,7 @@
 from django_filters import rest_framework as filters
 from django.utils import timezone
 from rest_framework.exceptions import ValidationError
-from .models import WeatherQuery
+from .models import WeatherQuery, WeatherLocation
 from .constants import WEATHER_UNITS
 
 class WeatherQueryFilter(filters.FilterSet):
@@ -66,3 +66,10 @@ class WeatherQueryFilter(filters.FilterSet):
     class Meta:
         model = WeatherQuery
         fields = [ 'location', 'date', 'date_range', 'hour_min', 'hour_max' ]
+
+class WeatherLocationFilter(filters.FilterSet):
+    name = filters.CharFilter(field_name="name", lookup_expr="icontains", required=False)
+
+    class Meta:
+        model = WeatherLocation
+        fields = [ 'name' ]

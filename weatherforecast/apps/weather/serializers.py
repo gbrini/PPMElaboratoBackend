@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import WeatherQuery, UserSearchHistory
+from .models import WeatherQuery, UserSearchHistory, WeatherLocation
 from .constants import LOCATION_MAX_LENGTH, CONDITION_MAX_LENGTH
 
 class WeatherQueryInputSerializer(serializers.Serializer):
@@ -31,14 +31,17 @@ class WeatherQueryOutputSerializer(serializers.ModelSerializer):
         fields = [ 'id', 'location', 'temperature', 'condition', 'forecast_date' ]
 
 class WeatherQueryCreateSerializer(serializers.ModelSerializer):
-    location = serializers.CharField(max_length=LOCATION_MAX_LENGTH)
+    location_id = serializers.PrimaryKeyRelatedField(
+        queryset = WeatherLocation.objects.all(),
+        source = 'location'
+    )
     temperature = serializers.FloatField(required=True)
     condition = serializers.CharField(max_length=CONDITION_MAX_LENGTH, required=True)
     forecast_date = serializers.DateTimeField(required=True)
 
     class Meta:
         model = WeatherQuery
-        fields = [ 'location', 'forecast_date', 'temperature', 'condition' ]
+        fields = [ 'location_id', 'forecast_date', 'temperature', 'condition' ]
     
     def validate_forecast_date(self, value):
         return value.replace(second = 0, microsecond = 0)
@@ -47,3 +50,11 @@ class UserSearchHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSearchHistory
         fields = '__all__'
+
+class WeatherLocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WeatherLocation
+        fields = ['id', 'name', 'latitude', 'longitude']
+
+        def validate_name(self, value):
+            return value.strip().lower()
