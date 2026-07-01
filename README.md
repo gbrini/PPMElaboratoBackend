@@ -30,6 +30,8 @@ This API defines three distinct user roles, alongside allowing limited access fo
 | weather_forecast_query_history | GET | | |X |X|
 | weather_forecast_query_history_detail | GET | | |X |X|
 | weather_forecast_tracking | GET | | |X |X|
+| weather_location | GET | |X |X |X|
+| weather_location | POST | | | |X|
 | Rate Limit     |        |5/day |   50/day    |100/day    | Unlimited    |
 
 ---
@@ -253,7 +255,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-    | `location` | `string` | **Yes** | The location name of the city you want to query. |
+    | `location` | `int` | **Yes** | The location id of the city you want to query. |
     | `date` | `string` | **No** | The date you want to query, in the format yyyy-mm-dd. |
     | `date_range_before` | `string` | **No** | The date range you want to query, in the format yyyy-mm-dd. |
     | `date_range_after` | `string` | **No** | The date range you want to query, in the format yyyy-mm-dd. |
@@ -307,7 +309,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
         "results": [
             {
                 "id": 93,
-                "location": "Tokyo",
+                "location_id": 1,
                 "temperature": 15.0,
                 "condition": "Sunny",
                 "forecast_date": "2026-06-01T18:02:19+02:00"
@@ -346,7 +348,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-    | `location` | `string` | **Yes** | The forecast location. |
+    | `location_id` | `int` | **Yes** | The forecast location id. |
     | `forecast_date` | `string` | **Yes** | The forecast date, by the format YYYY-MM-DDTHH:mm:ss |
     | `temperature` | `float` | **Yes** | The temperature in Celsius. (e.g., `28.5`) |
     | `condition` | `string` | **Yes** | The forecast decription. |
@@ -356,7 +358,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     ```bash
     http POST "http://127.0.0.1:8000/api/weather/forecast/" \
     "Authorization: Bearer YOUR_API_KEY" \
-    location="Tokyo" forecast_date="2026-06-16T18:56" temperature=28 condition="Rain"
+    location_id=1 forecast_date="2026-06-16T18:56" temperature=28 condition="Rain"
     ```
 
     #### Response Examples
@@ -366,7 +368,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     ```json
     {
         "id": 94,
-        "location": "Tokyo",
+        "location_id": 1,
         "temperature": 28.0,
         "condition": "Rain",
         "forecast_date": "2026-05-31T15:54:00+02:00"
@@ -644,6 +646,113 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     ```json
     
+    ```
+
+- ### weather_location (GET)
+    GET location object(s)
+
+    * **URL:** `/api/weather/location/`
+    * **Method:** `GET`
+    * **Auth Required:** `Optional`
+    * **Role:** ``
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `name` | `string` | **No** | The location name, could be an inside the string. The search will be effected with an icontains method |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Request Example
+
+    ```bash
+    http GET "http://127.0.0.1:8000/api/weather/location/?name=To" \
+    "Authorization: Bearer YOUR_API_KEY"
+    ```
+
+    #### Response Examples
+
+    **Success (201 CREATED)**
+
+    ```json
+    {
+        "id": 2,
+        "name": "Toronto",
+        "latitude": 13.5,
+        "longitude": 18.67
+    },
+    {
+        "id": 1,
+        "name": "Tokyo",
+        "latitude": 23.5,
+        "longitude": 25.67
+    },
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        "name": [
+            "This field is required."
+        ]
+    }
+    ```
+
+- ### weather_location (POST)
+    Add a location object
+
+    * **URL:** `/api/weather/location/`
+    * **Method:** `POST`
+    * **Auth Required:** `Required`
+    * **Role:** `Admin`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `name` | `string` | **Yes** | The location name. |
+    | `latitude` | `float` | **No** | The location latitude |
+    | `longitude` | `float` | **No** | The location longitude |
+
+    #### Request Example
+
+    ```bash
+    http POST "http://127.0.0.1:8000/api/weather/location/" \
+    "Authorization: Bearer YOUR_API_KEY" \
+    name="Tokyo" latitude=23.5 longitude=25.67
+    ```
+
+    #### Response Examples
+
+    **Success (201 CREATED)**
+
+    ```json
+    {
+        "id": 1,
+        "name": "Tokyo",
+        "latitude": 23.5,
+        "longitude": 25.67
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        "name": [
+            "This field is required."
+        ]
+    }
     ```
 
 ## Tests

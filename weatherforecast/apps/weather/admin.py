@@ -4,7 +4,7 @@ from .models import WeatherQuery, UserSearchHistory, WeatherLocation
 
 @admin.register(WeatherQuery)
 class WeatherQueryAdmin(admin.ModelAdmin):
-    list_display = ( 'location', 'forecast_date', 'temperature', 'condition', 'created_at', 'user', )
+    list_display = ( 'id', 'location', 'forecast_date', 'temperature', 'condition', 'created_at', 'user', )
 
     list_display_links = ( 'location', )
 
@@ -23,7 +23,7 @@ class UserSearchHistoryAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
-    list_display = ( 'user', 'result_count', 'search_params', 'timestamp', )
+    list_display = ( 'id', 'user', 'result_count', 'search_params', 'timestamp', )
 
     readony_fields = ( 'user', 'result_count', 'search_params', 'timestamp', )
 
@@ -36,7 +36,7 @@ class UserSearchHistoryAdmin(admin.ModelAdmin):
 
 @admin.register(WeatherLocation)
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ( 'name', 'latitude', 'longitude' )
+    list_display = ( 'id', 'name', 'latitude', 'longitude' )
 
     list_display_links = ( 'name', )
 

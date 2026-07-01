@@ -9,7 +9,7 @@ class WeatherQueryFilter(filters.FilterSet):
     date_range = filters.DateFromToRangeFilter(field_name="forecast_date")
     hour_min = filters.NumberFilter(field_name="forecast_date", lookup_expr="hour__gte")
     hour_max = filters.NumberFilter(field_name="forecast_date", lookup_expr="hour__lte")
-    location = filters.CharFilter(field_name="location", lookup_expr="iexact", required=True)
+    location = filters.CharFilter(field_name="location__name", lookup_expr="iexact", required=True)
     unit = filters.ChoiceFilter(choices=WEATHER_UNITS, method='filter_by_unit')
 
     def __init__(self, data=None, *args, **kwargs):

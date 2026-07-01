@@ -33,7 +33,8 @@ class WeatherQueryOutputSerializer(serializers.ModelSerializer):
 class WeatherQueryCreateSerializer(serializers.ModelSerializer):
     location_id = serializers.PrimaryKeyRelatedField(
         queryset = WeatherLocation.objects.all(),
-        source = 'location'
+        source = 'location',
+        label="Location"
     )
     temperature = serializers.FloatField(required=True)
     condition = serializers.CharField(max_length=CONDITION_MAX_LENGTH, required=True)
