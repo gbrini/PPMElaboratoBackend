@@ -192,46 +192,12 @@ collection:
       sortKey: -1782750522148
       description: ""
     children:
-      - url: "{{ _.local_url }}weather/forecast/"
-        name: Get Forecast no Auth
-        meta:
-          id: req_0ced24bdec8743f7957bafa417611ac4
-          created: 1782750563567
-          modified: 1782756430298
-          isPrivate: false
-          description: ""
-          sortKey: -1782750566369
-        method: GET
-        parameters:
-          - name: location
-            value: Tokyo
-            description: ""
-            disabled: false
-          - name: date_range_before
-            value: 2026-06-06
-            description: ""
-            disabled: false
-        headers:
-          - name: Content-Type
-            value: Application/{% jsonpath '', '' %}
-            description: ""
-            disabled: false
-        authentication:
-          type: none
-        settings:
-          renderRequestBody: true
-          encodeUrl: true
-          followRedirects: global
-          cookies:
-            send: true
-            store: true
-          rebuildPath: true
-      - url: "{{ _.local_url }}weather/forecast/94"
-        name: Add forecast
+      - url: "{{ _.local_url }}weather/forecast/1"
+        name: Modify forecast
         meta:
           id: req_3dfe7a196cc4486188ee0e7faa7f0e52
           created: 1782756264763
-          modified: 1782846224062
+          modified: 1782936535096
           isPrivate: false
           description: ""
           sortKey: -1782756264763
@@ -240,9 +206,9 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"location": "Seoul", 
+            	"location_id": 1, 
             	"forecast_date": "2026-06-16T18:56",
-            	"temperature": 28,
+            	"temperature": 32,
             	"condition": "Rain"
             }
         headers:
@@ -250,7 +216,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyODQ3ODU1LCJpYXQiOjE3ODI4NDYwNTUsImp0aSI6ImEyMWI0MzE5ZDZiMDQ4N2JiOGRjODZjNWQzODVlNTdiIiwidXNlcl9pZCI6IjEifQ.09lB2YeT8JzoA3q2Q9JBkzTaH7jyqVkJR_gbk8KkYgo
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyOTM4MjgyLCJpYXQiOjE3ODI5MzY0ODIsImp0aSI6ImI2OGM0ZDhhYmExYzRkNDQ4OWRlYTRiY2E2YTdlYjRlIiwidXNlcl9pZCI6IjEifQ.3UpTekwmr07yCqniiIt9Po0hCfWoPyfgy4y3NzQODBg
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -264,17 +230,17 @@ collection:
         meta:
           id: req_fb760356396e411ebd93b4836c77325c
           created: 1782756397999
-          modified: 1782756397999
+          modified: 1782936688089
           isPrivate: false
           description: ""
           sortKey: -1782713419265
         method: GET
         parameters:
           - name: location
-            value: Tokyo
+            value: florence
             description: ""
             disabled: false
-          - name: date_range_before
+          - name: date_range_after
             value: 2026-06-06
             description: ""
             disabled: false
@@ -285,7 +251,7 @@ collection:
             disabled: false
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNzUyNDYzLCJpYXQiOjE3ODI3NTA2NjMsImp0aSI6ImIxMTg5ZTU3YjUwMDQ4NDc5ZjNiODM3YzQxYzdjYmI1IiwidXNlcl9pZCI6IjUifQ.f8BpuvNV0rjKJdNE53BTJN57m9-ShZmQFc4qqOOUs6Q
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyOTM3ODMzLCJpYXQiOjE3ODI5MzYwMzMsImp0aSI6ImEzMjdlMDM4MjAwMjQ5NGRiODBhYzNkYzljOTUwOGQ1IiwidXNlcl9pZCI6IjEifQ.Lo7E9YQJpqnZg4D1poybd5p58ZndGF-yG5JWIDnBT-s
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -316,11 +282,11 @@ collection:
             store: true
           rebuildPath: true
       - url: "{{ _.local_url }}weather/forecast/"
-        name: Modify forecast
+        name: Add forecast
         meta:
           id: req_7a06613eaae74a519d90ffcbdd70647d
           created: 1782846142109
-          modified: 1782846142109
+          modified: 1782936312751
           isPrivate: false
           description: ""
           sortKey: -1782753415566
@@ -329,7 +295,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"location": "Tokyo", 
+            	"location_id": 1, 
             	"forecast_date": "2026-06-16T18:56",
             	"temperature": 28,
             	"condition": "Rain"
@@ -339,7 +305,109 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNzU3Mzk0LCJpYXQiOjE3ODI3NTU1OTQsImp0aSI6ImUyYmYwYmRhNzU3NzQyMThiODNiODA0YjZjNTg5MjY4IiwidXNlcl9pZCI6IjUifQ.jJo8h0xK16OwYyTCnRZ0xikIP62VpRpVgTDSWIee0Cs
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyOTM3ODMzLCJpYXQiOjE3ODI5MzYwMzMsImp0aSI6ImEzMjdlMDM4MjAwMjQ5NGRiODBhYzNkYzljOTUwOGQ1IiwidXNlcl9pZCI6IjEifQ.Lo7E9YQJpqnZg4D1poybd5p58ZndGF-yG5JWIDnBT-s
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.local_url }}weather/forecast/"
+        name: Get Forecast No Auth
+        meta:
+          id: req_eb67833448a54aed9308c29d02642a40
+          created: 1782936632546
+          modified: 1782936640929
+          isPrivate: false
+          description: ""
+          sortKey: -1782694845713
+        method: GET
+        parameters:
+          - name: location
+            value: Florence
+            description: ""
+            disabled: false
+          - name: date_range_after
+            value: 2026-06-06
+            description: ""
+            disabled: false
+        headers:
+          - name: Content-Type
+            value: application/json
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          disabled: true
+          token: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Location
+    meta:
+      id: fld_80e62b5a022f4a16af2cbbfe268864ad
+      created: 1782934386941
+      modified: 1782934392289
+      sortKey: -1782934386941
+      description: ""
+    children:
+      - url: "{{ _.local_url }}weather/location/"
+        name: Get Weather Location(s)
+        meta:
+          id: req_200a974cd36043c88fb06e651516ae36
+          created: 1782934398333
+          modified: 1782935670672
+          isPrivate: false
+          description: ""
+          sortKey: -1782934398333
+        method: GET
+        parameters:
+          - name: name
+            value: fl
+            description: ""
+            disabled: true
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyOTM2MjkyLCJpYXQiOjE3ODI5MzQ0OTIsImp0aSI6ImU3NGUxYzc1MGM0NzQyNGY4ZWVkODg3ZmI3NmVlZTIwIiwidXNlcl9pZCI6IjEifQ.F_cTR-GTZ7VeOd0CMVAligMdCmR4rVkIFkFYeVDaMLc
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.local_url }}weather/location/"
+        name: Add Weather Location
+        meta:
+          id: req_e80a1e175c834ee092116245d0cd6257
+          created: 1782934405823
+          modified: 1782935170860
+          isPrivate: false
+          description: ""
+          sortKey: -1782934405823
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "Tokyo",
+            	"latitude": 23.5,
+            	"longitude": null
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyOTM2MjkyLCJpYXQiOjE3ODI5MzQ0OTIsImp0aSI6ImU3NGUxYzc1MGM0NzQyNGY4ZWVkODg3ZmI3NmVlZTIwIiwidXNlcl9pZCI6IjEifQ.F_cTR-GTZ7VeOd0CMVAligMdCmR4rVkIFkFYeVDaMLc
         settings:
           renderRequestBody: true
           encodeUrl: true
