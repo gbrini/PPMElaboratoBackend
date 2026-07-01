@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from .models import WeatherQuery, UserSearchHistory
+from .constants import LOCATION_MAX_LENGTH, CONDITION_MAX_LENGTH
 
 class WeatherQueryInputSerializer(serializers.Serializer):
-    location = serializers.CharField(max_length=50, required=True)
+    location = serializers.CharField(max_length=LOCATION_MAX_LENGTH, required=True)
     date = serializers.DateField(required=False)
     time = serializers.TimeField(required=False)
 
@@ -30,9 +31,9 @@ class WeatherQueryOutputSerializer(serializers.ModelSerializer):
         fields = [ 'id', 'location', 'temperature', 'condition', 'forecast_date' ]
 
 class WeatherQueryCreateSerializer(serializers.ModelSerializer):
-    location = serializers.CharField(max_length=50)
+    location = serializers.CharField(max_length=LOCATION_MAX_LENGTH)
     temperature = serializers.FloatField(required=True)
-    condition = serializers.CharField(max_length=100, required=True)
+    condition = serializers.CharField(max_length=CONDITION_MAX_LENGTH, required=True)
     forecast_date = serializers.DateTimeField(required=True)
 
     class Meta:

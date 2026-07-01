@@ -13,13 +13,14 @@ from .serializers import WeatherQueryInputSerializer, WeatherQueryOutputSerializ
 from .models import WeatherQuery, UserSearchHistory
 from .filters import WeatherQueryFilter
 from ..users.permissions import IsAdminUser, IsPremiumUser
+from .constants import PAGE_SIZE, MAX_PAGE_SIZE, TRACKING_DAYS
 
 from datetime import timedelta, datetime
 
 class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 25
+    page_size = PAGE_SIZE
     page_size_query_param = 'page_size'
-    max_page_size = 100
+    max_page_size = MAX_PAGE_SIZE
 
 class WeatherForecastView(APIView):
     permission_classes = [ AllowAny ]
@@ -138,7 +139,7 @@ class WeatherForecastRequestTrackingView(APIView):
     permission_classes = [ IsAdminUser | IsPremiumUser ]
 
     def get(self, request):
-        days_number = 30
+        days_number = TRACKING_DAYS
 
         if request.query_params.get("today", "false").lower() == "true":
             days_number = 1

@@ -28,7 +28,7 @@ Content-Type: application/json
 }
 
 ### GET forecast
-GET {{baseUrl}}/weather/forecast/?location=Tokyo&date_range_after=2026-06-06 HTTP/1.1
+GET {{baseUrl}}/weather/forecast/?location=tokyo&date_range_after=2026-06-06 HTTP/1.1
 Content-Type: application/json
 
 ### GET forecast

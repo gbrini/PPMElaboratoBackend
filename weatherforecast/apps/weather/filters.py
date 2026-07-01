@@ -2,14 +2,15 @@ from django_filters import rest_framework as filters
 from django.utils import timezone
 from rest_framework.exceptions import ValidationError
 from .models import WeatherQuery
+from .constants import WEATHER_UNITS
 
 class WeatherQueryFilter(filters.FilterSet):
     date = filters.DateFilter(field_name="forecast_date", lookup_expr='date')
     date_range = filters.DateFromToRangeFilter(field_name="forecast_date")
     hour_min = filters.NumberFilter(field_name="forecast_date", lookup_expr="hour__gte")
     hour_max = filters.NumberFilter(field_name="forecast_date", lookup_expr="hour__lte")
-    location = filters.CharFilter(field_name="location", lookup_expr="icontains", required=True)
-    unit = filters.ChoiceFilter(choices=[( 'C', 'Celsius' ), ( 'F', 'Fahrenheit' )], method='filter_by_unit')
+    location = filters.CharFilter(field_name="location", lookup_expr="iexact", required=True)
+    unit = filters.ChoiceFilter(choices=WEATHER_UNITS, method='filter_by_unit')
 
     def __init__(self, data=None, *args, **kwargs):
         if data is not None:
