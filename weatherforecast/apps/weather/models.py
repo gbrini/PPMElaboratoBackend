@@ -21,14 +21,25 @@ class WeatherLocation(models.Model):
         verbose_name = 'Weather Location'
         verbose_name_plural = 'Weather Locations'
 
+class WeatherData(models.Model):
+    temperature = models.FloatField(null=True, blank=True)
+    condition = models.CharField(max_length=CONDITION_MAX_LENGTH, null=True, blank=True)
+    humidity = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    uv_index = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0)])
+
 class WeatherQuery(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE,
         related_name='weather_queries'
     )
     location = models.ForeignKey(WeatherLocation, on_delete=models.CASCADE)
-    temperature = models.FloatField(null=True, blank=True)
-    condition = models.CharField(max_length=CONDITION_MAX_LENGTH, null=True, blank=True)
+    weather_info = models.OneToOneField(
+        'WeatherData', 
+        null=False, 
+        blank=False, 
+        on_delete=models.CASCADE, 
+        related_name='query'
+    )
     forecast_date = models.DateField(default=datetime.date.today)
     forecast_hour = models.IntegerField(
         default=0,

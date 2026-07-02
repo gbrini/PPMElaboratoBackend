@@ -25,8 +25,6 @@ class StandardResultsSetPagination(PageNumberPagination):
 class WeatherForecastView(APIView):
     permission_classes = [ AllowAny ]
 
-    #def get_throttles(self)
-
     def get_permissions(self):
         if self.request.method == 'POST':
             return [ IsAdminUser() ]

@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from .models import WeatherQuery, UserSearchHistory, WeatherLocation
+from .models import WeatherQuery, UserSearchHistory, WeatherLocation, WeatherData
 
 @admin.register(WeatherQuery)
 class WeatherQueryAdmin(admin.ModelAdmin):
-    list_display = ( 'id', 'location', 'forecast_date', 'forecast_hour', 'temperature', 'condition', 'created_at', 'user', )
+    list_display = ( 'id', 'location', 'forecast_date', 'forecast_hour', 'display_weather_info', 'created_at', 'user', )
 
     list_display_links = ( 'location', )
 
@@ -12,9 +12,13 @@ class WeatherQueryAdmin(admin.ModelAdmin):
 
     search_fields = ( 'location', 'user__username', )
 
-    readonly_fields = ( 'user', )
+    readonly_fields = ( 'user', 'display_weather_info', )
 
     exclude = ( 'user', )
+
+    def display_weather_info(self, obj):
+        info = obj.weather_info
+        return f"Temp: {info.temperature}°C, Condition: {info.condition}, Humidity: {info.humidity}%, UV-Index: {info.uv_index}"
 
     def save_model(self, request, obj, form, change):
         obj.user = request.user

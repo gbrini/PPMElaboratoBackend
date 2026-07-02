@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from django.utils import timezone
-from .models import WeatherQuery, UserSearchHistory, WeatherLocation
+from .models import WeatherQuery, UserSearchHistory, WeatherLocation, WeatherData
 from .constants import LOCATION_MAX_LENGTH, CONDITION_MAX_LENGTH
 
-class WeatherQueryOutputSerializer(serializers.ModelSerializer):
-    temperature = serializers.SerializerMethodField()
+class WeatherDataOutputSerializer(serializers.ModelSerializer):
+    temperature = serializers.SerializerMethodField(read_only=True)
 
     def get_temperature(self, obj):
         request = self.context.get('request')
@@ -23,8 +23,20 @@ class WeatherQueryOutputSerializer(serializers.ModelSerializer):
             return temp_c
 
     class Meta:
+        model = WeatherData
+        fields = [ 'temperature', 'condition', 'humidity', 'uv_index' ]
+
+class WeatherDataCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WeatherData
+        fields = [ 'temperature', 'condition', 'humidity', 'uv_index' ]
+
+class WeatherQueryOutputSerializer(serializers.ModelSerializer):
+    weather_info = WeatherDataOutputSerializer(read_only=True)
+
+    class Meta:
         model = WeatherQuery
-        fields = [ 'id', 'location', 'temperature', 'condition', 'forecast_date', 'forecast_hour' ]
+        fields = [ 'id', 'location', 'weather_info', 'forecast_date', 'forecast_hour' ]
 
 class WeatherQueryCreateSerializer(serializers.ModelSerializer):
     location_id = serializers.PrimaryKeyRelatedField(
@@ -32,14 +44,13 @@ class WeatherQueryCreateSerializer(serializers.ModelSerializer):
         source = 'location',
         label="Location"
     )
-    temperature = serializers.FloatField(required=True)
-    condition = serializers.CharField(max_length=CONDITION_MAX_LENGTH, required=True)
+    weather_info = WeatherDataCreateSerializer(required=True)
     forecast_date = serializers.DateField(required=True)
     forecast_hour = serializers.IntegerField(min_value=0, max_value=23)
 
     class Meta:
         model = WeatherQuery
-        fields = [ 'location_id', 'forecast_date', 'forecast_hour', 'temperature', 'condition' ]
+        fields = [ 'location_id', 'forecast_date', 'forecast_hour', 'weather_info' ]
     
     def validate(self, data):
         now = timezone.localtime(timezone.now())
@@ -56,6 +67,12 @@ class WeatherQueryCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({ "hour": "Cannot set a forecast hour that has already passed." })
             
         return data
+
+    def create(self, validated_data):
+        weather_info_data = validated_data.pop('weather_info')
+        weather_info = WeatherData.objects.create(**weather_info_data)
+
+        return WeatherQuery.objects.create(weather_info=weather_info, **validated_data)
 
 class UserSearchHistorySerializer(serializers.ModelSerializer):
     class Meta:

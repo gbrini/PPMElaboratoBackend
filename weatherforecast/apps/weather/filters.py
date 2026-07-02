@@ -1,5 +1,6 @@
 from django_filters import rest_framework as filters
 from django.utils import timezone
+from django.utils.dateparse import parse_date
 from rest_framework.exceptions import ValidationError
 from .models import WeatherQuery, WeatherLocation
 from datetime import timedelta
@@ -35,7 +36,7 @@ class WeatherQueryFilter(filters.FilterSet):
                 data['date_range_after'] = now_local.date().isoformat()
 
             if 'date_range_after' in data and 'date_range_before' not in data:
-                data['date_range_before'] = (timezone.now().date() + timedelta(days=MAX_DAYS_RETRIEVE)).isoformat()
+                data['date_range_before'] = (parse_date(data['date_range_after']) + timedelta(days=MAX_DAYS_RETRIEVE)).isoformat()
 
         super().__init__(data, *args, **kwargs)
 
@@ -68,7 +69,7 @@ class WeatherQueryFilter(filters.FilterSet):
             raise ValidationError({
                 "hour_min": "Hour min cannot be greater than hour max."
             })
-                
+        print(data)
         return super().qs
 
     def filter_by_unit(self, queryset, name, value):
