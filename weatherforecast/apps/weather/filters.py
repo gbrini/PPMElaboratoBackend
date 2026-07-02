@@ -24,7 +24,11 @@ class WeatherQueryFilter(filters.FilterSet):
             elif not has_date and not has_range:
                 now = timezone.now()
                 now_local = timezone.localtime(now)
+
                 data['date'] = now_local.date().isoformat()
+
+                if 'hour_min' not in data:
+                    data['hour_min'] = now_local.hour
 
         super().__init__(data, *args, **kwargs)
 
