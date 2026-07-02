@@ -5,7 +5,7 @@ from .models import WeatherQuery, WeatherLocation
 from .constants import WEATHER_UNITS
 
 class WeatherQueryFilter(filters.FilterSet):
-    date = filters.DateFilter(field_name="forecast_date", lookup_expr='date')
+    date = filters.DateFilter(field_name="forecast_date")
     date_range = filters.DateFromToRangeFilter(field_name="forecast_date")
     hour_min = filters.NumberFilter(field_name="forecast_hour", lookup_expr="gte")
     hour_max = filters.NumberFilter(field_name="forecast_hour", lookup_expr="lte")

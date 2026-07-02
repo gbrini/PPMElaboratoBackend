@@ -34,7 +34,7 @@ class WeatherForecastView(APIView):
         return super().get_permissions()
 
     def get(self, request):
-        filter_backend = WeatherQueryFilter(request.query_params, queryset=WeatherQuery.objects.all().order_by("-forecast_date"))
+        filter_backend = WeatherQueryFilter(request.query_params, queryset=WeatherQuery.objects.all().order_by("forecast_date", "forecast_hour"))
         
         if not filter_backend.is_valid():
             return Response(filter_backend.errors, status=status.HTTP_400_BAD_REQUEST)
