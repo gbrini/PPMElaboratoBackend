@@ -27,6 +27,10 @@ class WeatherData(models.Model):
     humidity = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
     uv_index = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0)])
 
+    class Meta:
+        verbose_name = 'Detailed Weather Info'
+        verbose_name_plural = 'Detailed Weather Info'
+
 class WeatherQuery(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE,

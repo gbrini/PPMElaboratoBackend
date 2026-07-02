@@ -2,8 +2,14 @@ from django.contrib import admin
 
 from .models import WeatherQuery, UserSearchHistory, WeatherLocation, WeatherData
 
+@admin.register(WeatherData)
+class WeatherDataAdmin(admin.ModelAdmin):
+    list_display = ( 'id', 'temperature', 'condition', 'humidity', 'uv_index' )
+
 @admin.register(WeatherQuery)
 class WeatherQueryAdmin(admin.ModelAdmin):
+    raw_id_fields = ( 'weather_info', )
+
     list_display = ( 'id', 'location', 'forecast_date', 'forecast_hour', 'display_weather_info', 'created_at', 'user', )
 
     list_display_links = ( 'location', )

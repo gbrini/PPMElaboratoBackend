@@ -74,6 +74,23 @@ class WeatherQueryCreateSerializer(serializers.ModelSerializer):
 
         return WeatherQuery.objects.create(weather_info=weather_info, **validated_data)
 
+    def update(self, instance, validated_data):
+        weather_info_data = validated_data.pop('weather_info', None)
+
+        instance.location = validated_data.get('location', instance.location)
+        instance.forecast_date = validated_data.get('forecast_date', instance.forecast_date)
+        instance.forecast_hour = validated_data.get('forecast_hour', instance.forecast_hour)
+        instance.save()
+
+        if weather_info_data:
+            weather_info = instance.weather_info
+
+            for attr, value in weather_info_data.items():
+                setattr(weather_info, attr, value)
+            weather_info.save()
+
+        return instance
+
 class UserSearchHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSearchHistory
