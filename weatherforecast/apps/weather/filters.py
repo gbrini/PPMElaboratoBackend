@@ -20,16 +20,22 @@ class WeatherQueryFilter(filters.FilterSet):
             has_date = 'date' in data
             has_range = 'date_range_before' in data or 'date_range_after' in data
 
+            now = timezone.now()
+            now_local = timezone.localtime(now)
+
             if has_range and has_date:
                 data.pop('date')
             elif not has_date and not has_range:
-                now = timezone.now()
-                now_local = timezone.localtime(now)
-
                 data['date'] = now_local.date().isoformat()
 
                 if 'hour_min' not in data:
                     data['hour_min'] = now_local.hour
+
+            if 'date_range_before' in data and 'date_range_after' not in data:
+                data['date_range_after'] = now_local.date().isoformat()
+
+            if 'date_range_after' in data and 'date_range_before' not in data:
+                data['date_range_before'] = (timezone.now().date() + timedelta(days=MAX_DAYS_RETRIEVE)).isoformat()
 
         super().__init__(data, *args, **kwargs)
 
@@ -62,10 +68,6 @@ class WeatherQueryFilter(filters.FilterSet):
             raise ValidationError({
                 "hour_min": "Hour min cannot be greater than hour max."
             })
-
-        if 'date_range_after' not in data and 'date_range_before' not in data:
-            max_date = timezone.now().date() + timedelta(days=MAX_DAYS_RETRIEVE)
-            return super().qs.filter(forecast_date__lte = max_date)
                 
         return super().qs
 
