@@ -2,7 +2,8 @@ from django_filters import rest_framework as filters
 from django.utils import timezone
 from rest_framework.exceptions import ValidationError
 from .models import WeatherQuery, WeatherLocation
-from .constants import WEATHER_UNITS
+from datetime import timedelta
+from .constants import WEATHER_UNITS, MAX_DAYS_RETRIEVE
 
 class WeatherQueryFilter(filters.FilterSet):
     date = filters.DateFilter(field_name="forecast_date")
@@ -61,6 +62,10 @@ class WeatherQueryFilter(filters.FilterSet):
             raise ValidationError({
                 "hour_min": "Hour min cannot be greater than hour max."
             })
+
+        if 'date_range_after' not in data and 'date_range_before' not in data:
+            max_date = timezone.now().date() + timedelta(days=MAX_DAYS_RETRIEVE)
+            return super().qs.filter(forecast_date__lte = max_date)
                 
         return super().qs
 
