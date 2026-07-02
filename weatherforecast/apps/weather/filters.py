@@ -7,8 +7,8 @@ from .constants import WEATHER_UNITS
 class WeatherQueryFilter(filters.FilterSet):
     date = filters.DateFilter(field_name="forecast_date", lookup_expr='date')
     date_range = filters.DateFromToRangeFilter(field_name="forecast_date")
-    hour_min = filters.NumberFilter(field_name="forecast_date", lookup_expr="hour__gte")
-    hour_max = filters.NumberFilter(field_name="forecast_date", lookup_expr="hour__lte")
+    hour_min = filters.NumberFilter(field_name="forecast_hour", lookup_expr="gte")
+    hour_max = filters.NumberFilter(field_name="forecast_hour", lookup_expr="lte")
     location = filters.CharFilter(field_name="location__name", lookup_expr="iexact", required=True)
     unit = filters.ChoiceFilter(choices=WEATHER_UNITS, method='filter_by_unit')
 

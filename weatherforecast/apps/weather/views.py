@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.db.models import Count
 from django.db.models.functions import TruncDate
 
-from .serializers import WeatherQueryInputSerializer, WeatherQueryOutputSerializer, WeatherQueryCreateSerializer, UserSearchHistorySerializer, WeatherLocationSerializer
+from .serializers import WeatherQueryOutputSerializer, WeatherQueryCreateSerializer, UserSearchHistorySerializer, WeatherLocationSerializer
 from .models import WeatherQuery, UserSearchHistory, WeatherLocation
 from .filters import WeatherQueryFilter, WeatherLocationFilter
 from ..users.permissions import IsAdminUser, IsPremiumUser

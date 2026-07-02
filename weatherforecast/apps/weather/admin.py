@@ -4,13 +4,22 @@ from .models import WeatherQuery, UserSearchHistory, WeatherLocation
 
 @admin.register(WeatherQuery)
 class WeatherQueryAdmin(admin.ModelAdmin):
-    list_display = ( 'id', 'location', 'forecast_date', 'temperature', 'condition', 'created_at', 'user', )
+    list_display = ( 'id', 'location', 'forecast_date', 'forecast_hour', 'temperature', 'condition', 'created_at', 'user', )
 
     list_display_links = ( 'location', )
 
-    list_filter = ( 'user', 'forecast_date', )
+    list_filter = ( 'user', 'forecast_date', 'forecast_hour', )
 
     search_fields = ( 'location', 'user__username', )
+
+    readonly_fields = ( 'user', )
+
+    exclude = ( 'user', )
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+
+        super().save_model(request, obj, form, change)
 
 @admin.register(UserSearchHistory)
 class UserSearchHistoryAdmin(admin.ModelAdmin):

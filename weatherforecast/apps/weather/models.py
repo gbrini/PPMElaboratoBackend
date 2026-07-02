@@ -1,5 +1,8 @@
 from django.db import models
 from django.conf import settings
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
+import datetime
 from .constants import LOCATION_MAX_LENGTH, CONDITION_MAX_LENGTH
 
 class WeatherLocation(models.Model):
@@ -16,7 +19,7 @@ class WeatherLocation(models.Model):
 
     class Meta:
         verbose_name = 'Weather Location'
-        verbose_name_plural = 'Weather locations'
+        verbose_name_plural = 'Weather Locations'
 
 class WeatherQuery(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, 
@@ -26,12 +29,22 @@ class WeatherQuery(models.Model):
     location = models.ForeignKey(WeatherLocation, on_delete=models.CASCADE)
     temperature = models.FloatField(null=True, blank=True)
     condition = models.CharField(max_length=CONDITION_MAX_LENGTH, null=True, blank=True)
-    forecast_date = models.DateTimeField(null=True, blank=True)
+    forecast_date = models.DateField(default=datetime.date.today)
+    forecast_hour = models.IntegerField(
+        default=0,
+        validators=[MinValueValidator(0), MaxValueValidator(23)]
+    )
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def clean(self):
+        if self.user.role != 'admin':
+            raise ValidationError("Only admins can post/put weather forecasts.")
 
     class Meta:
         verbose_name = 'Weather Forecast'
         verbose_name_plural = 'Weather Forecasts'
+        
+        unique_together = ( 'location', 'forecast_date', 'forecast_hour' )
 
 class UserSearchHistory(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, 

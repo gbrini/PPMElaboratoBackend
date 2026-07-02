@@ -1,11 +1,7 @@
 from rest_framework import serializers
+from django.utils import timezone
 from .models import WeatherQuery, UserSearchHistory, WeatherLocation
 from .constants import LOCATION_MAX_LENGTH, CONDITION_MAX_LENGTH
-
-class WeatherQueryInputSerializer(serializers.Serializer):
-    location = serializers.CharField(max_length=LOCATION_MAX_LENGTH, required=True)
-    date = serializers.DateField(required=False)
-    time = serializers.TimeField(required=False)
 
 class WeatherQueryOutputSerializer(serializers.ModelSerializer):
     temperature = serializers.SerializerMethodField()
@@ -28,7 +24,7 @@ class WeatherQueryOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WeatherQuery
-        fields = [ 'id', 'location', 'temperature', 'condition', 'forecast_date' ]
+        fields = [ 'id', 'location', 'temperature', 'condition', 'forecast_date', 'forecast_hour' ]
 
 class WeatherQueryCreateSerializer(serializers.ModelSerializer):
     location_id = serializers.PrimaryKeyRelatedField(
@@ -38,14 +34,28 @@ class WeatherQueryCreateSerializer(serializers.ModelSerializer):
     )
     temperature = serializers.FloatField(required=True)
     condition = serializers.CharField(max_length=CONDITION_MAX_LENGTH, required=True)
-    forecast_date = serializers.DateTimeField(required=True)
+    forecast_date = serializers.DateField(required=True)
+    forecast_hour = serializers.IntegerField(min_value=0, max_value=23)
 
     class Meta:
         model = WeatherQuery
-        fields = [ 'location_id', 'forecast_date', 'temperature', 'condition' ]
+        fields = [ 'location_id', 'forecast_date', 'forecast_hour', 'temperature', 'condition' ]
     
-    def validate_forecast_date(self, value):
-        return value.replace(second = 0, microsecond = 0)
+    def validate(self, data):
+        now = timezone.localtime(timezone.now())
+        current_date = now.date()
+        current_hour = now.hour
+
+        input_date = data.get('forecast_date')
+        input_hour = data.get('forecast_hour')
+
+        if input_date < current_date:
+            raise serializers.ValidationError({ "forecast_date": "Cannot set a forecast in the past." })
+
+        if current_hour > input_hour and input_date == current_date:
+            raise serializers.ValidationError({ "hour": "Cannot set a forecast hour that has already passed." })
+            
+        return data
 
 class UserSearchHistorySerializer(serializers.ModelSerializer):
     class Meta:
