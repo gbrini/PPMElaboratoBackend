@@ -806,7 +806,16 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 ## Tests
 
 ```bash
+cd weatherforecast
+
+#To run all the tests
 python manage.py test
+
+#To run only users tests
+python manage.py test apps.users
+
+#To run only weather tests
+python manage.py test apps.weather
 ```
 
 

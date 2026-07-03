@@ -2,17 +2,13 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
 from ..models import WeatherLocation
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
+from .test_helpers import create_superuser, create_user
 
 class WeatherLocationViewTests(APITestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='testuser', password='password')
-        self.admin = User.objects.create_superuser(username='admin', password='password')
-        self.admin.role = 'admin'
-        self.admin.save()
-        self.list_url = reverse('weather_location') 
+        self.user = create_user()
+        self.admin = create_superuser()
+        self.list_url = reverse('weather_location')
 
     def test_get_locations_allow_any(self):
         """Anyone should be able to view the list of locations."""
