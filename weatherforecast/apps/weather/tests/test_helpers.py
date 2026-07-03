@@ -20,8 +20,8 @@ def create_superuser(username: str = 'admin'):
 
     return user
 
-def create_search_history(user, days_ago=0, count=1):
-    timestamp = timezone.now() - timezone.timedelta(days=days_ago)
+def create_search_history(user, days_ago=0, hours_ago = 0, count=1):
+    timestamp = timezone.now() - timezone.timedelta(days=days_ago, hours=hours_ago)
     return UserSearchHistory.objects.create(
         user=user,
         search_params={"location": "Rome"},
