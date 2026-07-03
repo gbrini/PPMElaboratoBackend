@@ -11,8 +11,9 @@ class WeatherLocation(models.Model):
         related_name='locations'
     )
     name = models.CharField(max_length=LOCATION_MAX_LENGTH)
-    latitude = models.FloatField(null=True, blank=True)
-    longitude = models.FloatField(null=True, blank=True)
+    country = models.CharField(max_length=2, help_text="ISO Country Code (e.g., IT, US, FR)")
+    latitude = models.FloatField(null=True, blank=True, validators=[MinValueValidator(-90.0), MaxValueValidator(90.0)])
+    longitude = models.FloatField(null=True, blank=True, validators=[MinValueValidator(-180.0), MaxValueValidator(180.0)])
 
     def __str__(self):
         return self.name

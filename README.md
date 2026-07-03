@@ -77,6 +77,31 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+The application is ready to use, in order to use a brand new db it is necessary to follow these steps though:
+
+```bash
+# Navigate to the Django project directory
+cd weatherforecast
+
+# Run this command and follow the instructions
+python manage.py createsuperuser
+```
+
+```bash
+# Enter the shell in order to modify the new user permissions
+python manage.py shell
+
+>>> user = CustomUser.objects.get(username='the superuser username just created')
+>>> user.is_superuser = True
+>>> user.is_staff = True
+>>> user.role = 'admin'
+>>> user.save()
+>>> exit()
+```
+Now the superuser has all the permission to access the admin panel
+
+---
+
 ## Demo accounts
 For this API there are already set up 3 different users:
 
@@ -349,9 +374,23 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `location_id` | `int` | **Yes** | The forecast location id. |
-    | `forecast_date` | `string` | **Yes** | The forecast date, by the format YYYY-MM-DDTHH:mm:ss |
-    | `temperature` | `float` | **Yes** | The temperature in Celsius. (e.g., `28.5`) |
-    | `condition` | `string` | **Yes** | The forecast decription. |
+    | `forecast_date` | `string` | **Yes** | The forecast date, by the format YYYY-MM-DD |
+    | `forecast_hour` | `int` | **Yes** | The forecast hour |
+    | `weather_info.temperature` | `float` | **Yes** | The temperature in Celsius. (e.g., `28.5`) |
+    | `weather_info.condition` | `string` | **Yes** | The forecast decription. |
+    | `weather_info.humidity` | `int` | **Yes** | Humidity percentage |
+    | `weather_info.uv_index` | `int` | **Yes** | UV index |
+
+    {
+	"location_id": 1, 
+	"forecast_date": "2026-07-12",
+	"forecast_hour": 17,
+	"weather_info": {
+		"temperature": 28,
+		"condition": "Snowy condition",
+		"humidity": 99
+	}
+}
 
     #### Request Example
 
@@ -367,11 +406,14 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     ```json
     {
-        "id": 94,
-        "location_id": 1,
-        "temperature": 28.0,
-        "condition": "Rain",
-        "forecast_date": "2026-05-31T15:54:00+02:00"
+        "location_id": 1, 
+        "forecast_date": "2026-07-12",
+        "forecast_hour": 17,
+        "weather_info": {
+            "temperature": 28,
+            "condition": "Snowy condition",
+            "humidity": 99
+        }
     }
     ```
 
@@ -461,11 +503,16 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     ```json
     {
-        "id": 94,
-        "location": "Tokyo",
-        "temperature": 28.0,
-        "condition": "Rain",
-        "forecast_date": "2026-05-31T15:54:00+02:00"
+        "id": 11,
+        "location": 1,
+        "weather_info": {
+            "temperature": 22.0,
+            "condition": "Snowy condition test",
+            "humidity": 13,
+            "uv_index": 9
+        },
+        "forecast_date": "2026-07-12",
+        "forecast_hour": 17
     }
     ```
 
@@ -721,6 +768,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `name` | `string` | **Yes** | The location name. |
+    | `country` | `string` | **Yes** | ISO Country Code (e.g., IT, US, FR) |
     | `latitude` | `float` | **No** | The location latitude |
     | `longitude` | `float` | **No** | The location longitude |
 
@@ -729,7 +777,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     ```bash
     http POST "http://127.0.0.1:8000/api/weather/location/" \
     "Authorization: Bearer YOUR_API_KEY" \
-    name="Tokyo" latitude=23.5 longitude=25.67
+    name="Tokyo" country="JP" latitude=23.5 longitude=25.67
     ```
 
     #### Response Examples
