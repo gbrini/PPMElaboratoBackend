@@ -26,7 +26,12 @@ SECRET_KEY = 'django-insecure-*e#j=-4h0dih494yxeawzdugpj0vwa()(7q_-$f-3dk0tycb)*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ 
+    '127.0.0.1',
+    'localhost',
+    '0.0.0.0',
+    'guidobriniweatherapi.onrender.com'
+]
 
 
 # Application definition
