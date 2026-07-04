@@ -69,7 +69,7 @@ class WeatherQueryFilter(filters.FilterSet):
             raise ValidationError({
                 "hour_min": "Hour min cannot be greater than hour max."
             })
-        print(data)
+
         return super().qs
 
     def filter_by_unit(self, queryset, name, value):
