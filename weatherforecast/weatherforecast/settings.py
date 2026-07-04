@@ -27,7 +27,7 @@ environ.Env.read_env(BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*e#j=-4h0dih494yxeawzdugpj0vwa()(7q_-$f-3dk0tycb)*'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
@@ -44,12 +44,16 @@ ALLOWED_HOSTS = [
     'guidobriniweatherapi.onrender.com'
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://guidobriniweatherapi.onrender.com',
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
-    'http://0.0.0.0:8000'
-]
+if DEBUG:
+    CSRF_TRUSTED_ORIGINS = [
+        'http://localhost:8000',
+        'http://127.0.0.1:8000',
+        'http://0.0.0.0:8000'
+    ]
+else:
+    CSRF_TRUSTED_ORIGINS = [
+        'https://guidobriniweatherapi.onrender.com'
+    ]
 
 # Application definition
 
