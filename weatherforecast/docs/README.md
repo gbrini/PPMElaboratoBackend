@@ -1,0 +1,3 @@
+# Api collection Insomnia usage
+
+In order to use the `api_collection.yaml` it is necessary to import it into the Insomnia application. This collection will also include an environment having two variables for the url, the local and the deployed one. By default every api use the local one, in order to test the endpoint will be sufficent to change the variable in the url link on that specifi api interested.
