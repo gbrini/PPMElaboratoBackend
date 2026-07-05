@@ -23,6 +23,9 @@ This API defines three distinct user roles, alongside allowing limited access fo
 | register | POST | X| | ||
 | login | POST | X| | ||
 | refresh token | POST | X| | ||
+| list_users | GET | | | |X|
+| detail_user | PATCH | | | |X|
+| detail_user | DELETE | | | |X|
 | weather_forecast | GET | X| X| X|X|
 | weather_forecast | POST | | | |X|
 | weather_forecast_detail | DELETE | | | |X|
@@ -224,6 +227,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
         ]
     }
     ```
+
 - ### refresh token
     Refresh the access token
 
@@ -269,6 +273,161 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
         ]
     }
     ```
+
+- ### list_users (GET)
+    Add a location object
+
+    * **URL:** `/api/users/list/`
+    * **Method:** `GET`
+    * **Auth Required:** `Required`
+    * **Role:** `Admin`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `page` | `int` | **No** | The page number. |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Request Example
+
+
+    #### Response Examples
+
+    **Success (200 OK)**
+
+    ```json
+    {
+        "count": 3,
+        "next": null,
+        "previous": null,
+        "results": [
+            {
+                "id": 1,
+                "username": "root",
+                "role": "admin",
+                "email": "",
+                "first_name": "",
+                "last_name": ""
+            },
+            {
+                "id": 3,
+                "username": "standard_user",
+                "role": "standard",
+                "email": "",
+                "first_name": "",
+                "last_name": ""
+            },
+            {
+                "id": 5,
+                "username": "premium_user",
+                "role": "standard",
+                "email": "",
+                "first_name": "",
+                "last_name": ""
+            }
+        ]
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        
+    }
+    ```
+
+    **Error (404 Not Found)**
+
+    ```json
+    {
+        "detail": "Invalid page."
+    }
+    ```
+
+- ### detail_user (PATCH)
+    Update a user role
+
+    * **URL:** `/api/users/<int:pk>/`
+    * **Method:** `PATCH`
+    * **Auth Required:** `Required`
+    * **Role:** `Admin`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Request Example
+
+
+    #### Response Examples
+
+    **Success (200 OK)**
+
+    ```json
+    {
+        "role": "premium"
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        "role": [
+            "\"nomeruolo\" is not a valid choice."
+        ]
+    }
+    ```
+
+- ### detail_user (DELETE)
+    REmove a user
+
+    * **URL:** `/api/users/<int:pk>/`
+    * **Method:** `DELETE`
+    * **Auth Required:** `Required`
+    * **Role:** `Admin`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `page` | `int` | **No** | The page number. |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Request Example
+
+
+    #### Response Examples
+
+    **Success (204 No Content)**
+
+    ```json
+    
+    ```
+
+    **Error (404 Not Found)**
+
+    ```json
+    {
+        "detail": "No CustomUser matches the given query."
+    }
+```
 
 - ### weather_forecast (GET)
     Retrieves the forecast information

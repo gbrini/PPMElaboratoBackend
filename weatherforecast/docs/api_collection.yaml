@@ -20,7 +20,7 @@ collection:
         meta:
           id: req_7c7d27a36d614a97b31502c8033d9254
           created: 1782675666984
-          modified: 1782750674268
+          modified: 1783277851933
           isPrivate: false
           description: ""
           sortKey: -1782675666984
@@ -29,9 +29,9 @@ collection:
           mimeType: application/json
           text: |-
             {
-                "username": "",
-                "password": "",
-                "password2": ""
+                "username": "premium_user",
+                "password": "Password123!",
+                "password2": "Password123!"
             }
         headers:
           - name: Content-Type
@@ -51,7 +51,7 @@ collection:
         meta:
           id: req_75538fc57a0b4752a89c1116246a0eb7
           created: 1782675824011
-          modified: 1783237154382
+          modified: 1783277777600
           isPrivate: false
           description: ""
           sortKey: -1782675666934
@@ -61,7 +61,7 @@ collection:
           text: |-
             {
                 "username": "root",
-                "password": "root"
+                "password": "Password123!"
             }
         headers:
           - name: Content-Type
@@ -234,7 +234,7 @@ collection:
         meta:
           id: req_fb760356396e411ebd93b4836c77325c
           created: 1782756397999
-          modified: 1783236234327
+          modified: 1783277720299
           isPrivate: false
           description: ""
           sortKey: -1782713419265
@@ -255,7 +255,7 @@ collection:
             disabled: false
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyOTM3ODMzLCJpYXQiOjE3ODI5MzYwMzMsImp0aSI6ImEzMjdlMDM4MjAwMjQ5NGRiODBhYzNkYzljOTUwOGQ1IiwidXNlcl9pZCI6IjEifQ.Lo7E9YQJpqnZg4D1poybd5p58ZndGF-yG5JWIDnBT-s
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMjc5NDk5LCJpYXQiOjE3ODMyNzc2OTksImp0aSI6ImYwOGM1ZjBlOGIzMDRlNTFhZjhhNDNiODI2MjA2MTZjIiwidXNlcl9pZCI6IjIifQ.Ump0r7F3DqUdzuF-M5Z1lNKM4r8UKItkU_3Ve4tgHtM
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -421,6 +421,103 @@ collection:
         authentication:
           type: bearer
           token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMTAwNzkzLCJpYXQiOjE3ODMwOTg5OTMsImp0aSI6IjkxZTQyODZjZTJiYTRmNTI4NGNmOGI1ZTkzOGE2ZTkwIiwidXNlcl9pZCI6IjEifQ.8VseYrQZHVXi4oKEzDQnIA-QZ4w67oTdrCMBS3Glnv4
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Admin
+    meta:
+      id: fld_588b8759a7f748118f07d64dd2270321
+      created: 1783276469797
+      modified: 1783276469797
+      sortKey: -1783276469797
+      description: ""
+    children:
+      - url: "{{ _.local_url }}users/list/"
+        name: List users
+        meta:
+          id: req_90759541ef9d4e5da0108784abf47c92
+          created: 1783276520040
+          modified: 1783279558403
+          isPrivate: false
+          description: ""
+          sortKey: -1783276522318
+        method: GET
+        body:
+          mimeType: application/json
+          text: ""
+        parameters:
+          - name: page
+            value: "1"
+            description: ""
+            disabled: true
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMjgxMTUwLCJpYXQiOjE3ODMyNzkzNTAsImp0aSI6ImFlYTQ3ZDlkMDQ3YjRiNGU4YjExNGRjNDA4M2RiMzgzIiwidXNlcl9pZCI6IjEifQ.YV_RvT8NbgNhGMeadx7yjelQHiEHeneal1qB2B0P_sY
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.local_url }}users/5/"
+        name: Change user role
+        meta:
+          id: req_98f939c7fec9494b8a8d87b9682fd098
+          created: 1783277360486
+          modified: 1783279619575
+          isPrivate: false
+          description: ""
+          sortKey: -1783105464070.5
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"role": "sd"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMjgxMTUwLCJpYXQiOjE3ODMyNzkzNTAsImp0aSI6ImFlYTQ3ZDlkMDQ3YjRiNGU4YjExNGRjNDA4M2RiMzgzIiwidXNlcl9pZCI6IjEifQ.YV_RvT8NbgNhGMeadx7yjelQHiEHeneal1qB2B0P_sY
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.local_url }}users/5/"
+        name: Delete user
+        meta:
+          id: req_54b5307c628d41c2b0c56cf48ee99368
+          created: 1783277797071
+          modified: 1783279643616
+          isPrivate: false
+          description: ""
+          sortKey: -1783019934946.75
+        method: DELETE
+        body:
+          mimeType: application/json
+          text: ""
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMjgxMTUwLCJpYXQiOjE3ODMyNzkzNTAsImp0aSI6ImFlYTQ3ZDlkMDQ3YjRiNGU4YjExNGRjNDA4M2RiMzgzIiwidXNlcl9pZCI6IjEifQ.YV_RvT8NbgNhGMeadx7yjelQHiEHeneal1qB2B0P_sY
         settings:
           renderRequestBody: true
           encodeUrl: true
