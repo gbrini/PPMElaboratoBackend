@@ -1,10 +1,12 @@
+from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from .models import CustomUser
 from rest_framework.permissions import AllowAny
-from .serializers import RegisterSerializer, UserListSerializer
+from .serializers import RegisterSerializer, UserListSerializer, UserRoleSerializer
 from .permissions import IsAdminUser
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -29,3 +31,18 @@ class UserListView(APIView):
         output_serializer = UserListSerializer(result_page, many=True, context = { "request": request })
 
         return paginator.get_paginated_response(output_serializer.data)
+
+class UserDetailView(APIView):
+    permission_classes = [ IsAdminUser ]
+
+    def patch(self, request, pk):
+        user = get_object_or_404(CustomUser, pk=pk)
+
+        serializer = UserRoleSerializer(user, data=request.data, partial=True)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        instance = serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
