@@ -51,7 +51,7 @@ collection:
         meta:
           id: req_75538fc57a0b4752a89c1116246a0eb7
           created: 1782675824011
-          modified: 1782846053171
+          modified: 1783237154382
           isPrivate: false
           description: ""
           sortKey: -1782675666934
@@ -192,12 +192,12 @@ collection:
       sortKey: -1782750522148
       description: ""
     children:
-      - url: "{{ _.local_url }}weather/forecast/1"
+      - url: "{{ _.local_url }}weather/forecast/11"
         name: Modify forecast
         meta:
           id: req_3dfe7a196cc4486188ee0e7faa7f0e52
           created: 1782756264763
-          modified: 1782936535096
+          modified: 1783027976095
           isPrivate: false
           description: ""
           sortKey: -1782756264763
@@ -207,16 +207,20 @@ collection:
           text: |-
             {
             	"location_id": 1, 
-            	"forecast_date": "2026-06-16T18:56",
-            	"temperature": 32,
-            	"condition": "Rain"
+            	"forecast_date": "2026-07-12",
+            	"forecast_hour": 17,
+            	"weather_info": {
+            		"temperature": 22,
+            		"condition": "Snowy condition test",
+            		"humidity": 13
+            	}
             }
         headers:
           - name: Content-Type
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyOTM4MjgyLCJpYXQiOjE3ODI5MzY0ODIsImp0aSI6ImI2OGM0ZDhhYmExYzRkNDQ4OWRlYTRiY2E2YTdlYjRlIiwidXNlcl9pZCI6IjEifQ.3UpTekwmr07yCqniiIt9Po0hCfWoPyfgy4y3NzQODBg
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMDI5NDA4LCJpYXQiOjE3ODMwMjc2MDgsImp0aSI6IjYyYzY1ZWY3YWZlYjRkYTk5M2M2OGI1NGFmNjM3MWY4IiwidXNlcl9pZCI6IjEifQ.CefAZdIL5gw6SEk-WkcR1cjQQ7pL4TaRn9cERJQxDpk
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -230,7 +234,7 @@ collection:
         meta:
           id: req_fb760356396e411ebd93b4836c77325c
           created: 1782756397999
-          modified: 1782936688089
+          modified: 1783236234327
           isPrivate: false
           description: ""
           sortKey: -1782713419265
@@ -286,7 +290,7 @@ collection:
         meta:
           id: req_7a06613eaae74a519d90ffcbdd70647d
           created: 1782846142109
-          modified: 1782936312751
+          modified: 1783026591741
           isPrivate: false
           description: ""
           sortKey: -1782753415566
@@ -296,16 +300,20 @@ collection:
           text: |-
             {
             	"location_id": 1, 
-            	"forecast_date": "2026-06-16T18:56",
-            	"temperature": 28,
-            	"condition": "Rain"
+            	"forecast_date": "2026-07-12",
+            	"forecast_hour": 17,
+            	"weather_info": {
+            		"temperature": 28,
+            		"condition": "Snowy condition",
+            		"humidity": 99
+            	}
             }
         headers:
           - name: Content-Type
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyOTM3ODMzLCJpYXQiOjE3ODI5MzYwMzMsImp0aSI6ImEzMjdlMDM4MjAwMjQ5NGRiODBhYzNkYzljOTUwOGQ1IiwidXNlcl9pZCI6IjEifQ.Lo7E9YQJpqnZg4D1poybd5p58ZndGF-yG5JWIDnBT-s
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMDI2NzkzLCJpYXQiOjE3ODMwMjQ5OTMsImp0aSI6IjA2ZTI5ZmJmZjYyYjQ5N2RhZWFmMGY3NjE4M2RmMjZiIiwidXNlcl9pZCI6IjEifQ.iz_Th0L8ZJV82L_yarzUFEpHlhkxcwlcpEuMzxiX04s
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -319,20 +327,24 @@ collection:
         meta:
           id: req_eb67833448a54aed9308c29d02642a40
           created: 1782936632546
-          modified: 1782936640929
+          modified: 1783236260900
           isPrivate: false
           description: ""
           sortKey: -1782694845713
         method: GET
         parameters:
           - name: location
-            value: Florence
+            value: Tokyo
             description: ""
             disabled: false
           - name: date_range_after
-            value: 2026-06-06
+            value: 2026-07-11
             description: ""
             disabled: false
+          - name: unit
+            value: F
+            description: ""
+            disabled: true
         headers:
           - name: Content-Type
             value: application/json
@@ -363,7 +375,7 @@ collection:
         meta:
           id: req_200a974cd36043c88fb06e651516ae36
           created: 1782934398333
-          modified: 1782935670672
+          modified: 1783099281755
           isPrivate: false
           description: ""
           sortKey: -1782934398333
@@ -375,7 +387,7 @@ collection:
             disabled: true
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyOTM2MjkyLCJpYXQiOjE3ODI5MzQ0OTIsImp0aSI6ImU3NGUxYzc1MGM0NzQyNGY4ZWVkODg3ZmI3NmVlZTIwIiwidXNlcl9pZCI6IjEifQ.F_cTR-GTZ7VeOd0CMVAligMdCmR4rVkIFkFYeVDaMLc
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMTAwNzkzLCJpYXQiOjE3ODMwOTg5OTMsImp0aSI6IjkxZTQyODZjZTJiYTRmNTI4NGNmOGI1ZTkzOGE2ZTkwIiwidXNlcl9pZCI6IjEifQ.8VseYrQZHVXi4oKEzDQnIA-QZ4w67oTdrCMBS3Glnv4
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -389,7 +401,7 @@ collection:
         meta:
           id: req_e80a1e175c834ee092116245d0cd6257
           created: 1782934405823
-          modified: 1782935170860
+          modified: 1783099043193
           isPrivate: false
           description: ""
           sortKey: -1782934405823
@@ -399,6 +411,7 @@ collection:
           text: |-
             {
             	"name": "Tokyo",
+            	"country": "JP",
             	"latitude": 23.5,
             	"longitude": null
             }
@@ -407,7 +420,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyOTM2MjkyLCJpYXQiOjE3ODI5MzQ0OTIsImp0aSI6ImU3NGUxYzc1MGM0NzQyNGY4ZWVkODg3ZmI3NmVlZTIwIiwidXNlcl9pZCI6IjEifQ.F_cTR-GTZ7VeOd0CMVAligMdCmR4rVkIFkFYeVDaMLc
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMTAwNzkzLCJpYXQiOjE3ODMwOTg5OTMsImp0aSI6IjkxZTQyODZjZTJiYTRmNTI4NGNmOGI1ZTkzOGE2ZTkwIiwidXNlcl9pZCI6IjEifQ.8VseYrQZHVXi4oKEzDQnIA-QZ4w67oTdrCMBS3Glnv4
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -427,11 +440,11 @@ environments:
   meta:
     id: env_dcc5a390d7add28ecf5feb4d148564e98af16292
     created: 1782675647656
-    modified: 1782676402220
+    modified: 1783236249300
     isPrivate: false
   data:
     local_url: " http://127.0.0.1:8000/api/"
-    deployed_url: " http://boh/"
+    deployed_url: https://guidobriniweatherapi.onrender.com/api/
   subEnvironments:
     - name: New Environment
       meta:
