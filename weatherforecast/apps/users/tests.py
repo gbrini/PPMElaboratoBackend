@@ -23,18 +23,18 @@ class UserAccountTest(APITestCase):
             "password2": PASSWORD
         }
 
-        response = self.client.post(self.register_url, data, format='json')
+        response = self.client.post(self.register_url, data, format='json', secure=True)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_login_and_refresh(self):
         login_data = { 'username': self.user.username, 'password': PASSWORD }
         
-        login_response = self.client.post(self.login_url, login_data, format='json')
+        login_response = self.client.post(self.login_url, login_data, format='json', secure=True)
         self.assertEqual(login_response.status_code, status.HTTP_200_OK)
         self.assertIn('access', login_response.data)
 
         refresh_token = login_response.data['refresh']
-        refresh_response = self.client.post(self.refresh_url, { 'refresh': refresh_token }, format='json')
+        refresh_response = self.client.post(self.refresh_url, { 'refresh': refresh_token }, format='json', secure=True)
         self.assertEqual(refresh_response.status_code, status.HTTP_200_OK)
         self.assertIn('access', refresh_response.data)
 
@@ -45,11 +45,11 @@ class UserAccountTest(APITestCase):
             "password2": PASSWORD
         }
 
-        response = self.client.post(self.register_url, data, format='json')
+        response = self.client.post(self.register_url, data, format='json', secure=True)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_invalid_login(self):
         login_data = { 'username': self.user.username, 'password': "wrongpassword" }
         
-        login_response = self.client.post(self.login_url, login_data, format='json')
+        login_response = self.client.post(self.login_url, login_data, format='json', secure=True)
         self.assertEqual(login_response.status_code, status.HTTP_401_UNAUTHORIZED)

@@ -19,7 +19,7 @@ class WeatherForecastViewTests(APITestCase):
 
     def test_get_weather_forecast_list(self):
         """Anyone can access the list of forecasts."""
-        response = self.client.get(f"{self.url}?location={self.location.name}")
+        response = self.client.get(f"{self.url}?location={self.location.name}", secure=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_post_weather_forecast_as_admin(self):
@@ -31,7 +31,7 @@ class WeatherForecastViewTests(APITestCase):
             "forecast_hour": 10,
             "weather_info": {"temperature": 22.5, "condition": "Sunny", "humidity": 45, "uv_index": 3}
         }
-        response = self.client.post(self.url, data, format='json')
+        response = self.client.post(self.url, data, format='json', secure=True)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(WeatherQuery.objects.count(), 1)
 
@@ -51,7 +51,7 @@ class WeatherForecastViewTests(APITestCase):
             "weather_info": {"temperature": 22.5, "condition": "Sunny", "humidity": 45, "uv_index": 3}
         }
         
-        response = self.client.post(self.url, data, format='json')
+        response = self.client.post(self.url, data, format='json', secure=True)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(WeatherQuery.objects.count(), 0)
 

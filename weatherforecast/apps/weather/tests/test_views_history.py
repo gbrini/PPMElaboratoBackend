@@ -18,7 +18,7 @@ class WeatherForecastQueryHistoryDetailViewTests(APITestCase):
         old = create_search_history(self.user, hours_ago=10)
         new = create_search_history(self.user, hours_ago=1)
         
-        response = self.client.get(self.list_url)
+        response = self.client.get(self.list_url, secure=True)
         
         # Check that the first item is the newest one
         self.assertEqual(response.data['results'][0]['id'], new.id)
@@ -26,10 +26,10 @@ class WeatherForecastQueryHistoryDetailViewTests(APITestCase):
 
     def test_permission_denied_for_standard_user(self):
         """Ensure standard users cannot access history."""
-        standard_user = User.objects.create_user(username='std', role='standard', password='password')
+        standard_user = create_user(username='std', role='standard')
         self.client.force_authenticate(user=standard_user)
         
-        response = self.client.get(self.list_url)
+        response = self.client.get(self.list_url, secure=True)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     
