@@ -17,7 +17,7 @@ class WeatherForecastRequestTrackingViewTests(APITestCase):
         create_search_history(self.user, days_ago=0, count=1)
         create_search_history(self.user, days_ago=0, count=1)
         
-        response = self.client.get(self.url)
+        response = self.client.get(self.url, secure=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # Should have 1 object in the list for 'today' with count 2
         self.assertEqual(response.data[0]['count'], 2)
@@ -26,7 +26,7 @@ class WeatherForecastRequestTrackingViewTests(APITestCase):
         """Verify the custom throttle_rate field is added for today's requests."""
         create_search_history(self.user, days_ago=0)
         
-        response = self.client.get(f"{self.url}?today=true")
+        response = self.client.get(f"{self.url}?today=true", secure=True)
         self.assertIn('throttle_rate', response.data[0])
 
     

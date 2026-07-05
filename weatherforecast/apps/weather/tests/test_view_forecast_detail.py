@@ -23,7 +23,7 @@ class WeatherForecastDetailViewTests(APITestCase):
             "forecast_hour": 15,
             "weather_info": {"temperature": 35.0, "condition": "Hot", "humidity": 30, "uv_index": 9}
         }
-        response = self.client.put(self.detail_url, data, format='json')
+        response = self.client.put(self.detail_url, data, format='json', secure=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.forecast.refresh_from_db()
         self.assertEqual(self.forecast.forecast_hour, 15)
@@ -32,7 +32,7 @@ class WeatherForecastDetailViewTests(APITestCase):
     def test_delete_forecast_as_admin(self):
         """Admin can delete a forecast."""
         self.client.force_authenticate(user=self.admin)
-        response = self.client.delete(self.detail_url)
+        response = self.client.delete(self.detail_url, secure=True)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(WeatherQuery.objects.count(), 0)
 
@@ -40,5 +40,5 @@ class WeatherForecastDetailViewTests(APITestCase):
         """Standard users are forbidden from deleting."""
         user = create_user(username='std', role='standard')
         self.client.force_authenticate(user=user)
-        response = self.client.delete(self.detail_url)
+        response = self.client.delete(self.detail_url, secure=True)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
