@@ -1,4 +1,4 @@
-# Weather API - Guido Brini
+# Weather API
 
 **Chosen Project Type:** REST API  
 **Framework Used:** Django REST Framework (DRF)
@@ -37,7 +37,7 @@ This API defines three distinct user roles, alongside allowing limited access fo
 ---
 
 ## Online Deployment
-The APIs are live and available at the following production URL: [URL Here]
+The APIs are live and available at the following production URL: https://guidobriniweatherapi.onrender.com
 
 ---
 
@@ -70,6 +70,11 @@ pip install -r requirements.txt
 # Navigate to the Django project directory
 cd weatherforecast
 
+cp .env.sample .env
+
+#Copy the output of this command and paste it as the value od the variabe SECRET_KEY in the env file just created
+python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+
 # Apply database migrations
 python manage.py migrate
 
@@ -77,6 +82,7 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+## Execute this part only with a brand new db
 The application is ready to use, in order to use a brand new db it is necessary to follow these steps though:
 
 ```bash
@@ -85,9 +91,7 @@ cd weatherforecast
 
 # Run this command and follow the instructions
 python manage.py createsuperuser
-```
 
-```bash
 # Enter the shell in order to modify the new user permissions
 python manage.py shell
 
@@ -99,7 +103,6 @@ python manage.py shell
 >>> exit()
 ```
 Now the superuser has all the permission to access the admin panel
-
 ---
 
 ## Demo accounts
@@ -107,19 +110,18 @@ For this API there are already set up 3 different users:
 
 | ROLE | Username | Password |
 |:---|:---|:---:|
-| Admin | aaa | aaa |
-| Premium | aaa | aaa |
-| Standard | aaa | aaa |
+| Admin | root | Password123! |
+| Premium | premium_user | Password123! |
+| Standard | admin_user | Password123! |
 
 ## Database
 The included SQLite database file is located at **weatherforecast/db.sqlite3**. This file is pre-populated and contains all the necessary demo data, tables, and roles required to test the REST APIs immediately.
 
 ## Endpoint documentation
-- All the endpoint listed down below can be tested using Httpie (installed from requirements.txt)
-- All the endpoints that supports the pagination will return `25` items per page by default, but that number can be changed using the parameter `page_size`, the maximum value is `100`. On the result object tehre will be two different keys, next fot the following page, and previous.
+- All the endpoints that supports the pagination will return `25` items per page by default, but that number can be changed using the parameter `page_size`, the maximum allowed value is `100`. On the result object tehre will be two different keys, next fot the following page, and previous.
 
 - ### register
-    Register a user, the assigned role is `standard`. The username must be unique.
+    Register a user, the assigned role is `standard` by default. The username must be unique.
 
     * **URL:** `/api/users/register/`
     * **Method:** `POST`
@@ -136,7 +138,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `username` | `string` | **Yes** | Username |
-    | `password` | `string` | **Yes** | Password |
+    | `password` | `string` | **Yes** | Password, at least 8 characters. |
     | `password2` | `string` | **Yes** | Password, must be the same as `password` |
     | `email` | `string` | **No** | email |
     | `first_name` | `string` | **No** | First name |
@@ -806,7 +808,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 ## Tests
 
 ```bash
-cd weatherforecast
+#On the main weatherforecast folder
 
 #To run all the tests
 python manage.py test
