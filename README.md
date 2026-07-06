@@ -582,7 +582,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     | `date_range_after` | `string` | **No** | The date range you want to query, in the format yyyy-mm-dd. |
     | `hour_min` | `string` | **No** | The hour range you want to query (Both 09 and 9 are valid). |
     | `hour_max` | `string` | **No** | The hour range you want to query (Both 09 and 9 are valid). |
-    | `unit` | `string` | **No** | Optional paramter to retrieve the temperature in the desired measurement unit (`C` the default value or `F`). |
+    | `unit` | `string` | **No** | Optional parameter to retrieve the temperature in the desired measurement unit (`C` the default value or `F`). |
     | `page` | `int` | **No** | The page number. |
     | `page_size` | `int` | **No** | The page size. |
 
@@ -622,9 +622,16 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
         "results": [
             {
                 "id": 1,
-                "location": 1,
+                "location": {
+                    "id": 1,
+                    "name": "Tokyo",
+                    "country": "JP",
+                    "latitude": 23.5,
+                    "longitude": null
+                },
                 "weather_info": {
                     "temperature": 28.0,
+                    "temperature_unit": "C",
                     "condition": "Snowy condition",
                     "humidity": 99,
                     "uv_index": null
@@ -634,9 +641,16 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
             },
             {
                 "id": 2,
-                "location": 1,
+                "location": {
+                    "id": 1,
+                    "name": "Tokyo",
+                    "country": "JP",
+                    "latitude": 23.5,
+                    "longitude": null
+                },
                 "weather_info": {
                     "temperature": 28.0,
+                    "temperature_unit": "C",
                     "condition": "Snowy condition",
                     "humidity": 99,
                     "uv_index": null
@@ -646,9 +660,16 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
             },
             {
                 "id": 3,
-                "location": 1,
+                "location": {
+                    "id": 1,
+                    "name": "Tokyo",
+                    "country": "JP",
+                    "latitude": 23.5,
+                    "longitude": null
+                },
                 "weather_info": {
                     "temperature": 28.0,
+                    "temperature_unit": "C",
                     "condition": "Snowy condition",
                     "humidity": 99,
                     "uv_index": null
