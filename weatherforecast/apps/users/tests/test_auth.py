@@ -2,10 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
-PASSWORD = "Password123!"
+from .test_helpers import create_superuser, create_user, PASSWORD
 
 class UserAccountTest(APITestCase):
     def setUp(self):
@@ -13,8 +10,8 @@ class UserAccountTest(APITestCase):
         self.login_url = reverse('token_obtain_pair')
         self.refresh_url = reverse('token_refresh')
 
-        self.super_user = User.objects.create_superuser(username="superuser", password=PASSWORD)
-        self.user = User.objects.create_user(username="maintestuser", password=PASSWORD)
+        self.super_user = create_superuser(username="superuser")
+        self.user = create_user(username="maintestuser")
 
     def test_user_registration(self):
         data = {

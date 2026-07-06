@@ -3,7 +3,7 @@ from django.utils import timezone
 
 User = get_user_model()
 
-PASSWORD = 'password'
+PASSWORD = 'Password123!'
 
 def create_user(username: str = 'testuser', role: str = 'standard'):
     user = User.objects.create_user(username=username, password=PASSWORD)
