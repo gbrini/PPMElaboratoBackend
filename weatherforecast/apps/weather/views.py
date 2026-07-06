@@ -200,3 +200,28 @@ class WeatherLocationView(APIView):
         output_serializer = WeatherLocationSerializer(instance)
 
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
+
+class WeatherLocationDetailView(APIView):
+    permission_classes = [ IsAdminUser ]
+    throttle_classes = []
+
+    def delete(self, request, pk):
+        location = get_object_or_404(WeatherLocation, pk=pk)
+
+        location.delete()
+
+        return Response({ "message": "Location deleted successfully!" }, status=status.HTTP_204_NO_CONTENT)
+
+    def put(self, request, pk):
+        location = get_object_or_404(WeatherLocation, pk=pk)
+
+        serializer = WeatherLocationSerializer(location, data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        instance = serializer.save()
+
+        output_serializer = WeatherLocationSerializer(instance)
+
+        return Response(output_serializer.data, status=status.HTTP_200_OK)

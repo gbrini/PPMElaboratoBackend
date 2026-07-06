@@ -37,6 +37,8 @@ This API defines three distinct user roles, alongside allowing limited access fo
 | weather_forecast_tracking | GET | | |X |X|
 | weather_location | GET | |X |X |X|
 | weather_location | POST | | | |X|
+| weather_location_detail | PATCH | | | |X|
+| weather_location_detail | DELETE | | | |X|
 | Rate Limit     |        |5/day |   50/day    |100/day    | Unlimited    |
 
 ---
@@ -1195,6 +1197,112 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
         ]
     }
     ```
+
+
+- ### weather_location_detail (PATCH)
+    Edit a location object
+
+    * **URL:** `/api/weather/location/<int:pk>`
+    * **Method:** `PATCH`
+    * **Auth Required:** `Required`
+    * **Role:** `Admin`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `name` | `string` | **Yes** | The location name. |
+    | `country` | `string` | **Yes** | ISO Country Code (e.g., IT, US, FR) |
+    | `latitude` | `float` | **No** | The location latitude |
+    | `longitude` | `float` | **No** | The location longitude |
+
+    #### Request Example
+
+    ```bash
+    curl --request PUT \
+    --url http://127.0.0.1:8000/api/weather/location/2 \
+    --header 'Authorization: Bearer <YOUR_TOKEN>' \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "name": "Prato",
+        "country": "IT",
+        "latitude": 23.5,
+        "longitude": 21
+    }'
+    ```
+
+    #### Response Examples
+
+    **Success (200 OK)**
+
+    ```json
+    {
+        "id": 2,
+        "name": "Prato",
+        "country": "IT",
+        "latitude": 23.5,
+        "longitude": 21
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        "name": [
+            "This field is required."
+        ]
+    }
+    ```
+
+- ### weather_location (DELETE)
+    Delete a location object. Pay attention, delteting a location will also delete every weather forecast linked to it.
+
+    * **URL:** `/api/weather/location/<int:pk>`
+    * **Method:** `DELETE`
+    * **Auth Required:** `Required`
+    * **Role:** `Admin`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Request Example
+
+    ```bash
+    curl --request DELETE \
+    --url http://127.0.0.1:8000/api/weather/location/1 \
+    --header 'Authorization: Bearer <YOUR_TOKEN>' \
+    --header 'Content-Type: application/json'
+    ```
+
+    #### Response Examples
+
+    **Success (204 No Content)**
+
+    ```json
+    
+    ```
+
+    **Error (404 Not Found)**
+
+    ```json
+    {
+        "detail": "No WeatherLocation matches the given query."
+    }
+    ```
+
 
 ## Tests
 
