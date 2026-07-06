@@ -23,6 +23,8 @@ This API defines three distinct user roles, alongside allowing limited access fo
 | register | POST | X| | ||
 | login | POST | X| | ||
 | refresh token | POST | X| | ||
+| change_password | POST | X| X| X|X|
+| me | GET | X| X| X|X|
 | list_users | GET | | | |X|
 | detail_user | PATCH | | | |X|
 | detail_user | DELETE | | | |X|
@@ -270,6 +272,92 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     {
         "refresh": [
             "This field may not be blank."
+        ]
+    }
+    ```
+
+- ### me
+    Get the information about me and throttle rate
+
+    * **URL:** `/api/users/me`
+    * **Method:** `GET`
+    * **Auth Required:** `YES`
+    * **Role:** ``
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Request Example
+
+    #### Response Examples
+
+    **Success (200 OK)**
+
+    ```json
+    {
+        "username": "standard_user",
+        "role": "standard",
+        "throttle": {
+            "rate": "50/day",
+            "limit": 50,
+            "remaining": 50,
+            "reset_in": 0
+        }
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    
+    ```
+
+- ### change_password
+    Change the password
+
+    * **URL:** `/api/users/change_password`
+    * **Method:** `POST`
+    * **Auth Required:** `Yes`
+    * **Role:** ``
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `old_password` | `string` | **Yes** | The old password |
+    | `new_password` | `string` | **Yes** | The new password |
+    | `confirm_new_password` | `string` | **Yes** | A confirmation for the new password |
+
+    #### Request Example
+
+    #### Response Examples
+
+    **Success (200 OK)**
+
+    ```json
+    { 
+        "message": "Password update successfully" 
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        "confirm_new_password": [
+            "New passwords do not match"
         ]
     }
     ```

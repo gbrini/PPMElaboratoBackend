@@ -8,7 +8,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from .models import CustomUser
 from rest_framework.permissions import AllowAny
-from .serializers import RegisterSerializer, UserListSerializer, UserRoleSerializer
+from .serializers import RegisterSerializer, UserListSerializer, UserRoleSerializer, UserThrottleProfileSerializer, ChangePasswordSerializer
 from .permissions import IsAdminUser
 from .throttles import RoleBasedThrottle
 
@@ -101,8 +101,32 @@ class UserView(APIView):
                 "reset_in": reset_in,
             }
 
-        return Response({
+        data = {
             "username": request.user.username,
             "role": request.user.role,
             "throttle": throttle_info,
-        })
+        }
+
+        serializer = UserThrottleProfileSerializer(data)
+        
+        return Response(serializer.data)
+
+class ChangePasswordView(APIView):
+    permission_classes = [ IsAuthenticated ]
+    throttle_classes = []
+
+    def post(self, request):
+        serializer = ChangePasswordSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        user = request.user
+
+        if not user.check_password(serializer.validated_data['old_password']):
+            return Response({ "error": "Wrong password" }, status=status.HTTP_400_BAD_REQUEST)
+
+        user.set_password(serializer.validated_data['new_password'])
+        user.save()
+
+        return Response({ "message": "Password update successfully" })
