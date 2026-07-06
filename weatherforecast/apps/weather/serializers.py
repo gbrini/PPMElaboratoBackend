@@ -3,8 +3,17 @@ from django.utils import timezone
 from .models import WeatherQuery, UserSearchHistory, WeatherLocation, WeatherData
 from .constants import LOCATION_MAX_LENGTH, CONDITION_MAX_LENGTH
 
+class WeatherLocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WeatherLocation
+        fields = ['id', 'name', 'country', 'latitude', 'longitude']
+
+        def validate_name(self, value):
+            return value.strip().lower()
+
 class WeatherDataOutputSerializer(serializers.ModelSerializer):
     temperature = serializers.SerializerMethodField(read_only=True)
+    temperature_unit = serializers.SerializerMethodField()
 
     def get_temperature(self, obj):
         request = self.context.get('request')
@@ -22,9 +31,13 @@ class WeatherDataOutputSerializer(serializers.ModelSerializer):
         else:
             return temp_c
 
+    def get_temperature_unit(self, obj):
+        request = self.context.get('request')
+        return request.query_params.get('unit', 'C').upper() if request else 'C'
+
     class Meta:
         model = WeatherData
-        fields = [ 'temperature', 'condition', 'humidity', 'uv_index' ]
+        fields = [ 'temperature', 'temperature_unit', 'condition', 'humidity', 'uv_index' ]
 
 class WeatherDataCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,6 +46,7 @@ class WeatherDataCreateSerializer(serializers.ModelSerializer):
 
 class WeatherQueryOutputSerializer(serializers.ModelSerializer):
     weather_info = WeatherDataOutputSerializer(read_only=True)
+    location = WeatherLocationSerializer(read_only=True)
 
     class Meta:
         model = WeatherQuery
@@ -95,11 +109,3 @@ class UserSearchHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSearchHistory
         fields = '__all__'
-
-class WeatherLocationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = WeatherLocation
-        fields = ['id', 'name', 'country', 'latitude', 'longitude']
-
-        def validate_name(self, value):
-            return value.strip().lower()
