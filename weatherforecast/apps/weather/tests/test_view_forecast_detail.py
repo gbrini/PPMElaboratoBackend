@@ -15,14 +15,14 @@ class WeatherForecastDetailViewTests(APITestCase):
         self.detail_url = reverse('weather_forecast_detail', kwargs={'pk': self.forecast.pk})
 
     def test_put_update_forecast(self):
-        """Admin can update forecast details, including nested weather info."""
         self.client.force_authenticate(user=self.admin)
         data = {
             "location_id": self.location.id,
-            "forecast_date": "2026-07-06",
+            "forecast_date": "2032-07-06",
             "forecast_hour": 15,
             "weather_info": {"temperature": 35.0, "condition": "Hot", "humidity": 30, "uv_index": 9}
         }
+        
         response = self.client.put(self.detail_url, data, format='json', secure=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.forecast.refresh_from_db()
@@ -30,14 +30,12 @@ class WeatherForecastDetailViewTests(APITestCase):
         self.assertEqual(self.forecast.weather_info.temperature, 35.0)
 
     def test_delete_forecast_as_admin(self):
-        """Admin can delete a forecast."""
         self.client.force_authenticate(user=self.admin)
         response = self.client.delete(self.detail_url, secure=True)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(WeatherQuery.objects.count(), 0)
 
     def test_delete_forecast_as_unauthorized(self):
-        """Standard users are forbidden from deleting."""
         user = create_user(username='std', role='standard')
         self.client.force_authenticate(user=user)
         response = self.client.delete(self.detail_url, secure=True)

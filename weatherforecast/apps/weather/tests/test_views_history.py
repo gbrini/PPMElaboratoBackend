@@ -13,19 +13,15 @@ class WeatherForecastQueryHistoryDetailViewTests(APITestCase):
         self.list_url = reverse('weather_forecast_query_history') 
 
     def test_history_ordering(self):
-        """Verify that history is ordered from newest to oldest."""
-        # Create an old record and a new record
         old = create_search_history(self.user, hours_ago=10)
         new = create_search_history(self.user, hours_ago=1)
         
         response = self.client.get(self.list_url, secure=True)
         
-        # Check that the first item is the newest one
         self.assertEqual(response.data['results'][0]['id'], new.id)
         self.assertEqual(response.data['results'][1]['id'], old.id)
 
     def test_permission_denied_for_standard_user(self):
-        """Ensure standard users cannot access history."""
         standard_user = create_user(username='std', role='standard')
         self.client.force_authenticate(user=standard_user)
         
