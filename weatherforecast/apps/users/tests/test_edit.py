@@ -29,3 +29,10 @@ class UserEditTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.standard_user.refresh_from_db()
         self.assertEqual(self.standard_user.role, 'premium')
+
+    def test_delete_user(self):
+        self.client.force_authenticate(user=self.admin)
+        rm_user = create_user(username='rm_user')
+        url = f'/api/users/{rm_user.id}/'
+        response = self.client.delete(url, format='json', secure=True)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

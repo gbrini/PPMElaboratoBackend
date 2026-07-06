@@ -155,12 +155,12 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication'
     ],
-    'DEFAULT_THROTTLE_CLASSES': [
-        'apps.users.throttles.RoleBasedThrottle',
-        'rest_framework.throttling.AnonRateThrottle'
-    ],
+    # 'DEFAULT_THROTTLE_CLASSES': [
+    #     'rest_framework.throttling.AnonRateThrottle',
+    #     'apps.users.throttles.RoleBasedThrottle'
+    # ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/day',
+        'anon': '5/day',
         'standard': '50/day',
         'premium': '100/day',
         'user': '25/day' #fallback

@@ -427,7 +427,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     {
         "detail": "No CustomUser matches the given query."
     }
-```
+    ```
 
 - ### weather_forecast (GET)
     Retrieves the forecast information
@@ -511,6 +511,14 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
         "location": [
             "This field is required."
         ]
+    }
+    ```
+
+    **Error (429 Too many Requests)**
+
+    ```json
+    {
+	    "detail": "Request was throttled. Expected available in 58 seconds."
     }
     ```
 

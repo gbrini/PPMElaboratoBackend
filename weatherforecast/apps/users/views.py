@@ -1,13 +1,16 @@
 from django.shortcuts import get_object_or_404
+from django.core.cache import cache
 from rest_framework import status
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 from .models import CustomUser
 from rest_framework.permissions import AllowAny
 from .serializers import RegisterSerializer, UserListSerializer, UserRoleSerializer
 from .permissions import IsAdminUser
+from .throttles import RoleBasedThrottle
 
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 25
@@ -18,12 +21,14 @@ class RegisterView(CreateAPIView):
     queryset = CustomUser.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
+    throttle_classes = []
 
 class UserListView(APIView):
     permission_classes = [ IsAdminUser ]
+    throttle_classes = []
 
     def get(self, request):
-        users = CustomUser.objects.all()
+        users = CustomUser.objects.all().order_by('id')
 
         paginator = StandardResultsSetPagination()
         result_page = paginator.paginate_queryset(users, request)
@@ -34,6 +39,7 @@ class UserListView(APIView):
 
 class UserDetailView(APIView):
     permission_classes = [ IsAdminUser ]
+    throttle_classes = []
 
     def delete(self, request, pk):
         user = get_object_or_404(CustomUser, pk=pk)
@@ -53,3 +59,50 @@ class UserDetailView(APIView):
         instance = serializer.save()
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class UserView(APIView):
+    permission_classes = [ IsAuthenticated ]
+    throttle_classes = []
+
+    def get(self, request):
+        throttle = RoleBasedThrottle()
+        throttle.configure(request)
+
+        if throttle.key is None:
+            throttle_info = {
+                "rate": "Unlimited",
+                "limit": None,
+                "remaining": None,
+                "reset_in": None,
+            }
+        else:
+            history = cache.get(throttle.key, [])
+            now = throttle.timer()
+
+            history = [
+                timestamp
+                for timestamp in history
+                if timestamp > now - throttle.duration
+            ]
+
+            limit = throttle.num_requests
+            remaining = max(0, limit - len(history))
+
+            reset_in = (
+                max(0, int(history[-1] + throttle.duration - now))
+                if history
+                else 0
+            )
+
+            throttle_info = {
+                "rate": throttle.rate,
+                "limit": limit,
+                "remaining": remaining,
+                "reset_in": reset_in,
+            }
+
+        return Response({
+            "username": request.user.username,
+            "role": request.user.role,
+            "throttle": throttle_info,
+        })

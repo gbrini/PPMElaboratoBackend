@@ -13,6 +13,7 @@ from .serializers import WeatherQueryOutputSerializer, WeatherQueryCreateSeriali
 from .models import WeatherQuery, UserSearchHistory, WeatherLocation
 from .filters import WeatherQueryFilter, WeatherLocationFilter
 from ..users.permissions import IsAdminUser, IsPremiumUser
+from ..users.throttles import RoleBasedThrottle
 from .constants import PAGE_SIZE, MAX_PAGE_SIZE, TRACKING_DAYS
 
 from datetime import timedelta, datetime
@@ -24,6 +25,7 @@ class StandardResultsSetPagination(PageNumberPagination):
 
 class WeatherForecastView(APIView):
     permission_classes = [ AllowAny ]
+    throttle_classes = [ RoleBasedThrottle ]
 
     def get_permissions(self):
         if self.request.method == 'POST':
@@ -85,8 +87,7 @@ class WeatherForecastView(APIView):
 
 class WeatherForecastDetailView(APIView):
     permission_classes = [ IsAdminUser ]
-
-    #def get_throttles(self)
+    throttle_classes = []
 
     def delete(self, request, pk):
         forecast = get_object_or_404(WeatherQuery, pk=pk)
@@ -111,6 +112,7 @@ class WeatherForecastDetailView(APIView):
 
 class WeatherForecastQueryHistoryView(APIView):
     permission_classes = [ IsAdminUser | IsPremiumUser ]
+    throttle_classes = []
 
     def get(self, request):
         data = UserSearchHistory.objects.filter(user=request.user).order_by("-timestamp")
@@ -125,6 +127,7 @@ class WeatherForecastQueryHistoryView(APIView):
 
 class WeatherForecastQueryHistoryDetailView(APIView):
     permission_classes = [ IsAdminUser | IsPremiumUser ]
+    throttle_classes = []
 
     def get(self, request, pk):
         data = get_object_or_404(UserSearchHistory, pk=pk, user=request.user)
@@ -135,6 +138,7 @@ class WeatherForecastQueryHistoryDetailView(APIView):
 
 class WeatherForecastRequestTrackingView(APIView):
     permission_classes = [ IsAdminUser | IsPremiumUser ]
+    throttle_classes = []
 
     def get(self, request):
         days_number = TRACKING_DAYS
@@ -161,6 +165,7 @@ class WeatherForecastRequestTrackingView(APIView):
 
 class WeatherLocationView(APIView):
     permission_classes = [ AllowAny ]
+    throttle_classes = []
 
     def get_permissions(self):
         if self.request.method == 'POST':
