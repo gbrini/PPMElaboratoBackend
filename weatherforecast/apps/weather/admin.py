@@ -55,7 +55,7 @@ class UserSearchHistoryAdmin(admin.ModelAdmin):
 
 @admin.register(WeatherLocation)
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ( 'id', 'name', 'latitude', 'longitude' )
+    list_display = ( 'id', 'name', 'country', 'latitude', 'longitude' )
 
     list_display_links = ( 'name', )
 

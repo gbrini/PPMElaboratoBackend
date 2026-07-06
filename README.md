@@ -616,16 +616,45 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     ```json
     {
-        "count": 1,
+        "count": 3,
         "next": null,
         "previous": null,
         "results": [
             {
-                "id": 93,
-                "location_id": 1,
-                "temperature": 15.0,
-                "condition": "Sunny",
-                "forecast_date": "2026-06-01T18:02:19+02:00"
+                "id": 1,
+                "location": 1,
+                "weather_info": {
+                    "temperature": 28.0,
+                    "condition": "Snowy condition",
+                    "humidity": 99,
+                    "uv_index": null
+                },
+                "forecast_date": "2026-07-06",
+                "forecast_hour": 12
+            },
+            {
+                "id": 2,
+                "location": 1,
+                "weather_info": {
+                    "temperature": 28.0,
+                    "condition": "Snowy condition",
+                    "humidity": 99,
+                    "uv_index": null
+                },
+                "forecast_date": "2026-07-06",
+                "forecast_hour": 13
+            },
+            {
+                "id": 3,
+                "location": 1,
+                "weather_info": {
+                    "temperature": 28.0,
+                    "condition": "Snowy condition",
+                    "humidity": 99,
+                    "uv_index": null
+                },
+                "forecast_date": "2026-07-06",
+                "forecast_hour": 14
             }
         ]
     }
@@ -1067,6 +1096,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
             {
                 "id": 1,
                 "name": "Tokyo",
+                "country": "JP",
                 "latitude": 23.5,
                 "longitude": null
             }
@@ -1129,6 +1159,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     {
         "id": 1,
         "name": "Tokyo",
+        "country": "JP",
         "latitude": 23.5,
         "longitude": 25.67
     }

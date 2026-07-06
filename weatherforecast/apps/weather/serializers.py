@@ -99,7 +99,7 @@ class UserSearchHistorySerializer(serializers.ModelSerializer):
 class WeatherLocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = WeatherLocation
-        fields = ['id', 'name', 'latitude', 'longitude']
+        fields = ['id', 'name', 'country', 'latitude', 'longitude']
 
         def validate_name(self, value):
             return value.strip().lower()
