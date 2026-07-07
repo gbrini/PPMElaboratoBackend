@@ -29,7 +29,7 @@ Weather forecast requests are rate limited according to the authenticated role:
 |:---|:---|:---:|:---:|:---:|:---:|
 | register | POST | X| | ||
 | login | POST | X| | ||
-| refresh token | POST | X| | ||
+| refresh token | POST | X (Requires a valide refresh token)| | ||
 | change_password | POST | | X| X|X|
 | me | GET | | X| X|X|
 | list_users | GET | | | |X|
@@ -63,14 +63,16 @@ The APIs are live and available at the following production URL: https://guidobr
 
 ## Local Installation
 
+This project was developed and tested with Python 3.14.6
+
 Follow these steps to get the project running locally:
 
 ```bash
-# 1. Clone the repository into your desired folder
-git clone https://github.com/user/repo.git
-cd project-folder
+# Clone the repository into your desired folder
+git clone https://github.com/gbrini/PPMElaboratoBackend.git guidobriniweatherapi
+cd guidobriniweatherapi
 
-# 2. Create and activate the virtual environment
+# Create and activate the virtual environment
 python -m venv .venv
 
 # If using Linux/macOS
@@ -81,7 +83,7 @@ source .venv/bin/activate
 # If using Windows (CMD)
 .venv\Scripts\activate.bat 
 
-# 3. Install the requirements
+# Install the requirements
 pip install -r requirements.txt
 ```
 
@@ -90,9 +92,10 @@ pip install -r requirements.txt
 # Navigate to the Django project directory
 cd weatherforecast
 
+# Create a local environment file
 cp .env.sample .env
 
-#Copy the output of this command and paste it as the value od the variabe SECRET_KEY in the env file just created
+# Generate a Django secret key
 python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
 
 # Apply database migrations
@@ -101,18 +104,19 @@ python manage.py migrate
 # Start the local development server
 python manage.py runserver
 ```
+Open the `.env` file and paste the generated value as the `SECRET_KEY`.
 
 ## Execute this part only with a brand new db
-The application is ready to use, in order to use a brand new db it is necessary to follow these steps though:
+Only follow these steps when setting up a brand new database.
 
 ```bash
 # Navigate to the Django project directory
 cd weatherforecast
 
-# Run this command and follow the instructions
+# Create an administrator account
 python manage.py createsuperuser
 
-# Enter the shell in order to modify the new user permissions
+# Open the Django shell
 python manage.py shell
 
 >>> user = CustomUser.objects.get(username='the superuser username just created')
@@ -122,7 +126,8 @@ python manage.py shell
 >>> user.save()
 >>> exit()
 ```
-Now the superuser has all the permission to access the admin panel
+After completing these steps, the user will have all the permissions required to access the Django admin panel.
+
 ---
 
 ## Demo accounts
@@ -130,15 +135,15 @@ For this API there are already set up 3 different users:
 
 | ROLE | Username | Password |
 |:---|:---|:---:|
-| Admin | root | Password123! |
-| Premium | premium_user | Password123! |
-| Standard | admin_user | Password123! |
+| Admin | admin_demo | Password123! |
+| Premium | premium_demo | Password123! |
+| Standard | admin_demo | Password123! |
 
 ## Database
-The included SQLite database file is located at **weatherforecast/db.sqlite3**. This file is pre-populated and contains all the necessary demo data, tables, and roles required to test the REST APIs immediately.
+The project includes a pre-populated SQLite database located at `weatherforecast/db.sqlite3`. It contains all the required tables, roles, and demo data, allowing to test the REST APIs immediately without any additional setup.
 
 ## Endpoint documentation
-- All the endpoints that supports the pagination will return `25` items per page by default, but that number can be changed using the parameter `page_size`, the maximum allowed value is `100`. On the result object tehre will be two different keys, next fot the following page, and previous.
+- All endpoints that support pagination return **25** items per page by default. You can change this by using the `page_size` query parameter, up to a maximum of **100** items per page. The paginated response includes `next` and `previous` fields, which contain the URLs for the next and previous pages, respectively.
 
 - ### register
     Register a user, the assigned role is `standard` by default. The username must be unique.
@@ -422,6 +427,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `page` | `int` | **No** | The page number. |
+    | `page_size` | `int` | **No** | The page size. |
 
     #### Query Parameters
 
@@ -1319,16 +1325,18 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
 ## Tests
 
+Run the following commands from the main weatherforecast project directory.
+
 ```bash
 #On the main weatherforecast folder
 
-#To run all the tests
-python manage.py test
+# Run all tests 
+python manage.py test 
 
-#To run only users tests
-python manage.py test apps.users
+# Run only users app tests 
+python manage.py test apps.users 
 
-#To run only weather tests
+# Run only weather app tests 
 python manage.py test apps.weather
 ```
 
