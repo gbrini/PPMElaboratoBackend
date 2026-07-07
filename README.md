@@ -39,7 +39,13 @@ This API defines three distinct user roles, alongside allowing limited access fo
 | weather_location | POST | | | |X|
 | weather_location_detail | PATCH | | | |X|
 | weather_location_detail | DELETE | | | |X|
-| Rate Limit     |        |5/day |   50/day    |100/day    | Unlimited    |
+
+| Role | weather_forecast (GET) |
+|:---|:---|
+| anon | 5/day |
+| standard | 50/day |
+| premium | 100/day |
+| admin token | unlimited |
 
 ---
 
