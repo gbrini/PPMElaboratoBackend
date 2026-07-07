@@ -1,5 +1,6 @@
 from django.core.cache import cache
 from django.urls import reverse
+from django.conf import settings
 from rest_framework import status
 from rest_framework.test import APITestCase
 from .test_helpers import create_superuser, create_user, PASSWORD
@@ -21,7 +22,7 @@ class UserEditTest(APITestCase):
             n = 200
         elif role in ["premium", "standard"]:
             user = create_user(username=f"test_throttle_{role}", role=role)
-            n = 100 if role == "premium" else 50
+            n = settings.MY_PROJECT_SETTINGS['THROTTLE_RATE']['premium'] if role == "premium" else settings.MY_PROJECT_SETTINGS['THROTTLE_RATE']['standard']
             self.client.force_authenticate(user=user)
         else:
             n = 5

@@ -6,16 +6,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
+from django.conf import settings
 from .models import CustomUser
 from rest_framework.permissions import AllowAny
 from .serializers import RegisterSerializer, UserListSerializer, UserRoleSerializer, UserThrottleProfileSerializer, ChangePasswordSerializer
 from .permissions import IsAdminUser
 from .throttles import RoleBasedThrottle
-
-class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 25
-    page_size_query_param = 'page_size'
-    max_page_size = 100
+from weatherforecast.pagination import StandardResultsSetPagination
 
 class RegisterView(CreateAPIView):
     queryset = CustomUser.objects.all()

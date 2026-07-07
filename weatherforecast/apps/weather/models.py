@@ -3,14 +3,13 @@ from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
 import datetime
-from .constants import LOCATION_MAX_LENGTH, CONDITION_MAX_LENGTH
 
 class WeatherLocation(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE,
         related_name='locations'
     )
-    name = models.CharField(max_length=LOCATION_MAX_LENGTH)
+    name = models.CharField(max_length=settings.MY_PROJECT_SETTINGS['LOCATION_MAX_LENGTH'])
     country = models.CharField(max_length=2, help_text="ISO Country Code (e.g., IT, US, FR)")
     latitude = models.FloatField(null=True, blank=True, validators=[MinValueValidator(-90.0), MaxValueValidator(90.0)])
     longitude = models.FloatField(null=True, blank=True, validators=[MinValueValidator(-180.0), MaxValueValidator(180.0)])
@@ -24,7 +23,7 @@ class WeatherLocation(models.Model):
 
 class WeatherData(models.Model):
     temperature = models.FloatField(null=True, blank=True)
-    condition = models.CharField(max_length=CONDITION_MAX_LENGTH, null=True, blank=True)
+    condition = models.CharField(max_length=settings.MY_PROJECT_SETTINGS['CONDITION_MAX_LENGTH'], null=True, blank=True)
     humidity = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
     uv_index = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0)])
 

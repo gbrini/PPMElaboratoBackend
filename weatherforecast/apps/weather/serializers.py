@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from django.utils import timezone
 from .models import WeatherQuery, UserSearchHistory, WeatherLocation, WeatherData
-from .constants import LOCATION_MAX_LENGTH, CONDITION_MAX_LENGTH
 
 class WeatherLocationSerializer(serializers.ModelSerializer):
     class Meta:

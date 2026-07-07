@@ -8,20 +8,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.utils import timezone
 from django.db.models import Count
 from django.db.models.functions import TruncDate
-
+from django.conf import settings
 from .serializers import WeatherQueryOutputSerializer, WeatherQueryCreateSerializer, UserSearchHistorySerializer, WeatherLocationSerializer
 from .models import WeatherQuery, UserSearchHistory, WeatherLocation
 from .filters import WeatherQueryFilter, WeatherLocationFilter
 from ..users.permissions import IsAdminUser, IsPremiumUser
 from ..users.throttles import RoleBasedThrottle
-from .constants import PAGE_SIZE, MAX_PAGE_SIZE, TRACKING_DAYS
-
+from weatherforecast.pagination import StandardResultsSetPagination
 from datetime import timedelta, datetime
-
-class StandardResultsSetPagination(PageNumberPagination):
-    page_size = PAGE_SIZE
-    page_size_query_param = 'page_size'
-    max_page_size = MAX_PAGE_SIZE
 
 class WeatherForecastView(APIView):
     permission_classes = [ AllowAny ]
@@ -141,7 +135,7 @@ class WeatherForecastRequestTrackingView(APIView):
     throttle_classes = []
 
     def get(self, request):
-        days_number = TRACKING_DAYS
+        days_number = settings.MY_PROJECT_SETTINGS['TRACKING_DAYS']
 
         if request.query_params.get("today", "false").lower() == "true":
             days_number = 1

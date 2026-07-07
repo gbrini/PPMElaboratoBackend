@@ -14,6 +14,26 @@ from pathlib import Path
 from datetime import timedelta
 import environ
 
+MY_PROJECT_SETTINGS = {
+    'WEATHER_UNITS': [( 'C', 'Celsius' ), ( 'F', 'Fahrenheit' )],
+    'PAGE_SIZE': 25,
+    'MAX_PAGE_SIZE': 100,
+    'TRACKING_DAYS': 30,
+    'LOCATION_MAX_LENGTH': 50,
+    'CONDITION_MAX_LENGTH': 100,
+    'MAX_DAYS_RETRIEVE': 7,
+    'ROLE_CHOICES': (
+        ( 'standard', 'Standard' ),
+        ( 'premium', 'Premium' ),
+        ( 'admin', 'Admin' )
+    ),
+    'THROTTLE_RATE': {
+        'anon': 5,
+        'standard': 50,
+        'premium': 100,
+    }
+}
+
 env = environ.Env(
     DEBUG=(bool, False)
 )
@@ -160,9 +180,9 @@ REST_FRAMEWORK = {
     #     'apps.users.throttles.RoleBasedThrottle'
     # ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '5/day',
-        'standard': '50/day',
-        'premium': '100/day',
+        'anon': str(MY_PROJECT_SETTINGS['THROTTLE_RATE']['anon']) + '/day',
+        'standard': str(MY_PROJECT_SETTINGS['THROTTLE_RATE']['standard']) + '/day',
+        'premium': str(MY_PROJECT_SETTINGS['THROTTLE_RATE']['premium']) + '/day',
         'user': '25/day' #fallback
     }
 }
