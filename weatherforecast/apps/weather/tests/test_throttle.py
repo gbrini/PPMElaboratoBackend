@@ -8,7 +8,6 @@ from .test_helpers import create_superuser, create_user, PASSWORD
 class UserEditTest(APITestCase):
     def setUp(self):
         cache.clear()
-
         self.me_url = reverse("me")
         self.weather_url = reverse("weather_forecast")
 
@@ -25,7 +24,7 @@ class UserEditTest(APITestCase):
             n = settings.MY_PROJECT_SETTINGS['THROTTLE_RATE']['premium'] if role == "premium" else settings.MY_PROJECT_SETTINGS['THROTTLE_RATE']['standard']
             self.client.force_authenticate(user=user)
         else:
-            n = 5
+            n = settings.MY_PROJECT_SETTINGS['THROTTLE_RATE']['anon']
         
         for i in range(n):
             response = self.client.get(
