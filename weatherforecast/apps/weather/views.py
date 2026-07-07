@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
 from django.utils import timezone
@@ -158,7 +158,7 @@ class WeatherForecastRequestTrackingView(APIView):
         return Response(daily_count)
 
 class WeatherLocationView(APIView):
-    permission_classes = [ AllowAny ]
+    permission_classes = [ IsAuthenticated ]
     throttle_classes = []
 
     def get_permissions(self):

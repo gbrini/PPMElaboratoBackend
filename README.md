@@ -3,18 +3,25 @@
 **Chosen Project Type:** REST API  
 **Framework Used:** Django REST Framework (DRF)
 
-The Weather API is a REST API project developed using the Django REST Framework for UNIFI’s PPM course. The purpose of this application is to manage and serve weather forecast data, tracking user query history and implementing role-based access control along with strict rate-limiting.
+The Weather API is a REST API project developed using the Django REST Framework as part of the PPM course at UNIFI. The purpose of this application is to manage and provide weather forecast data, keep track of the history of user requests, and implement role-based access control, as well as strict rate limiting for forecast requests.
 
 ---
 
 ## Implemented Features by User Role
 
-This API defines three distinct user roles, alongside allowing limited access for unregistered (anonymous) users. 
+The API uses role-based access control with four permission levels: **Anonymous**, **Standard**, **Premium**, and **Admin**.
 
-* **Anonymous (Anon):** Can log in, refresh JWT tokens, and check current weather forecasts (up to 5 requests per day).
-* **Standard User:** Can check weather forecasts (up to 50 requests per day).
-* **Premium User:** Can check weather forecasts (up to 100 requests per day), view their own query history, and track custom weather data.
-* **Admin:** Full CRUD capabilities on weather data, access to all tracking/history logs, and enjoys unlimited API requests.
+- **Anonymous** users can register, authenticate, refresh access tokens, and retrieve weather forecasts with a limited daily quota.
+- **Standard** users gain access to their profile information, password management, weather locations, and an increased weather forecast quota. 
+- **Premium** users inherit all Standard permissions and additionally have access to forecast query history and tracking endpoints, along with a higher daily forecast limit. 
+- **Admin** users have unrestricted access to all API endpoints, including user management, weather forecast and location administration, and are not subject to forecast request limits.
+
+Weather forecast requests are rate limited according to the authenticated role:
+
+- **Anonymous:** 5 requests per day
+- **Standard:** 50 requests per day
+- **Premium:** 100 requests per day
+- **Admin:** Unlimited
 
 ### Role & Feature Matrix
 
@@ -23,8 +30,8 @@ This API defines three distinct user roles, alongside allowing limited access fo
 | register | POST | X| | ||
 | login | POST | X| | ||
 | refresh token | POST | X| | ||
-| change_password | POST | X| X| X|X|
-| me | GET | X| X| X|X|
+| change_password | POST | | X| X|X|
+| me | GET | | X| X|X|
 | list_users | GET | | | |X|
 | detail_user | PATCH | | | |X|
 | detail_user | DELETE | | | |X|
