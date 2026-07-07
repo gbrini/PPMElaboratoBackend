@@ -22,9 +22,9 @@ class WeatherLocationDetailViewTests(APITestCase):
 
         new_id = response.data['id']
 
-        response_patch = self.client.delete(reverse('weather_location_detail', kwargs={ 'pk': new_id }), secure=True)
+        response_delete = self.client.delete(reverse('weather_location_detail', kwargs={ 'pk': new_id }), secure=True)
 
-        self.assertEqual(response_patch.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(response_delete.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(len(WeatherLocation.objects.filter(id = new_id)), 0)
 
     def test_put_location_success_as_admin(self):
@@ -35,9 +35,9 @@ class WeatherLocationDetailViewTests(APITestCase):
         new_id = response.data['id']
 
         data['latitude'] = 56
-        response_patch = self.client.put(reverse('weather_location_detail', kwargs={ 'pk': new_id }), data, format='json', secure=True)
+        response_put = self.client.put(reverse('weather_location_detail', kwargs={ 'pk': new_id }), data, format='json', secure=True)
 
-        self.assertEqual(response_patch.status_code, status.HTTP_200_OK)
+        self.assertEqual(response_put.status_code, status.HTTP_200_OK)
         self.assertAlmostEqual(WeatherLocation.objects.filter(id = new_id).get().latitude, 56)
 
     def test_delete_forecast_location(self):
@@ -50,5 +50,5 @@ class WeatherLocationDetailViewTests(APITestCase):
         )
 
         self.assertEqual(len(WeatherQuery.objects.filter(location = location.id)), 1)
-        response_patch = self.client.delete(reverse('weather_location_detail', kwargs={ 'pk': location.id }), secure=True)
+        self.client.delete(reverse('weather_location_detail', kwargs={ 'pk': location.id }), secure=True)
         self.assertEqual(len(WeatherQuery.objects.filter(location = location.id)), 0)

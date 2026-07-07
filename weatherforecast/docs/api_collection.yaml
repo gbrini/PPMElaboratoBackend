@@ -51,7 +51,7 @@ collection:
         meta:
           id: req_75538fc57a0b4752a89c1116246a0eb7
           created: 1782675824011
-          modified: 1783354625654
+          modified: 1783444581322
           isPrivate: false
           description: ""
           sortKey: -1782675666934
@@ -60,7 +60,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-                "username": "root",
+                "username": "admin_demo",
                 "password": "Password123!"
             }
         headers:
@@ -118,14 +118,14 @@ collection:
         meta:
           id: req_a0e3d7f0b93e40a4a948812ae53275d6
           created: 1782676038736
-          modified: 1783330889226
+          modified: 1783444593732
           isPrivate: false
           description: ""
           sortKey: -1782676228933
         method: GET
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMzMyNjUzLCJpYXQiOjE3ODMzMzA4NTMsImp0aSI6IjJlNjI4YTI5ZWE0ZTQwZjc5ZTYzMzZkNDBjOWI2NDI2IiwidXNlcl9pZCI6IjMifQ.LSEnDgb8vH4kHOnG1hHv3yy_fvdOIDB_WPAAMdApP2g
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzNDQ2MzgzLCJpYXQiOjE3ODM0NDQ1ODMsImp0aSI6IjE5MGUyNzVkNjk4MzQ4MDBiYTU0NGIwNzVmMjdkMWYzIiwidXNlcl9pZCI6IjEifQ.FOhFuzMhbOdQrM6saegH-nGPJCmVc3VXGigWYAv8w54
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -377,7 +377,7 @@ collection:
         meta:
           id: req_200a974cd36043c88fb06e651516ae36
           created: 1782934398333
-          modified: 1783364187044
+          modified: 1783442131493
           isPrivate: false
           description: ""
           sortKey: -1782934398333
@@ -389,7 +389,8 @@ collection:
             disabled: true
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMzY1OTcyLCJpYXQiOjE3ODMzNjQxNzIsImp0aSI6IjJjNTU2OTgxNjkzODRjMDM5OTU2MDQ3YTk2YjdkYmMzIiwidXNlcl9pZCI6IjEifQ.XDKOSaFPVY4x_ppZnNcb5nwKNhEVSx0hW50uUnYCApI
+          disabled: false
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzNDQzODUwLCJpYXQiOjE3ODM0NDIwNTAsImp0aSI6IjYzMzA0ZjhiMDZjNDQyMmZhYjJmYzM4NmJhZDJhYzhkIiwidXNlcl9pZCI6IjEifQ.99ddJxRwHFp28BIy6oUhmq3zQ-ek6XNOjDKqGFRsBq8
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -464,12 +465,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.local_url }}weather/location/2"
+      - url: "{{ _.local_url }}weather/location/7"
         name: Remove Weather Location
         meta:
           id: req_d6a99a8878054a8596888fae2cd37814
           created: 1783364090086
-          modified: 1783364206979
+          modified: 1783364532251
           isPrivate: false
           description: ""
           sortKey: -1782934403950.5
@@ -536,11 +537,11 @@ collection:
         meta:
           id: req_98f939c7fec9494b8a8d87b9682fd098
           created: 1783277360486
-          modified: 1783279619575
+          modified: 1783443863194
           isPrivate: false
           description: ""
           sortKey: -1783105464070.5
-        method: PATCH
+        method: PUT
         body:
           mimeType: application/json
           text: |-

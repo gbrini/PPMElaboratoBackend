@@ -45,7 +45,7 @@ class UserDetailView(APIView):
 
         return Response({ "message": "User deleted successfully!" }, status=status.HTTP_204_NO_CONTENT)
 
-    def patch(self, request, pk):
+    def put(self, request, pk):
         user = get_object_or_404(CustomUser, pk=pk)
 
         serializer = UserRoleSerializer(user, data=request.data, partial=True)

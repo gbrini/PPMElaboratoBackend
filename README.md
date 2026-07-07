@@ -5,6 +5,24 @@
 
 The Weather API is a REST API project developed using the Django REST Framework as part of the PPM course at UNIFI. The purpose of this application is to manage and provide weather forecast data, keep track of the history of user requests, and implement role-based access control, as well as strict rate limiting for forecast requests.
 
+## API Testing Workflow
+
+A complete Insomnia collection is included in the repository to reproduce the main API workflows.
+
+The collection file is:
+
+```
+docs/api_collection.yaml
+```
+
+Instructions for importing and using the collection are available in:
+
+```
+docs/README.md
+```
+
+The collection supports all the endpoints developed.
+
 ---
 
 ## Implemented Features by User Role
@@ -33,7 +51,7 @@ Weather forecast requests are rate limited according to the authenticated role:
 | change_password | POST | | X| X|X|
 | me | GET | | X| X|X|
 | list_users | GET | | | |X|
-| detail_user | PATCH | | | |X|
+| detail_user | PUT | | | |X|
 | detail_user | DELETE | | | |X|
 | weather_forecast | GET | X| X| X|X|
 | weather_forecast | POST | | | |X|
@@ -44,7 +62,7 @@ Weather forecast requests are rate limited according to the authenticated role:
 | weather_forecast_tracking | GET | | |X |X|
 | weather_location | GET | |X |X |X|
 | weather_location | POST | | | |X|
-| weather_location_detail | PATCH | | | |X|
+| weather_location_detail | PUT | | | |X|
 | weather_location_detail | DELETE | | | |X|
 
 | Role | weather_forecast (GET) |
@@ -137,7 +155,7 @@ For this API there are already set up 3 different users:
 |:---|:---|:---:|
 | Admin | admin_demo | Password123! |
 | Premium | premium_demo | Password123! |
-| Standard | admin_demo | Password123! |
+| Standard | standard_demo | Password123! |
 
 ## Database
 The project includes a pre-populated SQLite database located at `weatherforecast/db.sqlite3`. It contains all the required tables, roles, and demo data, allowing to test the REST APIs immediately without any additional setup.
@@ -333,7 +351,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     ```bash
     curl --request GET \
-    --url 'http://127.0.0.1:8000/api/users/me?=' \
+    --url 'http://127.0.0.1:8000/api/users/me' \
     --header 'Authorization: Bearer <YOUR_TOKEN>'
     ```
 
@@ -494,11 +512,11 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     }
     ```
 
-- ### detail_user (PATCH)
+- ### detail_user (PUT)
     Change the user role
 
     * **URL:** `/api/users/<int:pk>/`
-    * **Method:** `PATCH`
+    * **Method:** `PUT`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
 
@@ -514,7 +532,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     #### Request Example
     ```bash
-    curl --request PATCH \
+    curl --request PUT \
     --url 'http://127.0.0.1:8000/api/users/5/' \
     --header 'Authorization: Bearer <YOUR_TOKEN>' \
     --header 'Content-Type: application/json' \
@@ -1218,11 +1236,11 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     ```
 
 
-- ### weather_location_detail (PATCH)
+- ### weather_location_detail (PUT)
     Edit a location object
 
     * **URL:** `/api/weather/location/<int:pk>`
-    * **Method:** `PATCH`
+    * **Method:** `PUT`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
 
@@ -1341,16 +1359,5 @@ python manage.py test apps.weather
 ```
 
 
-
-
-
-
-
-
-
-
-
 ## License
 This project is available for use under the MIT License.
-
-[1]: https://localhost

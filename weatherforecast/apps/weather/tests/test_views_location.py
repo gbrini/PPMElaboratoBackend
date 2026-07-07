@@ -10,9 +10,9 @@ class WeatherLocationViewTests(APITestCase):
         self.admin = create_superuser()
         self.list_url = reverse('weather_location')
 
-    def test_get_locations_allow_any(self):
+    def test_get_locations_allow_auth(self):
         response = self.client.get(self.list_url, secure=True)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_post_location_requires_admin(self):
         self.client.force_authenticate(user=self.user)

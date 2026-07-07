@@ -21,11 +21,11 @@ class UserEditTest(APITestCase):
         response = self.client.get(self.list_url, secure=True)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_patch_user_role_as_admin(self):
+    def test_put_user_role_as_admin(self):
         self.client.force_authenticate(user=self.admin)
         url = f'/api/users/{self.standard_user.id}/'
         data = {'role': 'premium'}
-        response = self.client.patch(url, data, format='json', secure=True)
+        response = self.client.put(url, data, format='json', secure=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.standard_user.refresh_from_db()
         self.assertEqual(self.standard_user.role, 'premium')
