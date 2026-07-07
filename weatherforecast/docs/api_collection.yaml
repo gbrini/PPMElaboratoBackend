@@ -11,7 +11,7 @@ collection:
     meta:
       id: fld_9b14e9a02a6f46a086fe6beb5ebd4fe0
       created: 1782675663594
-      modified: 1782676002599
+      modified: 1783446119941
       sortKey: -1782675663594
       description: ""
     children:
@@ -51,7 +51,7 @@ collection:
         meta:
           id: req_75538fc57a0b4752a89c1116246a0eb7
           created: 1782675824011
-          modified: 1783444581322
+          modified: 1783446061134
           isPrivate: false
           description: ""
           sortKey: -1782675666934
@@ -68,6 +68,16 @@ collection:
             value: application/json
         authentication:
           type: none
+        scripts:
+          afterResponse: |-
+            const statusCode = insomnia.response.code;
+
+            if (statusCode == 200) {
+            	const response = insomnia.response.json();
+
+            	insomnia.environment.set("access_token", response.access);
+            	insomnia.environment.set("refresh_token", response.refresh);
+            }
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -81,22 +91,32 @@ collection:
         meta:
           id: req_b160f44e3bdd48cca51cc0656b816497
           created: 1782675832986
-          modified: 1782750678964
+          modified: 1783446112812
           isPrivate: false
           description: ""
           sortKey: -1782675666884
         method: POST
         body:
           mimeType: application/json
-          text: >-
+          text: |-
             {
-                "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4Mjc2MjMxOSwiaWF0IjoxNzgyNjc1OTE5LCJqdGkiOiJjZDBlMjUyYzkyZDc0YjQ2YmUyY2NiMGE4ODhhODJhMSIsInVzZXJfaWQiOiI1In0.1qJsy9kzCiY9g6BICs4HFy3GrfQVyM3fm1SdaQG9mEA"
+                "refresh": "{{ _.refresh_token }}"
             }
         headers:
           - name: Content-Type
             value: application/json
         authentication:
           type: none
+        scripts:
+          afterResponse: |-
+            const statusCode = insomnia.response.code;
+
+            if (statusCode == 200) {
+            	const response = insomnia.response.json();
+
+            	insomnia.environment.set("access_token", response.access);
+            	insomnia.environment.set("refresh_token", response.refresh);
+            }
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -118,14 +138,14 @@ collection:
         meta:
           id: req_a0e3d7f0b93e40a4a948812ae53275d6
           created: 1782676038736
-          modified: 1783444593732
+          modified: 1783445640251
           isPrivate: false
           description: ""
           sortKey: -1782676228933
         method: GET
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzNDQ2MzgzLCJpYXQiOjE3ODM0NDQ1ODMsImp0aSI6IjE5MGUyNzVkNjk4MzQ4MDBiYTU0NGIwNzVmMjdkMWYzIiwidXNlcl9pZCI6IjEifQ.FOhFuzMhbOdQrM6saegH-nGPJCmVc3VXGigWYAv8w54
+          token: "{{ _.access_token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -147,14 +167,14 @@ collection:
         meta:
           id: req_f8f215d1703844b08d1b05d99d669f84
           created: 1782676269331
-          modified: 1783330867726
+          modified: 1783445610374
           isPrivate: false
           description: ""
           sortKey: -1782676272161
         method: GET
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMzMyNjUzLCJpYXQiOjE3ODMzMzA4NTMsImp0aSI6IjJlNjI4YTI5ZWE0ZTQwZjc5ZTYzMzZkNDBjOWI2NDI2IiwidXNlcl9pZCI6IjMifQ.LSEnDgb8vH4kHOnG1hHv3yy_fvdOIDB_WPAAMdApP2g
+          token: "{{ _.access_token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -168,14 +188,14 @@ collection:
         meta:
           id: req_edbe30535ec742f69548573056a35372
           created: 1782676300438
-          modified: 1782676338528
+          modified: 1783445616179
           isPrivate: false
           description: ""
           sortKey: -1782676250547
         method: GET
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNjc3NzE5LCJpYXQiOjE3ODI2NzU5MTksImp0aSI6IjQ1OGVhZGI1M2FkNjQ2ZmY4NjE4OTE4MjZlZGViOTc5IiwidXNlcl9pZCI6IjUifQ.yE_4LFarVLhqK29MNEmhPH-e1-3AMBJhnBQ_rKuRIrs
+          token: "{{ _.access_token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -197,7 +217,7 @@ collection:
         meta:
           id: req_3dfe7a196cc4486188ee0e7faa7f0e52
           created: 1782756264763
-          modified: 1783027976095
+          modified: 1783445579876
           isPrivate: false
           description: ""
           sortKey: -1782756264763
@@ -220,7 +240,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMDI5NDA4LCJpYXQiOjE3ODMwMjc2MDgsImp0aSI6IjYyYzY1ZWY3YWZlYjRkYTk5M2M2OGI1NGFmNjM3MWY4IiwidXNlcl9pZCI6IjEifQ.CefAZdIL5gw6SEk-WkcR1cjQQ7pL4TaRn9cERJQxDpk
+          token: "{{ _.access_token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -234,7 +254,7 @@ collection:
         meta:
           id: req_fb760356396e411ebd93b4836c77325c
           created: 1782756397999
-          modified: 1783356030380
+          modified: 1783445599577
           isPrivate: false
           description: ""
           sortKey: -1782713419265
@@ -259,7 +279,7 @@ collection:
             disabled: false
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMzU3MDU2LCJpYXQiOjE3ODMzNTUyNTYsImp0aSI6IjEzOGI4YzFkNTVhZDRlY2RiNjYyNTY0MDNhNzE5YmZkIiwidXNlcl9pZCI6IjEifQ.euFNXEsp073xEC14IRPGqUwC-K1DBxkjqo5gvJB-Xmc
+          token: "{{ _.access_token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -273,14 +293,14 @@ collection:
         meta:
           id: req_43d6463125b447a9a3cbb334070ad57f
           created: 1782837359597
-          modified: 1782846113707
+          modified: 1783445572961
           isPrivate: false
           description: ""
           sortKey: -1782837359597
         method: DELETE
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyODQ3ODU1LCJpYXQiOjE3ODI4NDYwNTUsImp0aSI6ImEyMWI0MzE5ZDZiMDQ4N2JiOGRjODZjNWQzODVlNTdiIiwidXNlcl9pZCI6IjEifQ.09lB2YeT8JzoA3q2Q9JBkzTaH7jyqVkJR_gbk8KkYgo
+          token: "{{ _.access_token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -294,7 +314,7 @@ collection:
         meta:
           id: req_7a06613eaae74a519d90ffcbdd70647d
           created: 1782846142109
-          modified: 1783354638631
+          modified: 1783445591574
           isPrivate: false
           description: ""
           sortKey: -1782753415566
@@ -317,7 +337,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMzU2NDI3LCJpYXQiOjE3ODMzNTQ2MjcsImp0aSI6Ijk0OTcwYzAzMTEwZjRmMWNhNWIzN2NjN2ZjODEzMzg3IiwidXNlcl9pZCI6IjEifQ.pgUN44MgDSGhikyJi8WHdbfXg33-qnd6Bo3KcNEdOjc
+          token: "{{ _.access_token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -377,7 +397,7 @@ collection:
         meta:
           id: req_200a974cd36043c88fb06e651516ae36
           created: 1782934398333
-          modified: 1783442131493
+          modified: 1783445566060
           isPrivate: false
           description: ""
           sortKey: -1782934398333
@@ -390,7 +410,7 @@ collection:
         authentication:
           type: bearer
           disabled: false
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzNDQzODUwLCJpYXQiOjE3ODM0NDIwNTAsImp0aSI6IjYzMzA0ZjhiMDZjNDQyMmZhYjJmYzM4NmJhZDJhYzhkIiwidXNlcl9pZCI6IjEifQ.99ddJxRwHFp28BIy6oUhmq3zQ-ek6XNOjDKqGFRsBq8
+          token: "{{ _.access_token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -404,7 +424,7 @@ collection:
         meta:
           id: req_e80a1e175c834ee092116245d0cd6257
           created: 1782934405823
-          modified: 1783355277086
+          modified: 1783445539597
           isPrivate: false
           description: ""
           sortKey: -1782934405823
@@ -423,7 +443,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMzU3MDU2LCJpYXQiOjE3ODMzNTUyNTYsImp0aSI6IjEzOGI4YzFkNTVhZDRlY2RiNjYyNTY0MDNhNzE5YmZkIiwidXNlcl9pZCI6IjEifQ.euFNXEsp073xEC14IRPGqUwC-K1DBxkjqo5gvJB-Xmc
+          token: "{{ _.access_token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -437,7 +457,7 @@ collection:
         meta:
           id: req_e5043a486354469dbc9539a74a069138
           created: 1783364078407
-          modified: 1783364194996
+          modified: 1783445557312
           isPrivate: false
           description: ""
           sortKey: -1782934402078
@@ -456,7 +476,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMzY1OTcyLCJpYXQiOjE3ODMzNjQxNzIsImp0aSI6IjJjNTU2OTgxNjkzODRjMDM5OTU2MDQ3YTk2YjdkYmMzIiwidXNlcl9pZCI6IjEifQ.XDKOSaFPVY4x_ppZnNcb5nwKNhEVSx0hW50uUnYCApI
+          token: "{{ _.access_token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -470,7 +490,7 @@ collection:
         meta:
           id: req_d6a99a8878054a8596888fae2cd37814
           created: 1783364090086
-          modified: 1783364532251
+          modified: 1783445547924
           isPrivate: false
           description: ""
           sortKey: -1782934403950.5
@@ -483,7 +503,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMzY1OTcyLCJpYXQiOjE3ODMzNjQxNzIsImp0aSI6IjJjNTU2OTgxNjkzODRjMDM5OTU2MDQ3YTk2YjdkYmMzIiwidXNlcl9pZCI6IjEifQ.XDKOSaFPVY4x_ppZnNcb5nwKNhEVSx0hW50uUnYCApI
+          token: "{{ _.access_token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -505,7 +525,7 @@ collection:
         meta:
           id: req_90759541ef9d4e5da0108784abf47c92
           created: 1783276520040
-          modified: 1783279558403
+          modified: 1783445485146
           isPrivate: false
           description: ""
           sortKey: -1783276522318
@@ -523,7 +543,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMjgxMTUwLCJpYXQiOjE3ODMyNzkzNTAsImp0aSI6ImFlYTQ3ZDlkMDQ3YjRiNGU4YjExNGRjNDA4M2RiMzgzIiwidXNlcl9pZCI6IjEifQ.YV_RvT8NbgNhGMeadx7yjelQHiEHeneal1qB2B0P_sY
+          token: "{{ _.access_token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -537,7 +557,7 @@ collection:
         meta:
           id: req_98f939c7fec9494b8a8d87b9682fd098
           created: 1783277360486
-          modified: 1783443863194
+          modified: 1783445497522
           isPrivate: false
           description: ""
           sortKey: -1783105464070.5
@@ -553,7 +573,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMjgxMTUwLCJpYXQiOjE3ODMyNzkzNTAsImp0aSI6ImFlYTQ3ZDlkMDQ3YjRiNGU4YjExNGRjNDA4M2RiMzgzIiwidXNlcl9pZCI6IjEifQ.YV_RvT8NbgNhGMeadx7yjelQHiEHeneal1qB2B0P_sY
+          token: "{{ _.access_token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -567,7 +587,7 @@ collection:
         meta:
           id: req_54b5307c628d41c2b0c56cf48ee99368
           created: 1783277797071
-          modified: 1783354428990
+          modified: 1783445509814
           isPrivate: false
           description: ""
           sortKey: -1783019934946.75
@@ -580,7 +600,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMjgxMTUwLCJpYXQiOjE3ODMyNzkzNTAsImp0aSI6ImFlYTQ3ZDlkMDQ3YjRiNGU4YjExNGRjNDA4M2RiMzgzIiwidXNlcl9pZCI6IjEifQ.YV_RvT8NbgNhGMeadx7yjelQHiEHeneal1qB2B0P_sY
+          token: "{{ _.access_token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -602,14 +622,14 @@ collection:
         meta:
           id: req_34c99beec32e457f9789b52df90a6aaf
           created: 1783326975485
-          modified: 1783350971088
+          modified: 1783445447782
           isPrivate: false
           description: ""
           sortKey: -1783350570531
         method: GET
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMzUyNzYxLCJpYXQiOjE3ODMzNTA5NjEsImp0aSI6IjY1NDgyYjIyNzBiODRhMjJiZWEwY2M2Y2JkMTQzZDA0IiwidXNlcl9pZCI6IjMifQ.PBbZqg163qi5_KF0MD9g2bfMDM_hDmflfopagK260UA
+          token: "{{ _.access_token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -623,7 +643,7 @@ collection:
         meta:
           id: req_7ff4011618d24b479ec76605f9de24f1
           created: 1783353235106
-          modified: 1783353423436
+          modified: 1783445475148
           isPrivate: false
           description: ""
           sortKey: -1783313546424.5
@@ -641,7 +661,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzMzU1MTQ2LCJpYXQiOjE3ODMzNTMzNDYsImp0aSI6ImE4ZjUxY2NjN2YxODQ1NmRiNWVkMzRhMDgwMGRhZjEwIiwidXNlcl9pZCI6IjMifQ.MxmdzV8x42kEJzLPrDwpg_2Xx06zTDDQtS8NWOkPXAw
+          token: "{{ _.access_token }}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -655,17 +675,19 @@ cookieJar:
   meta:
     id: jar_dcc5a390d7add28ecf5feb4d148564e98af16292
     created: 1782675647657
-    modified: 1782675647657
+    modified: 1783446119938
 environments:
   name: Base Environment
   meta:
     id: env_dcc5a390d7add28ecf5feb4d148564e98af16292
     created: 1782675647656
-    modified: 1783236249300
+    modified: 1783446131526
     isPrivate: false
   data:
     local_url: " http://127.0.0.1:8000/api/"
     deployed_url: https://guidobriniweatherapi.onrender.com/api/
+    access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzNDQ3OTE5LCJpYXQiOjE3ODM0NDYxMTksImp0aSI6IjJlMzcyM2EyNWE0YjQ2YTE5NzAwYjIyOWNkYWQ4ZGI5IiwidXNlcl9pZCI6IjEifQ.I6A1gv4E2GpELlPRQLvsIobDKuOf-Yff4BscKzCJChQ
+    refresh_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4MzUzMjUxOSwiaWF0IjoxNzgzNDQ2MTE5LCJqdGkiOiIzMDJkODExMjIwNmY0ZDIwOTYzMzJkMDc5NDBiZDRkOSIsInVzZXJfaWQiOiIxIn0.LJNg_keGEsH6s9Hke2lOwUA7Ho-rEi7YYFhK3kCr7Z4
   subEnvironments:
     - name: New Environment
       meta:

@@ -17,6 +17,8 @@ By default, all requests use the local environment URL. To test the deployed API
 
 The collection includes authentication requests for obtaining JWT access and refresh tokens.
 
+I have added an `After-response` script to both the access token and the refresh token ednpoints, so that the environment variables relating to the access token and the refresh token are only updated when the status code is 200. These two variables are also used by all the other endpoints, so there will be no need to manually update the access token within the collection.
+
 After logging in, use the returned access token in authenticated requests through the Authorization header:
 
 ```
