@@ -4,13 +4,13 @@ from .models import WeatherQuery, UserSearchHistory, WeatherLocation, WeatherDat
 
 @admin.register(WeatherData)
 class WeatherDataAdmin(admin.ModelAdmin):
-    list_display = ( 'id', 'temperature', 'condition', 'humidity', 'uv_index' )
+    list_display = ( 'id', 'temperature', 'condition', 'humidity', 'uv_index', 'created_at', 'updated_at' )
 
 @admin.register(WeatherQuery)
 class WeatherQueryAdmin(admin.ModelAdmin):
     raw_id_fields = ( 'weather_info', )
 
-    list_display = ( 'id', 'location', 'forecast_date', 'forecast_hour', 'display_weather_info', 'created_at', 'user', )
+    list_display = ( 'id', 'location', 'forecast_date', 'forecast_hour', 'display_weather_info', 'created_at', 'user', 'created_at', 'updated_at' )
 
     list_display_links = ( 'location', )
 
@@ -39,7 +39,7 @@ class UserSearchHistoryAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None):
         return False
 
-    list_display = ( 'id', 'user', 'result_count', 'search_params', 'timestamp', )
+    list_display = ( 'id', 'user', 'result_count', 'search_params', 'timestamp', 'created_at', 'updated_at' )
 
     readony_fields = ( 'user', 'result_count', 'search_params', 'timestamp', )
 
@@ -52,7 +52,7 @@ class UserSearchHistoryAdmin(admin.ModelAdmin):
 
 @admin.register(WeatherLocation)
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ( 'id', 'name', 'country', 'latitude', 'longitude' )
+    list_display = ( 'id', 'name', 'country', 'latitude', 'longitude', 'created_at', 'updated_at' )
 
     list_display_links = ( 'name', )
 

@@ -11,7 +11,7 @@ collection:
     meta:
       id: fld_9b14e9a02a6f46a086fe6beb5ebd4fe0
       created: 1782675663594
-      modified: 1783446119941
+      modified: 1783535647549
       sortKey: -1782675663594
       description: ""
     children:
@@ -20,7 +20,7 @@ collection:
         meta:
           id: req_7c7d27a36d614a97b31502c8033d9254
           created: 1782675666984
-          modified: 1783354019229
+          modified: 1783534499562
           isPrivate: false
           description: ""
           sortKey: -1782675666984
@@ -30,8 +30,8 @@ collection:
           text: |-
             {
                 "username": "boh",
-                "password": "Password123!",
-                "password2": "Password123!"
+                "password": "sd!",
+                "password2": "sa!"
             }
         headers:
           - name: Content-Type
@@ -254,20 +254,36 @@ collection:
         meta:
           id: req_fb760356396e411ebd93b4836c77325c
           created: 1782756397999
-          modified: 1783445599577
+          modified: 1783536636421
           isPrivate: false
           description: ""
           sortKey: -1782713419265
         method: GET
         parameters:
           - name: location
-            value: tokyo
+            value: prato
             description: ""
             disabled: false
           - name: date_range_after
             value: 2026-07-06
             description: ""
+            disabled: true
+          - name: date_range_before
+            value: ""
+            description: ""
+            disabled: true
+          - name: date
+            value: 2026-07-09
+            description: ""
             disabled: false
+          - name: hour_min
+            value: ""
+            description: ""
+            disabled: true
+          - name: hour_max
+            value: ""
+            description: ""
+            disabled: true
           - name: unit
             value: F
             description: ""
@@ -314,7 +330,7 @@ collection:
         meta:
           id: req_7a06613eaae74a519d90ffcbdd70647d
           created: 1782846142109
-          modified: 1783445591574
+          modified: 1783536105497
           isPrivate: false
           description: ""
           sortKey: -1782753415566
@@ -324,12 +340,13 @@ collection:
           text: |-
             {
             	"location_id": 1, 
-            	"forecast_date": "2026-07-6",
-            	"forecast_hour": 14,
+            	"forecast_date": "2026-07-09",
+            	"forecast_hour": 1,
             	"weather_info": {
             		"temperature": 28,
-            		"condition": "Snowy condition",
-            		"humidity": 99
+            		"condition": "Sunny",
+            		"humidity": 32,
+            		"uv_index": null
             	}
             }
         headers:
@@ -347,24 +364,40 @@ collection:
             store: true
           rebuildPath: true
       - url: "{{ _.local_url }}weather/forecast/"
-        name: Get Forecast No Auth
+        name: Get Forecast Auth No auth
         meta:
-          id: req_eb67833448a54aed9308c29d02642a40
-          created: 1782936632546
-          modified: 1783355080935
+          id: req_a1981366fda14f658d4e5055d708d5f4
+          created: 1783536661725
+          modified: 1783536668639
           isPrivate: false
           description: ""
           sortKey: -1782694845713
         method: GET
         parameters:
           - name: location
-            value: Tokyo
+            value: prato
             description: ""
             disabled: false
           - name: date_range_after
             value: 2026-07-06
             description: ""
+            disabled: true
+          - name: date_range_before
+            value: ""
+            description: ""
+            disabled: true
+          - name: date
+            value: 2026-07-09
+            description: ""
             disabled: false
+          - name: hour_min
+            value: ""
+            description: ""
+            disabled: true
+          - name: hour_max
+            value: ""
+            description: ""
+            disabled: true
           - name: unit
             value: F
             description: ""
@@ -397,7 +430,7 @@ collection:
         meta:
           id: req_200a974cd36043c88fb06e651516ae36
           created: 1782934398333
-          modified: 1783445566060
+          modified: 1783535919335
           isPrivate: false
           description: ""
           sortKey: -1782934398333
@@ -424,7 +457,7 @@ collection:
         meta:
           id: req_e80a1e175c834ee092116245d0cd6257
           created: 1782934405823
-          modified: 1783445539597
+          modified: 1783535713878
           isPrivate: false
           description: ""
           sortKey: -1782934405823
@@ -435,8 +468,8 @@ collection:
             {
             	"name": "Prato",
             	"country": "IT",
-            	"latitude": 23.5,
-            	"longitude": null
+            	"latitude": 43.880001,
+            	"longitude": 11.098333
             }
         headers:
           - name: Content-Type
@@ -452,12 +485,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.local_url }}weather/location/2"
+      - url: "{{ _.local_url }}weather/location/1"
         name: Edit Weather Location
         meta:
           id: req_e5043a486354469dbc9539a74a069138
           created: 1783364078407
-          modified: 1783445557312
+          modified: 1783536295540
           isPrivate: false
           description: ""
           sortKey: -1782934402078
@@ -466,10 +499,10 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"name": "Prato",
-            	"country": "IT",
-            	"latitude": 23.5,
-            	"longitude": 21
+            		"name": "Prato",
+            		"country": "IT",
+            		"latitude": 43.880001,
+            		"longitude": 11.098333
             }
         headers:
           - name: Content-Type
@@ -485,12 +518,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.local_url }}weather/location/7"
+      - url: "{{ _.local_url }}weather/location/3"
         name: Remove Weather Location
         meta:
           id: req_d6a99a8878054a8596888fae2cd37814
           created: 1783364090086
-          modified: 1783445547924
+          modified: 1783536303496
           isPrivate: false
           description: ""
           sortKey: -1782934403950.5
@@ -675,19 +708,19 @@ cookieJar:
   meta:
     id: jar_dcc5a390d7add28ecf5feb4d148564e98af16292
     created: 1782675647657
-    modified: 1783446119938
+    modified: 1783535647547
 environments:
   name: Base Environment
   meta:
     id: env_dcc5a390d7add28ecf5feb4d148564e98af16292
     created: 1782675647656
-    modified: 1783446131526
+    modified: 1783535647548
     isPrivate: false
   data:
     local_url: " http://127.0.0.1:8000/api/"
     deployed_url: https://guidobriniweatherapi.onrender.com/api/
-    access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzNDQ3OTE5LCJpYXQiOjE3ODM0NDYxMTksImp0aSI6IjJlMzcyM2EyNWE0YjQ2YTE5NzAwYjIyOWNkYWQ4ZGI5IiwidXNlcl9pZCI6IjEifQ.I6A1gv4E2GpELlPRQLvsIobDKuOf-Yff4BscKzCJChQ
-    refresh_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4MzUzMjUxOSwiaWF0IjoxNzgzNDQ2MTE5LCJqdGkiOiIzMDJkODExMjIwNmY0ZDIwOTYzMzJkMDc5NDBiZDRkOSIsInVzZXJfaWQiOiIxIn0.LJNg_keGEsH6s9Hke2lOwUA7Ho-rEi7YYFhK3kCr7Z4
+    access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzNTM3NDQ3LCJpYXQiOjE3ODM1MzU2NDcsImp0aSI6ImY1OWFmOGI1ZTMxZDQ2ZDE5OWZhM2Q2MzM1MmY0YzM4IiwidXNlcl9pZCI6IjEifQ.6cRlm9KwpTKw-AS1Z6-CVAhCRu_sraaEkP37kZBw4qA
+    refresh_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4MzYyMjA0NywiaWF0IjoxNzgzNTM1NjQ3LCJqdGkiOiJiZWM3ODNhOWMxODM0OGU2ODdkMGU0Y2IzOWMxMTg5NiIsInVzZXJfaWQiOiIxIn0.LZ4sbcagw3kWsrSQeXoPtODTa6WKoPMgTEFwC7XYhns
   subEnvironments:
     - name: New Environment
       meta:

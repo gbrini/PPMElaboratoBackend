@@ -11,8 +11,28 @@ class WeatherLocation(models.Model):
     )
     name = models.CharField(max_length=settings.MY_PROJECT_SETTINGS['LOCATION_MAX_LENGTH'])
     country = models.CharField(max_length=2, help_text="ISO Country Code (e.g., IT, US, FR)")
-    latitude = models.FloatField(null=True, blank=True, validators=[MinValueValidator(-90.0), MaxValueValidator(90.0)])
-    longitude = models.FloatField(null=True, blank=True, validators=[MinValueValidator(-180.0), MaxValueValidator(180.0)])
+    latitude = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        validators=[
+            MinValueValidator(-90),
+            MaxValueValidator(90),
+        ],
+        null=True,
+        blank=True,
+    )
+    longitude = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        validators=[
+            MinValueValidator(-180),
+            MaxValueValidator(180),
+        ],
+        null=True,
+        blank=True,
+    )
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return self.name
@@ -26,6 +46,8 @@ class WeatherData(models.Model):
     condition = models.CharField(max_length=settings.MY_PROJECT_SETTINGS['CONDITION_MAX_LENGTH'], null=True, blank=True)
     humidity = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
     uv_index = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0)])
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
 
     class Meta:
         verbose_name = 'Detailed Weather Info'
@@ -50,6 +72,7 @@ class WeatherQuery(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(23)]
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
 
     def clean(self):
         if self.user.role != 'admin':
@@ -69,6 +92,8 @@ class UserSearchHistory(models.Model):
     search_params = models.JSONField(help_text='Stores filters used')
     timestamp = models.DateTimeField(auto_now_add=True)
     result_count = models.PositiveIntegerField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return f"{self.user.username} searched at {self.timestamp}"

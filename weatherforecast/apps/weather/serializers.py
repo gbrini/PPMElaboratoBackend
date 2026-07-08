@@ -107,4 +107,4 @@ class WeatherQueryCreateSerializer(serializers.ModelSerializer):
 class UserSearchHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSearchHistory
-        fields = '__all__'
+        fields = [ 'id', 'user', 'search_params', 'timestamp', 'result_count' ]
