@@ -1,20 +1,45 @@
-# Weather API - Guido Brini
+# Weather API
 
 **Chosen Project Type:** REST API  
 **Framework Used:** Django REST Framework (DRF)
 
-The Weather API is a REST API project developed using the Django REST Framework for UNIFI’s PPM course. The purpose of this application is to manage and serve weather forecast data, tracking user query history and implementing role-based access control along with strict rate-limiting.
+The Weather API is a REST API project developed using the Django REST Framework as part of the PPM course at UNIFI. The purpose of this application is to manage and provide weather forecast data, keep track of the history of user requests, and implement role-based access control, as well as strict rate limiting for forecast requests.
+
+## API Testing Workflow
+
+A complete Insomnia collection is included in the repository to reproduce the main API workflows.
+
+The collection file is:
+
+```
+docs/api_collection.yaml
+```
+
+Instructions for importing and using the collection are available in:
+
+```
+docs/README.md
+```
+
+The collection supports all the endpoints developed.
 
 ---
 
 ## Implemented Features by User Role
 
-This API defines three distinct user roles, alongside allowing limited access for unregistered (anonymous) users. 
+The API uses role-based access control with four permission levels: **Anonymous**, **Standard**, **Premium**, and **Admin**.
 
-* **Anonymous (Anon):** Can log in, refresh JWT tokens, and check current weather forecasts (up to 5 requests per day).
-* **Standard User:** Can check weather forecasts (up to 50 requests per day).
-* **Premium User:** Can check weather forecasts (up to 100 requests per day), view their own query history, and track custom weather data.
-* **Admin:** Full CRUD capabilities on weather data, access to all tracking/history logs, and enjoys unlimited API requests.
+- **Anonymous** users can register, authenticate, refresh access tokens, and retrieve weather forecasts with a limited daily quota.
+- **Standard** users gain access to their profile information, password management, weather locations, and an increased weather forecast quota. 
+- **Premium** users inherit all Standard permissions and additionally have access to forecast query history and tracking endpoints, along with a higher daily forecast limit. 
+- **Admin** users have unrestricted access to all API endpoints, including user management, weather forecast and location administration, and are not subject to forecast request limits.
+
+Weather forecast requests are rate limited according to the authenticated role:
+
+- **Anonymous:** 5 requests per day
+- **Standard:** 50 requests per day
+- **Premium:** 100 requests per day
+- **Admin:** Unlimited
 
 ### Role & Feature Matrix
 
@@ -22,35 +47,50 @@ This API defines three distinct user roles, alongside allowing limited access fo
 |:---|:---|:---:|:---:|:---:|:---:|
 | register | POST | X| | ||
 | login | POST | X| | ||
-| refresh token | POST | X| | ||
+| refresh token | POST | X (Requires a valide refresh token)| | ||
+| change_password | POST | | X| X|X|
+| me | GET | | X| X|X|
+| list_users | GET | | | |X|
+| detail_user | PUT | | | |X|
+| detail_user | DELETE | | | |X|
 | weather_forecast | GET | X| X| X|X|
 | weather_forecast | POST | | | |X|
 | weather_forecast_detail | DELETE | | | |X|
 | weather_forecast_detail | PUT | | | |X|
 | weather_forecast_query_history | GET | | |X |X|
 | weather_forecast_query_history_detail | GET | | |X |X|
-| weather_forecast_tracking | GET | | |X |X|
+| weather_forecast_tracking | GET | |X |X |X|
 | weather_location | GET | |X |X |X|
 | weather_location | POST | | | |X|
-| Rate Limit     |        |5/day |   50/day    |100/day    | Unlimited    |
+| weather_location_detail | PUT | | | |X|
+| weather_location_detail | DELETE | | | |X|
+
+| Role | weather_forecast (GET) |
+|:---|:---|
+| anon | 5/day |
+| standard | 50/day |
+| premium | 100/day |
+| admin token | unlimited |
 
 ---
 
 ## Online Deployment
-The APIs are live and available at the following production URL: [URL Here]
+The APIs are live and available at the following production URL: https://guidobriniweatherapi.onrender.com
 
 ---
 
 ## Local Installation
 
+This project was developed and tested with Python 3.14.6
+
 Follow these steps to get the project running locally:
 
 ```bash
-# 1. Clone the repository into your desired folder
-git clone https://github.com/user/repo.git
-cd project-folder
+# Clone the repository into your desired folder
+git clone https://github.com/gbrini/PPMElaboratoBackend.git guidobriniweatherapi
+cd guidobriniweatherapi
 
-# 2. Create and activate the virtual environment
+# Create and activate the virtual environment
 python -m venv .venv
 
 # If using Linux/macOS
@@ -61,7 +101,7 @@ source .venv/bin/activate
 # If using Windows (CMD)
 .venv\Scripts\activate.bat 
 
-# 3. Install the requirements
+# Install the requirements
 pip install -r requirements.txt
 ```
 
@@ -70,25 +110,31 @@ pip install -r requirements.txt
 # Navigate to the Django project directory
 cd weatherforecast
 
+# Create a local environment file
+cp .env.sample .env
+
+# Generate a Django secret key
+python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+
 # Apply database migrations
 python manage.py migrate
 
 # Start the local development server
 python manage.py runserver
 ```
+Open the `.env` file and paste the generated value as the `SECRET_KEY`.
 
-The application is ready to use, in order to use a brand new db it is necessary to follow these steps though:
+## Execute this part only with a brand new db
+Only follow these steps when setting up a brand new database.
 
 ```bash
 # Navigate to the Django project directory
 cd weatherforecast
 
-# Run this command and follow the instructions
+# Create an administrator account
 python manage.py createsuperuser
-```
 
-```bash
-# Enter the shell in order to modify the new user permissions
+# Open the Django shell
 python manage.py shell
 
 >>> user = CustomUser.objects.get(username='the superuser username just created')
@@ -98,7 +144,7 @@ python manage.py shell
 >>> user.save()
 >>> exit()
 ```
-Now the superuser has all the permission to access the admin panel
+After completing these steps, the user will have all the permissions required to access the Django admin panel.
 
 ---
 
@@ -107,19 +153,18 @@ For this API there are already set up 3 different users:
 
 | ROLE | Username | Password |
 |:---|:---|:---:|
-| Admin | aaa | aaa |
-| Premium | aaa | aaa |
-| Standard | aaa | aaa |
+| Admin | admin_demo | Password123! |
+| Premium | premium_demo | Password123! |
+| Standard | standard_demo | Password123! |
 
 ## Database
-The included SQLite database file is located at **weatherforecast/db.sqlite3**. This file is pre-populated and contains all the necessary demo data, tables, and roles required to test the REST APIs immediately.
+The project includes a pre-populated SQLite database located at `weatherforecast/db.sqlite3`. It contains all the required tables, roles, and demo data, allowing to test the REST APIs immediately without any additional setup.
 
 ## Endpoint documentation
-- All the endpoint listed down below can be tested using Httpie (installed from requirements.txt)
-- All the endpoints that supports the pagination will return `25` items per page by default, but that number can be changed using the parameter `page_size`, the maximum value is `100`. On the result object tehre will be two different keys, next fot the following page, and previous.
+- All endpoints that support pagination return **25** items per page by default. You can change this by using the `page_size` query parameter, up to a maximum of **100** items per page. The paginated response includes `next` and `previous` fields, which contain the URLs for the next and previous pages, respectively.
 
 - ### register
-    Register a user, the assigned role is `standard`. The username must be unique.
+    Register a user, the assigned role is `standard` by default. The username must be unique.
 
     * **URL:** `/api/users/register/`
     * **Method:** `POST`
@@ -136,7 +181,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `username` | `string` | **Yes** | Username |
-    | `password` | `string` | **Yes** | Password |
+    | `password` | `string` | **Yes** | Password, at least 8 characters. |
     | `password2` | `string` | **Yes** | Password, must be the same as `password` |
     | `email` | `string` | **No** | email |
     | `first_name` | `string` | **No** | First name |
@@ -145,8 +190,14 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http POST "http://127.0.0.1:8000/api/users/register/" \
-    username="" password="" password2=""
+    curl --request POST \
+    --url http://127.0.0.1:8000/api/users/register/ \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "username": "test",
+        "password": "Password123!",
+        "password2": "Password123!"
+    }'
     ```
 
     #### Response Examples
@@ -195,8 +246,13 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http POST "http://127.0.0.1:8000/api/users/login/" \
-    username="" password=""
+    curl --request POST \
+    --url http://127.0.0.1:8000/api/users/login/ \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "username": "standard_user",
+        "password": "Password123!"
+    }'
     ```
 
     #### Response Examples
@@ -222,6 +278,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
         ]
     }
     ```
+
 - ### refresh token
     Refresh the access token
 
@@ -244,8 +301,12 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http POST "http://127.0.0.1:8000/api/users/refresh/" \
-    refresh=""
+    curl --request POST \
+    --url http://127.0.0.1:8000/api/users/refresh/ \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "refresh": ""
+    }'
     ```
 
     #### Response Examples
@@ -268,6 +329,280 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     }
     ```
 
+- ### me
+    Get the information about me and throttle rate
+
+    * **URL:** `/api/users/me`
+    * **Method:** `GET`
+    * **Auth Required:** `YES`
+    * **Role:** `Any`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Request Example
+
+    ```bash
+    curl --request GET \
+    --url 'http://127.0.0.1:8000/api/users/me' \
+    --header 'Authorization: Bearer <YOUR_TOKEN>'
+    ```
+
+    #### Response Examples
+
+    **Success (200 OK)**
+
+    ```json
+    {
+        "username": "standard_user",
+        "role": "standard",
+        "throttle": {
+            "rate": "50/day",
+            "limit": 50,
+            "remaining": 50,
+            "reset_in": 0
+        }
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    
+    ```
+
+- ### change_password
+    Change the password
+
+    * **URL:** `/api/users/change_password`
+    * **Method:** `POST`
+    * **Auth Required:** `Yes`
+    * **Role:** `Any`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `old_password` | `string` | **Yes** | The old password |
+    | `new_password` | `string` | **Yes** | The new password |
+    | `confirm_new_password` | `string` | **Yes** | A confirmation for the new password |
+
+    #### Request Example
+    ```bash
+    curl --request POST \
+    --url 'http://127.0.0.1:8000/api/users/change_password?=' \
+    --header 'Authorization: Bearer <YOUT_TOKEN>' \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "old_password": "Password123!",
+        "new_password": "Password456!",
+        "confirm_new_password": "PAssword456!"
+    }'
+    ```
+
+    #### Response Examples
+
+    **Success (200 OK)**
+
+    ```json
+    { 
+        "message": "Password update successfully" 
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        "confirm_new_password": [
+            "New passwords do not match"
+        ]
+    }
+    ```
+
+- ### list_users (GET)
+    Add a location object
+
+    * **URL:** `/api/users/list/`
+    * **Method:** `GET`
+    * **Auth Required:** `Required`
+    * **Role:** `Admin`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `page` | `int` | **No** | The page number. |
+    | `page_size` | `int` | **No** | The page size. |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Request Example
+    ```bash
+    curl --request GET \
+    --url http://127.0.0.1:8000/api/users/list/ \
+    --header 'Authorization: Bearer <YOUR_TOKEN>' \
+    --header 'Content-Type: application/json'
+    ```
+
+    #### Response Examples
+
+    **Success (200 OK)**
+
+    ```json
+    {
+        "count": 3,
+        "next": null,
+        "previous": null,
+        "results": [
+            {
+                "id": 1,
+                "username": "root",
+                "role": "admin",
+                "email": "",
+                "first_name": "",
+                "last_name": ""
+            },
+            {
+                "id": 3,
+                "username": "standard_user",
+                "role": "standard",
+                "email": "",
+                "first_name": "",
+                "last_name": ""
+            },
+            {
+                "id": 5,
+                "username": "premium_user",
+                "role": "standard",
+                "email": "",
+                "first_name": "",
+                "last_name": ""
+            }
+        ]
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    
+    ```
+
+    **Error (404 Not Found)**
+
+    ```json
+    {
+        "detail": "Invalid page."
+    }
+    ```
+
+- ### detail_user (PUT)
+    Change the user role
+
+    * **URL:** `/api/users/<int:pk>/`
+    * **Method:** `PUT`
+    * **Auth Required:** `Required`
+    * **Role:** `Admin`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Request Example
+    ```bash
+    curl --request PUT \
+    --url 'http://127.0.0.1:8000/api/users/5/' \
+    --header 'Authorization: Bearer <YOUR_TOKEN>' \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "role": "sd"
+    }'
+    ```
+
+    #### Response Examples
+
+    **Success (200 OK)**
+
+    ```json
+    {
+        "role": "premium"
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        "role": [
+            "\"nomeruolo\" is not a valid choice."
+        ]
+    }
+    ```
+
+- ### detail_user (DELETE)
+    REmove a user
+
+    * **URL:** `/api/users/<int:pk>/`
+    * **Method:** `DELETE`
+    * **Auth Required:** `Required`
+    * **Role:** `Admin`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Request Example
+    ```bash
+    curl --request DELETE \
+    --url http://127.0.0.1:8000/api/users/5/ \
+    --header 'Authorization: Bearer <YOUR_TOKEN>' \
+    --header 'Content-Type: application/json'
+    ```
+
+    #### Response Examples
+
+    **Success (204 No Content)**
+
+    ```json
+    
+    ```
+
+    **Error (404 Not Found)**
+
+    ```json
+    {
+        "detail": "No CustomUser matches the given query."
+    }
+    ```
+
 - ### weather_forecast (GET)
     Retrieves the forecast information
 
@@ -286,7 +621,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     | `date_range_after` | `string` | **No** | The date range you want to query, in the format yyyy-mm-dd. |
     | `hour_min` | `string` | **No** | The hour range you want to query (Both 09 and 9 are valid). |
     | `hour_max` | `string` | **No** | The hour range you want to query (Both 09 and 9 are valid). |
-    | `unit` | `string` | **No** | Optional paramter to retrieve the temperature in the desired measurement unit (`C` the default value or `F`). |
+    | `unit` | `string` | **No** | Optional parameter to retrieve the temperature in the desired measurement unit (`C` the default value or `F`). |
     | `page` | `int` | **No** | The page number. |
     | `page_size` | `int` | **No** | The page size. |
 
@@ -308,18 +643,10 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Examples
 
     ```bash
-    http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo" \
-    "Authorization: Bearer YOUR_API_KEY" \
-
-    http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo"
-    
-    http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo&page=2"
-
-    http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo&date=2026-06-20"
-
-    http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo&date_range_before=2026-06-30&date_range_after=2026-06-20"
-
-    http GET "http://127.0.0.1:8000/api/weather/forecast/?location=Tokyo&date=2026-06-30&hour_min=12&hour_max=15"
+    curl --request GET \
+    --url 'http://127.0.0.1:8000/api/weather/forecast/?location=tokyo&date_range_after=2026-07-06' \
+    --header 'Authorization: Bearer <YOUR_TOKEN>' \
+    --header 'Content-Type: application/json'
     ```
 
     #### Response Examples
@@ -328,16 +655,66 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     ```json
     {
-        "count": 1,
+        "count": 3,
         "next": null,
         "previous": null,
         "results": [
             {
-                "id": 93,
-                "location_id": 1,
-                "temperature": 15.0,
-                "condition": "Sunny",
-                "forecast_date": "2026-06-01T18:02:19+02:00"
+                "id": 1,
+                "location": {
+                    "id": 1,
+                    "name": "Tokyo",
+                    "country": "JP",
+                    "latitude": 23.5,
+                    "longitude": null
+                },
+                "weather_info": {
+                    "temperature": 28.0,
+                    "temperature_unit": "C",
+                    "condition": "Snowy condition",
+                    "humidity": 99,
+                    "uv_index": null
+                },
+                "forecast_date": "2026-07-06",
+                "forecast_hour": 12
+            },
+            {
+                "id": 2,
+                "location": {
+                    "id": 1,
+                    "name": "Tokyo",
+                    "country": "JP",
+                    "latitude": 23.5,
+                    "longitude": null
+                },
+                "weather_info": {
+                    "temperature": 28.0,
+                    "temperature_unit": "C",
+                    "condition": "Snowy condition",
+                    "humidity": 99,
+                    "uv_index": null
+                },
+                "forecast_date": "2026-07-06",
+                "forecast_hour": 13
+            },
+            {
+                "id": 3,
+                "location": {
+                    "id": 1,
+                    "name": "Tokyo",
+                    "country": "JP",
+                    "latitude": 23.5,
+                    "longitude": null
+                },
+                "weather_info": {
+                    "temperature": 28.0,
+                    "temperature_unit": "C",
+                    "condition": "Snowy condition",
+                    "humidity": 99,
+                    "uv_index": null
+                },
+                "forecast_date": "2026-07-06",
+                "forecast_hour": 14
             }
         ]
     }
@@ -350,6 +727,14 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
         "location": [
             "This field is required."
         ]
+    }
+    ```
+
+    **Error (429 Too many Requests)**
+
+    ```json
+    {
+	    "detail": "Request was throttled. Expected available in 58 seconds."
     }
     ```
 
@@ -381,23 +766,23 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     | `weather_info.humidity` | `int` | **Yes** | Humidity percentage |
     | `weather_info.uv_index` | `int` | **Yes** | UV index |
 
-    {
-	"location_id": 1, 
-	"forecast_date": "2026-07-12",
-	"forecast_hour": 17,
-	"weather_info": {
-		"temperature": 28,
-		"condition": "Snowy condition",
-		"humidity": 99
-	}
-}
-
     #### Request Example
 
     ```bash
-    http POST "http://127.0.0.1:8000/api/weather/forecast/" \
-    "Authorization: Bearer YOUR_API_KEY" \
-    location_id=1 forecast_date="2026-06-16T18:56" temperature=28 condition="Rain"
+    curl --request POST \
+    --url http://127.0.0.1:8000/api/weather/forecast/ \
+    --header 'Authorization: Bearer <YOUR_TOKEN>' \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "location_id": 1, 
+        "forecast_date": "2026-07-6",
+        "forecast_hour": 14,
+        "weather_info": {
+            "temperature": 28,
+            "condition": "Snowy condition",
+            "humidity": 99
+        }
+    }'
     ```
 
     #### Response Examples
@@ -414,6 +799,16 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
             "condition": "Snowy condition",
             "humidity": 99
         }
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        "non_field_errors": [
+            "The fields location_id, forecast_date, forecast_hour must make a unique set."
+        ]
     }
     ```
 
@@ -449,8 +844,9 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http DELETE "http://127.0.0.1:8000/api/weather/forecast/6" \
-    "Authorization: Bearer YOUR_API_KEY" \
+    curl --request DELETE \
+    --url http://127.0.0.1:8000/api/weather/forecast/93 \
+    --header 'Authorization: Bearer <YOUR_TOKEN>'
     ```
 
     #### Response Examples
@@ -492,9 +888,20 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http PUT "http://127.0.0.1:8000/api/weather/forecast/6" \
-    "Authorization: Bearer YOUR_API_KEY" \
-    location="Tokyo" forecast_date="2026-05-31T15:54" temperature=28 condition="Rain"
+    curl --request PUT \
+    --url http://127.0.0.1:8000/api/weather/forecast/11 \
+    --header 'Authorization: Bearer <YOUR_TOKEN>' \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "location_id": 1, 
+        "forecast_date": "2026-07-12",
+        "forecast_hour": 17,
+        "weather_info": {
+            "temperature": 22,
+            "condition": "Snowy condition test",
+            "humidity": 13
+        }
+    }'
     ```
 
     #### Response Examples
@@ -513,6 +920,16 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
         },
         "forecast_date": "2026-07-12",
         "forecast_hour": 17
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        "non_field_errors": [
+            "The fields location_id, forecast_date, forecast_hour must make a unique set."
+        ]
     }
     ```
 
@@ -549,8 +966,9 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http GET "http://127.0.0.1:8000/api/weather/history" \
-    "Authorization: Bearer YOUR_API_KEY"
+    curl --request GET \
+    --url http://127.0.0.1:8000/api/weather/forecast/history \
+    --header 'Authorization: Bearer <YOUR_TOKEN>'
     ```
 
     #### Response Examples
@@ -621,8 +1039,9 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http GET "http://127.0.0.1:8000/api/weather/history/3" \
-    "Authorization: Bearer YOUR_API_KEY"
+    curl --request GET \
+    --url http://127.0.0.1:8000/api/weather/forecast/history/52 \
+    --header 'Authorization: Bearer <YOUR_TOKEN>'
     ```
 
     #### Response Examples
@@ -655,13 +1074,13 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     * **URL:** `/api/weather/forecast/tracking/`
     * **Method:** `GET`
     * **Auth Required:** `Yes`
-    * **Role:** `Admin`, `Premium`, `Standard`
+    * **Role:** `Any`
 
     #### Path Parameters
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-    | `today` | `string` | **No** | `true` or `false` default `false` |
+    | `today` | `string` | **No** | `true` or `false` default `true`, If `false` will return the last **30** days tracking |
 
     #### Query Parameters
 
@@ -671,8 +1090,9 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http GET "http://127.0.0.1:8000/api/weather/forecast/tracking?today=true" \
-    username="" password=""
+    curl --request GET \
+    --url http://127.0.0.1:8000/api/weather/forecast/tracking?today=true \
+    --header 'Authorization: Bearer <YOUR_TOKEN>'
     ```
 
     #### Response Examples
@@ -708,6 +1128,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `name` | `string` | **No** | The location name, could be an inside the string. The search will be effected with an icontains method |
+    | `page` | `string` | **No** | The page number |
 
     #### Query Parameters
 
@@ -717,8 +1138,9 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http GET "http://127.0.0.1:8000/api/weather/location/?name=To" \
-    "Authorization: Bearer YOUR_API_KEY"
+    curl --request GET \
+    --url 'http://127.0.0.1:8000/api/weather/location/?name=to' \
+    --header 'Authorization: Bearer <YOUR_TOKEN>'
     ```
 
     #### Response Examples
@@ -727,17 +1149,19 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
 
     ```json
     {
-        "id": 2,
-        "name": "Toronto",
-        "latitude": 13.5,
-        "longitude": 18.67
-    },
-    {
-        "id": 1,
-        "name": "Tokyo",
-        "latitude": 23.5,
-        "longitude": 25.67
-    },
+        "count": 1,
+        "next": null,
+        "previous": null,
+        "results": [
+            {
+                "id": 1,
+                "name": "Tokyo",
+                "country": "JP",
+                "latitude": 23.5,
+                "longitude": null
+            }
+        ]
+    }
     ```
 
     **Error (400 Bad Request)**
@@ -775,9 +1199,16 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     #### Request Example
 
     ```bash
-    http POST "http://127.0.0.1:8000/api/weather/location/" \
-    "Authorization: Bearer YOUR_API_KEY" \
-    name="Tokyo" country="JP" latitude=23.5 longitude=25.67
+    curl --request POST \
+    --url http://127.0.0.1:8000/api/weather/location/ \
+    --header 'Authorization: Bearer <YOUR_TOKEN>' \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "name": "Tokyo",
+        "country": "JP",
+        "latitude": 23.5,
+        "longitude": null
+    }'
     ```
 
     #### Response Examples
@@ -788,6 +1219,7 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     {
         "id": 1,
         "name": "Tokyo",
+        "country": "JP",
         "latitude": 23.5,
         "longitude": 25.67
     }
@@ -803,32 +1235,129 @@ The included SQLite database file is located at **weatherforecast/db.sqlite3**. 
     }
     ```
 
+
+- ### weather_location_detail (PUT)
+    Edit a location object
+
+    * **URL:** `/api/weather/location/<int:pk>`
+    * **Method:** `PUT`
+    * **Auth Required:** `Required`
+    * **Role:** `Admin`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+    | `name` | `string` | **Yes** | The location name. |
+    | `country` | `string` | **Yes** | ISO Country Code (e.g., IT, US, FR) |
+    | `latitude` | `float` | **No** | The location latitude |
+    | `longitude` | `float` | **No** | The location longitude |
+
+    #### Request Example
+
+    ```bash
+    curl --request PUT \
+    --url http://127.0.0.1:8000/api/weather/location/2 \
+    --header 'Authorization: Bearer <YOUR_TOKEN>' \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "name": "Prato",
+        "country": "IT",
+        "latitude": 23.5,
+        "longitude": 21
+    }'
+    ```
+
+    #### Response Examples
+
+    **Success (200 OK)**
+
+    ```json
+    {
+        "id": 2,
+        "name": "Prato",
+        "country": "IT",
+        "latitude": 23.5,
+        "longitude": 21
+    }
+    ```
+
+    **Error (400 Bad Request)**
+
+    ```json
+    {
+        "name": [
+            "This field is required."
+        ]
+    }
+    ```
+
+- ### weather_location (DELETE)
+    Delete a location object. Pay attention, delteting a location will also delete every weather forecast linked to it.
+
+    * **URL:** `/api/weather/location/<int:pk>`
+    * **Method:** `DELETE`
+    * **Auth Required:** `Required`
+    * **Role:** `Admin`
+
+    #### Path Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Query Parameters
+
+    | Parameter | Type | Required | Description |
+    | :--- | :--- | :--- | :--- |
+
+    #### Request Example
+
+    ```bash
+    curl --request DELETE \
+    --url http://127.0.0.1:8000/api/weather/location/1 \
+    --header 'Authorization: Bearer <YOUR_TOKEN>' \
+    --header 'Content-Type: application/json'
+    ```
+
+    #### Response Examples
+
+    **Success (204 No Content)**
+
+    ```json
+    
+    ```
+
+    **Error (404 Not Found)**
+
+    ```json
+    {
+        "detail": "No WeatherLocation matches the given query."
+    }
+    ```
+
+
 ## Tests
 
+Run the following commands from the main weatherforecast project directory.
+
 ```bash
-cd weatherforecast
+#On the main weatherforecast folder
 
-#To run all the tests
-python manage.py test
+# Run all tests 
+python manage.py test 
 
-#To run only users tests
-python manage.py test apps.users
+# Run only users app tests 
+python manage.py test apps.users 
 
-#To run only weather tests
+# Run only weather app tests 
 python manage.py test apps.weather
 ```
 
 
-
-
-
-
-
-
-
-
-
 ## License
 This project is available for use under the MIT License.
-
-[1]: https://localhost

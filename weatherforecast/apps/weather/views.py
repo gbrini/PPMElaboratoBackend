@@ -2,28 +2,24 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
 from django.utils import timezone
 from django.db.models import Count
 from django.db.models.functions import TruncDate
-
+from django.conf import settings
 from .serializers import WeatherQueryOutputSerializer, WeatherQueryCreateSerializer, UserSearchHistorySerializer, WeatherLocationSerializer
 from .models import WeatherQuery, UserSearchHistory, WeatherLocation
 from .filters import WeatherQueryFilter, WeatherLocationFilter
 from ..users.permissions import IsAdminUser, IsPremiumUser
-from .constants import PAGE_SIZE, MAX_PAGE_SIZE, TRACKING_DAYS
-
+from ..users.throttles import RoleBasedThrottle
+from weatherforecast.pagination import StandardResultsSetPagination
 from datetime import timedelta, datetime
-
-class StandardResultsSetPagination(PageNumberPagination):
-    page_size = PAGE_SIZE
-    page_size_query_param = 'page_size'
-    max_page_size = MAX_PAGE_SIZE
 
 class WeatherForecastView(APIView):
     permission_classes = [ AllowAny ]
+    throttle_classes = [ RoleBasedThrottle ]
 
     def get_permissions(self):
         if self.request.method == 'POST':
@@ -60,7 +56,7 @@ class WeatherForecastView(APIView):
             else:
                 json_serialized_params[k] = str(v)
         
-        if request.user.is_authenticated and request.user.role in [ 'premium', 'admin' ]:
+        if request.user.is_authenticated:
             UserSearchHistory.objects.create(
                 user=request.user,
                 search_params=json_serialized_params,
@@ -85,8 +81,7 @@ class WeatherForecastView(APIView):
 
 class WeatherForecastDetailView(APIView):
     permission_classes = [ IsAdminUser ]
-
-    #def get_throttles(self)
+    throttle_classes = []
 
     def delete(self, request, pk):
         forecast = get_object_or_404(WeatherQuery, pk=pk)
@@ -111,6 +106,7 @@ class WeatherForecastDetailView(APIView):
 
 class WeatherForecastQueryHistoryView(APIView):
     permission_classes = [ IsAdminUser | IsPremiumUser ]
+    throttle_classes = []
 
     def get(self, request):
         data = UserSearchHistory.objects.filter(user=request.user).order_by("-timestamp")
@@ -125,6 +121,7 @@ class WeatherForecastQueryHistoryView(APIView):
 
 class WeatherForecastQueryHistoryDetailView(APIView):
     permission_classes = [ IsAdminUser | IsPremiumUser ]
+    throttle_classes = []
 
     def get(self, request, pk):
         data = get_object_or_404(UserSearchHistory, pk=pk, user=request.user)
@@ -134,13 +131,14 @@ class WeatherForecastQueryHistoryDetailView(APIView):
         return Response(output_serializer.data, status=status.HTTP_200_OK)
 
 class WeatherForecastRequestTrackingView(APIView):
-    permission_classes = [ IsAdminUser | IsPremiumUser ]
+    permission_classes = [ IsAuthenticated ]
+    throttle_classes = []
 
     def get(self, request):
-        days_number = TRACKING_DAYS
+        days_number = 1
 
-        if request.query_params.get("today", "false").lower() == "true":
-            days_number = 1
+        if request.query_params.get("today", "true").lower() == "false":
+            days_number = settings.MY_PROJECT_SETTINGS['TRACKING_DAYS']
 
         days = timezone.now() - timedelta(days=days_number)
 
@@ -160,7 +158,8 @@ class WeatherForecastRequestTrackingView(APIView):
         return Response(daily_count)
 
 class WeatherLocationView(APIView):
-    permission_classes = [ AllowAny ]
+    permission_classes = [ IsAuthenticated ]
+    throttle_classes = []
 
     def get_permissions(self):
         if self.request.method == 'POST':
@@ -195,3 +194,28 @@ class WeatherLocationView(APIView):
         output_serializer = WeatherLocationSerializer(instance)
 
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
+
+class WeatherLocationDetailView(APIView):
+    permission_classes = [ IsAdminUser ]
+    throttle_classes = []
+
+    def delete(self, request, pk):
+        location = get_object_or_404(WeatherLocation, pk=pk)
+
+        location.delete()
+
+        return Response({ "message": "Location deleted successfully!" }, status=status.HTTP_204_NO_CONTENT)
+
+    def put(self, request, pk):
+        location = get_object_or_404(WeatherLocation, pk=pk)
+
+        serializer = WeatherLocationSerializer(location, data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        instance = serializer.save()
+
+        output_serializer = WeatherLocationSerializer(instance)
+
+        return Response(output_serializer.data, status=status.HTTP_200_OK)

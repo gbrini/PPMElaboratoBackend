@@ -1,10 +1,10 @@
 from django_filters import rest_framework as filters
 from django.utils import timezone
 from django.utils.dateparse import parse_date
+from django.conf import settings
 from rest_framework.exceptions import ValidationError
 from .models import WeatherQuery, WeatherLocation
 from datetime import timedelta
-from .constants import WEATHER_UNITS, MAX_DAYS_RETRIEVE
 
 class WeatherQueryFilter(filters.FilterSet):
     date = filters.DateFilter(field_name="forecast_date")
@@ -12,7 +12,7 @@ class WeatherQueryFilter(filters.FilterSet):
     hour_min = filters.NumberFilter(field_name="forecast_hour", lookup_expr="gte")
     hour_max = filters.NumberFilter(field_name="forecast_hour", lookup_expr="lte")
     location = filters.CharFilter(field_name="location__name", lookup_expr="iexact", required=True)
-    unit = filters.ChoiceFilter(choices=WEATHER_UNITS, method='filter_by_unit')
+    unit = filters.ChoiceFilter(choices=settings.MY_PROJECT_SETTINGS['WEATHER_UNITS'], method='filter_by_unit')
 
     def __init__(self, data=None, *args, **kwargs):
         if data is not None:
@@ -36,7 +36,7 @@ class WeatherQueryFilter(filters.FilterSet):
                 data['date_range_after'] = now_local.date().isoformat()
 
             if 'date_range_after' in data and 'date_range_before' not in data:
-                data['date_range_before'] = (parse_date(data['date_range_after']) + timedelta(days=MAX_DAYS_RETRIEVE)).isoformat()
+                data['date_range_before'] = (parse_date(data['date_range_after']) + timedelta(days=settings.MY_PROJECT_SETTINGS['MAX_DAYS_RETRIEVE'])).isoformat()
 
         super().__init__(data, *args, **kwargs)
 
