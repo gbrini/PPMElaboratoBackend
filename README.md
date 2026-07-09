@@ -486,7 +486,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 - ### detail_user (PUT)
     Change the user role
 
-    * **URL:** `/api/users/<int:pk>/`
+    * **URL:** `/api/users/{pk}/`
     * **Method:** `PUT`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
@@ -495,11 +495,13 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
+    | `pk` | `int` | **Yes** | The user id |
 
     #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
+    | `role` | `string` | **Yes** | The new role for the user |
 
     #### Request Example
     ```bash
@@ -535,7 +537,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 - ### detail_user (DELETE)
     REmove a user
 
-    * **URL:** `/api/users/<int:pk>/`
+    * **URL:** `/api/users/{pk}/`
     * **Method:** `DELETE`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
@@ -544,11 +546,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-
-    #### Request Body
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
+    | `pk` | `int` | **Yes** | The user id |
 
     #### Request Example
     ```bash
@@ -582,7 +580,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `Optional`
     * **Role:** `Any + Anon`
 
-    #### Path Parameters
+    #### Query Parameters
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -596,11 +594,6 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | `unit` | `string` | **No** | Optional parameter to retrieve the temperature in the desired measurement unit (`C` the default value or `F`). |
     | `page` | `int` | **No** | The page number. |
     | `page_size` | `int` | **No** | Pagination size. |
-
-    #### Request Body
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
 
     These are the assumptions for these filters:
     - If neither date or date range is provided then the default date is the request day.
@@ -721,11 +714,6 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `Required`
     * **Role:** `Admin`
 
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
     #### Request Body
 
     | Parameter | Type | Required | Description |
@@ -797,7 +785,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 - ### weather_forecast_detail (DELETE)
     DELETE a forecast object
 
-    * **URL:** `/api/weather/forecast/`
+    * **URL:** `/api/weather/forecast/{pk}`
     * **Method:** `DELETE`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
@@ -807,11 +795,6 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `pk` | `int` | **Yes** | The forecast object id. |
-
-    #### Request Body
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
 
     #### Request Example
 
@@ -840,7 +823,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 - ### weather_forecast_detail (PUT)
     Modify a forecast object
 
-    * **URL:** `/api/weather/forecast/`
+    * **URL:** `/api/weather/forecast/{pk}`
     * **Method:** `PUT`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
@@ -855,7 +838,13 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-    | `data` | `object` | **Yes** | The forecast object. |
+    | `location_id` | `int` | **Yes** | The forecast location id. |
+    | `forecast_date` | `string` | **Yes** | The forecast date, by the format YYYY-MM-DD |
+    | `forecast_hour` | `int` | **Yes** | The forecast hour |
+    | `weather_info.temperature` | `float` | **Yes** | The temperature in Celsius. (e.g., `28.5`) |
+    | `weather_info.condition` | `string` | **Yes** | The forecast decription. |
+    | `weather_info.humidity` | `int` | **Yes** | Humidity percentage |
+    | `weather_info.uv_index` | `int` | **Yes** | UV index |
 
     #### Request Example
 
@@ -923,17 +912,12 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `Required`
     * **Role:** `Admin`, `Premium`
 
-    #### Path Parameters
+    #### Query Parameters
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `page` | `int` | **No** | The page number. |
     | `page_size` | `int` | **No** | Pagination size. |
-
-    #### Request Body
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
 
     #### Request Example
 
@@ -1003,11 +987,6 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | :--- | :--- | :--- | :--- |
     | `pk` | `int` | **Yes** | The log id. |
 
-    #### Request Body
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
     #### Request Example
 
     ```bash
@@ -1048,7 +1027,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `Yes`
     * **Role:** `Any`
 
-    #### Path Parameters
+    #### Query Parameters
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -1095,7 +1074,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `Optional`
     * **Role:** ``
 
-    #### Path Parameters
+    #### Query Parameters
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -1103,11 +1082,6 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | `country` | `string` | **No** | The country you want to query. (ISO format) |
     | `page` | `string` | **No** | The page number |
     | `page_size` | `string` | **No** | Pagination size |
-
-    #### Request Body
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
 
     #### Request Example
 
@@ -1155,11 +1129,6 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Method:** `POST`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
-
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
 
     #### Request Body
 
@@ -1213,7 +1182,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 - ### weather_location_detail (PUT)
     Edit a location object
 
-    * **URL:** `/api/weather/location/<int:pk>`
+    * **URL:** `/api/weather/location/{pk}`
     * **Method:** `PUT`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
@@ -1222,6 +1191,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
+    | `id` | `int` | **Yes** | the weather location id |
 
     #### Request Body
 
@@ -1274,7 +1244,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 - ### weather_location (DELETE)
     Delete a location object. Pay attention, delteting a location will also delete every weather forecast linked to it.
 
-    * **URL:** `/api/weather/location/<int:pk>`
+    * **URL:** `/api/weather/location/{pk}`
     * **Method:** `DELETE`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
@@ -1283,11 +1253,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-
-    #### Request Body
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
+    | `id` | `int` | **Yes** | The weather location id |
 
     #### Request Example
 
