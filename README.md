@@ -10,11 +10,11 @@ The Weather API is a REST API project developed using the Django REST Framework 
 The repository includes a comprehensive Insomnia collection for replicating the main API workflows.
 The collection file is:
 ```
-docs/api_collection.yaml
+weatherforecast/docs/api_collection.yaml
 ```
 Instructions for importing and using the collection are available at:
 ```
-docs/README.md
+weatherforecast/docs/README.md
 ```
 The collection supports all the endpoints that have been developed. For testing purposes, the database is populated with these six cities (Berlin, Tokyo, New York, London, Paris, Florence, Milan and Rome), and daily weather forecasts are available for all of them from 9 July (00:00) until 16 July (23:00).
 Please note that all data is available in the admin panel, where access is restricted to the `admin_demo` user only.
@@ -25,7 +25,7 @@ Please note that all data is available in the admin panel, where access is restr
 
 The API uses role-based access control with four permission levels: **Anonymous**, **Standard**, **Premium**, and **Admin**.
 
-- **Anonymous** users can register, authenticate, refresh access tokens, and retrieve weather forecasts with a limited daily quota.
+- **Anonymous** users can register, authenticate and retrieve weather forecasts with a limited daily quota.
 - **Standard** users gain access to their profile information, password management, weather locations, and an increased weather forecast quota. 
 - **Premium** users inherit all Standard permissions and additionally have access to forecast query history and tracking endpoints, along with a higher daily forecast limit. 
 - **Admin** users have unrestricted access to all API endpoints, including user management, weather forecast and location administration, and are not subject to forecast request limits.
@@ -66,18 +66,20 @@ Weather forecast requests are rate limited according to the authenticated role:
 | anon | 5/day |
 | standard | 50/day |
 | premium | 100/day |
-| admin token | unlimited |
+| admin  | unlimited |
 
 ---
 
 ## Online Deployment
 The APIs are live and available at the following production URL: https://guidobriniweatherapi.onrender.com
 
+As indicated on my render distribution dashboard,  **your free instance will be shut down if it remains inactive, which could cause a delay of 50 seconds or more in your requests**. I therefore strongly recommend that you visit the site before making any API calls, so that you can activate it in advance and avoid any timeouts or similar issues.
+
 ---
 
 ## Local Installation
 
-This project was developed and tested with Python 3.14.6
+This project was developed and tested with Python 3.14.6 and django 6.0.5 and Django rest framework 3.17.1
 
 Follow these steps to get the project running locally:
 
@@ -101,15 +103,25 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+Project structure:
+
+```text
+weatherforecast/
+├── manage.py
+├── db.sqlite3
+└── weatherforecast/
+```
+
+In the following sections, run all commands from the **outer `weatherforecast/` directory** (the Django project directory), the one containing `manage.py`.
+
 ## Start the application
 ```bash
-# Navigate to the Django project directory
-cd weatherforecast
+# Inside the Django project directory
 
 # Create a local environment file
 cp .env.sample .env
 
-# Generate a Django secret key
+# Generate a Django secret key and put the value in the .env as SECRET_KEY value
 python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
 
 # Apply database migrations
@@ -118,14 +130,12 @@ python manage.py migrate
 # Start the local development server
 python manage.py runserver
 ```
-Open the `.env` file and paste the generated value as the `SECRET_KEY`.
 
 ## Execute this part only with a brand new db
 Only follow these steps when setting up a brand new database.
 
 ```bash
-# Navigate to the Django project directory
-cd weatherforecast
+# Inside the Django project directory
 
 # Create an administrator account
 python manage.py createsuperuser
@@ -160,19 +170,14 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 - All endpoints that support pagination return **10** items per page by default. You can change this by using the `page_size` query parameter, up to a maximum of **25** items per page. The paginated response includes `next` and `previous` fields, which contain the URLs for the next and previous pages, respectively.
 
 - ### register
-    Register a user, the assigned role is `standard` by default. The username must be unique.
+    Register a user, the assigned role is `standard`, to change this use the dedicated api. The username must be unique.
 
     * **URL:** `/api/users/register/`
     * **Method:** `POST`
     * **Auth Required:** `No`
     * **Role:** `Anon`
 
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
-    #### Query Parameters
+    #### Request body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -227,12 +232,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `No`
     * **Role:** `Anon`
 
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -283,12 +283,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `No`
     * **Role:** `Anon`
 
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -333,16 +328,6 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `YES`
     * **Role:** `Any`
 
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
-    #### Query Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
     #### Request Example
 
     ```bash
@@ -382,12 +367,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `Yes`
     * **Role:** `Any`
 
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -436,17 +416,12 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `Required`
     * **Role:** `Admin`
 
-    #### Path Parameters
+    #### Query Parameters
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `page` | `int` | **No** | The page number. |
     | `page_size` | `int` | **No** | Pagination size. |
-
-    #### Query Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
 
     #### Request Example
     ```bash
@@ -521,7 +496,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -570,7 +545,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -622,7 +597,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | `page` | `int` | **No** | The page number. |
     | `page_size` | `int` | **No** | Pagination size. |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -751,7 +726,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -833,7 +808,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | :--- | :--- | :--- | :--- |
     | `pk` | `int` | **Yes** | The forecast object id. |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -876,7 +851,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | :--- | :--- | :--- | :--- |
     | `pk` | `int` | **Yes** | The forecast object id. |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -955,7 +930,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | `page` | `int` | **No** | The page number. |
     | `page_size` | `int` | **No** | Pagination size. |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -1028,7 +1003,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | :--- | :--- | :--- | :--- |
     | `pk` | `int` | **Yes** | The log id. |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -1079,7 +1054,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | :--- | :--- | :--- | :--- |
     | `today` | `string` | **No** | `true` or `false` default `true`, If `false` will return the last **30** days tracking |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -1129,7 +1104,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | `page` | `string` | **No** | The page number |
     | `page_size` | `string` | **No** | Pagination size |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -1186,7 +1161,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -1248,7 +1223,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -1309,7 +1284,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
