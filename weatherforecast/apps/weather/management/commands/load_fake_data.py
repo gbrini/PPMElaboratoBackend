@@ -52,20 +52,21 @@ class Command(BaseCommand):
                 longitude=float(lon),
             )
 
-            for hour in range(24):
-                weather = WeatherData.objects.create(
-                    temperature=round(random.uniform(-5, 38), 1),
-                    condition=random.choice(conditions),
-                    humidity=random.randint(20, 100),
-                    uv_index=random.randint(0, 11),
-                )
+            for add_day in range(8):
+                for hour in range(24):
+                    weather = WeatherData.objects.create(
+                        temperature=round(random.uniform(-5, 38), 1),
+                        condition=random.choice(conditions),
+                        humidity=random.randint(20, 100),
+                        uv_index=random.randint(0, 11),
+                    )
 
-                WeatherQuery.objects.create(
-                    user=admin,
-                    location=location,
-                    weather_info=weather,
-                    forecast_date=today,
-                    forecast_hour=hour,
-                )
+                    WeatherQuery.objects.create(
+                        user=admin,
+                        location=location,
+                        weather_info=weather,
+                        forecast_date=today + timedelta(days=add_day),
+                        forecast_hour=hour,
+                    )
 
         print("Mock weather data created successfully!")

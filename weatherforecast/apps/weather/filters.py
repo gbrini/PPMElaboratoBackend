@@ -2,9 +2,16 @@ from django_filters import rest_framework as filters
 from django.utils import timezone
 from django.utils.dateparse import parse_date
 from django.conf import settings
+from django.core.validators import RegexValidator
 from rest_framework.exceptions import ValidationError
 from .models import WeatherQuery, WeatherLocation
 from datetime import timedelta
+
+country_validator = RegexValidator(
+    regex=r'^[a-zA-Z]{2}$',
+    message="Country code must be exactly two letters (e.g., IT, JP)",
+    code="invalid_code_country"
+)
 
 class WeatherQueryFilter(filters.FilterSet):
     date = filters.DateFilter(field_name="forecast_date")
@@ -13,6 +20,7 @@ class WeatherQueryFilter(filters.FilterSet):
     hour_max = filters.NumberFilter(field_name="forecast_hour", lookup_expr="lte")
     location = filters.CharFilter(field_name="location__name", lookup_expr="iexact", required=True)
     unit = filters.ChoiceFilter(choices=settings.MY_PROJECT_SETTINGS['WEATHER_UNITS'], method='filter_by_unit')
+    country = filters.CharFilter(field_name="location__country", validators=[country_validator], lookup_expr="iexact")
 
     def __init__(self, data=None, *args, **kwargs):
         if data is not None:
@@ -77,11 +85,12 @@ class WeatherQueryFilter(filters.FilterSet):
 
     class Meta:
         model = WeatherQuery
-        fields = [ 'location', 'date', 'date_range', 'hour_min', 'hour_max' ]
+        fields = [ 'location', 'date', 'date_range', 'hour_min', 'hour_max', 'unit', 'country' ]
 
 class WeatherLocationFilter(filters.FilterSet):
     name = filters.CharFilter(field_name="name", lookup_expr="icontains", required=False)
+    country = filters.CharFilter(field_name="country", lookup_expr="iexact", validators=[country_validator])
 
     class Meta:
         model = WeatherLocation
-        fields = [ 'name' ]
+        fields = [ 'name', 'country' ]

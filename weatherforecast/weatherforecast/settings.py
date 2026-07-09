@@ -16,8 +16,8 @@ import environ
 
 MY_PROJECT_SETTINGS = {
     'WEATHER_UNITS': [( 'C', 'Celsius' ), ( 'F', 'Fahrenheit' )],
-    'PAGE_SIZE': 25,
-    'MAX_PAGE_SIZE': 100,
+    'PAGE_SIZE': 10,
+    'MAX_PAGE_SIZE': 25,
     'TRACKING_DAYS': 30,
     'LOCATION_MAX_LENGTH': 50,
     'CONDITION_MAX_LENGTH': 100,
