@@ -56,7 +56,7 @@ class WeatherForecastView(APIView):
             else:
                 json_serialized_params[k] = str(v)
         
-        if request.user.is_authenticated and request.user.role in [ 'premium', 'admin' ]:
+        if request.user.is_authenticated:
             UserSearchHistory.objects.create(
                 user=request.user,
                 search_params=json_serialized_params,
@@ -131,14 +131,14 @@ class WeatherForecastQueryHistoryDetailView(APIView):
         return Response(output_serializer.data, status=status.HTTP_200_OK)
 
 class WeatherForecastRequestTrackingView(APIView):
-    permission_classes = [ IsAdminUser | IsPremiumUser ]
+    permission_classes = [ IsAuthenticated ]
     throttle_classes = []
 
     def get(self, request):
-        days_number = settings.MY_PROJECT_SETTINGS['TRACKING_DAYS']
+        days_number = 1
 
-        if request.query_params.get("today", "false").lower() == "true":
-            days_number = 1
+        if request.query_params.get("today", "true").lower() == "false":
+            days_number = settings.MY_PROJECT_SETTINGS['TRACKING_DAYS']
 
         days = timezone.now() - timedelta(days=days_number)
 

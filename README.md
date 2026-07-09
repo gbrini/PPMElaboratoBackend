@@ -59,7 +59,7 @@ Weather forecast requests are rate limited according to the authenticated role:
 | weather_forecast_detail | PUT | | | |X|
 | weather_forecast_query_history | GET | | |X |X|
 | weather_forecast_query_history_detail | GET | | |X |X|
-| weather_forecast_tracking | GET | | |X |X|
+| weather_forecast_tracking | GET | |X |X |X|
 | weather_location | GET | |X |X |X|
 | weather_location | POST | | | |X|
 | weather_location_detail | PUT | | | |X|
@@ -1074,13 +1074,13 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **URL:** `/api/weather/forecast/tracking/`
     * **Method:** `GET`
     * **Auth Required:** `Yes`
-    * **Role:** `Admin`, `Premium`, `Standard`
+    * **Role:** `Any`
 
     #### Path Parameters
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-    | `today` | `string` | **No** | `true` or `false` default `false` |
+    | `today` | `string` | **No** | `true` or `false` default `true`, If `false` will return the last **30** days tracking |
 
     #### Query Parameters
 
@@ -1091,7 +1091,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     ```bash
     curl --request GET \
-    --url http://127.0.0.1:8000/api/weather/forecast/tracking \
+    --url http://127.0.0.1:8000/api/weather/forecast/tracking?today=true \
     --header 'Authorization: Bearer <YOUR_TOKEN>'
     ```
 

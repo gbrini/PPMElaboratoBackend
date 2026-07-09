@@ -8,6 +8,8 @@ class CustomUser(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
     def getMaximumRequestsNumber(self):
+        if self.role == 'admin':
+            return "unlimited"
         return settings.REST_FRAMEWORK['DEFAULT_THROTTLE_RATES'][self.role]
 
     def __str__(self):
