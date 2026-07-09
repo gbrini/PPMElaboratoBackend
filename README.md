@@ -161,7 +161,7 @@ For this API there are already set up 3 different users:
 The project includes a pre-populated SQLite database located at `weatherforecast/db.sqlite3`. It contains all the required tables, roles, and demo data, allowing to test the REST APIs immediately without any additional setup.
 
 ## Endpoint documentation
-- All endpoints that support pagination return **25** items per page by default. You can change this by using the `page_size` query parameter, up to a maximum of **100** items per page. The paginated response includes `next` and `previous` fields, which contain the URLs for the next and previous pages, respectively.
+- All endpoints that support pagination return **10** items per page by default. You can change this by using the `page_size` query parameter, up to a maximum of **25** items per page. The paginated response includes `next` and `previous` fields, which contain the URLs for the next and previous pages, respectively.
 
 - ### register
     Register a user, the assigned role is `standard` by default. The username must be unique.
@@ -445,7 +445,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `page` | `int` | **No** | The page number. |
-    | `page_size` | `int` | **No** | The page size. |
+    | `page_size` | `int` | **No** | Pagination size. |
 
     #### Query Parameters
 
@@ -623,7 +623,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | `hour_max` | `string` | **No** | The hour range you want to query (Both 09 and 9 are valid). |
     | `unit` | `string` | **No** | Optional parameter to retrieve the temperature in the desired measurement unit (`C` the default value or `F`). |
     | `page` | `int` | **No** | The page number. |
-    | `page_size` | `int` | **No** | The page size. |
+    | `page_size` | `int` | **No** | Pagination size. |
 
     #### Query Parameters
 
@@ -956,7 +956,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `page` | `int` | **No** | The page number. |
-    | `page_size` | `int` | **No** | The page size. |
+    | `page_size` | `int` | **No** | Pagination size. |
 
     #### Query Parameters
 
@@ -1129,6 +1129,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | :--- | :--- | :--- | :--- |
     | `name` | `string` | **No** | The location name, could be an inside the string. The search will be effected with an icontains method |
     | `page` | `string` | **No** | The page number |
+    | `page_size` | `string` | **No** | Pagination size |
 
     #### Query Parameters
 
