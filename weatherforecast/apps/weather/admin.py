@@ -14,7 +14,7 @@ class WeatherQueryAdmin(admin.ModelAdmin):
 
     list_display_links = ( 'location', )
 
-    list_filter = ( 'user', 'forecast_date', 'forecast_hour', )
+    list_filter = ( 'user', 'forecast_date', 'location', 'forecast_hour', )
 
     search_fields = ( 'location', 'user__username', )
 

@@ -615,7 +615,8 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-    | `location` | `int` | **Yes** | The location id of the city you want to query. |
+    | `location` | `string` | **Yes** | The city you want to query. |
+    | `country` | `string` | **No** | The country you want to query. (ISO format) |
     | `date` | `string` | **No** | The date you want to query, in the format yyyy-mm-dd. |
     | `date_range_before` | `string` | **No** | The date range you want to query, in the format yyyy-mm-dd. |
     | `date_range_after` | `string` | **No** | The date range you want to query, in the format yyyy-mm-dd. |
@@ -1128,6 +1129,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `name` | `string` | **No** | The location name, could be an inside the string. The search will be effected with an icontains method |
+    | `country` | `string` | **No** | The country you want to query. (ISO format) |
     | `page` | `string` | **No** | The page number |
     | `page_size` | `string` | **No** | Pagination size |
 
@@ -1169,8 +1171,8 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     ```json
     {
-        "name": [
-            "This field is required."
+        "country": [
+            "Country code must be exactly two letters (e.g., IT, JP)"
         ]
     }
     ```
