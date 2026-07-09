@@ -409,7 +409,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     ```
 
 - ### list_users (GET)
-    Add a location object
+    Get a list of all the users
 
     * **URL:** `/api/users/list/`
     * **Method:** `GET`
@@ -535,7 +535,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     ```
 
 - ### detail_user (DELETE)
-    REmove a user
+    Remove a user. Note that will remove all the associated history, locations and forecasts.
 
     * **URL:** `/api/users/{pk}/`
     * **Method:** `DELETE`
@@ -597,13 +597,13 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     These are the assumptions for these filters:
     - If neither date or date range is provided then the default date is the request day.
-    - If both date and at least one date range filter is provided, the the range will be discarded.
-    - Both bour_min and hour_max are constrained between 0 and 23, hour_max has to be greater or equal then hour_min.
+    - If both date and at least one date range filter is provided, the the range will be discarded, and will be taken only the date.
+    - Both hour_min and hour_max are constrained between 0 and 23, hour_max has to be greater or equal then hour_min.
 
     Api behaviour:
     - If the hour_range is not provided will return all the data that matches the other filter starting from the midnight of the initial date
-    - Queryng as **admin** or **advanced user** will grant that the query with the filters will be saved in the history, so it might be retrieved with the appropriate API call.
-    - This endpoint handles the pagination. In fact in the object response count will provide the number of the total elements retrieved, next and previous instead will provide the link for the pages keeping the filters. Queryng a page that doesn't exist will return raise a 404 error.
+    - All the will be saved in the history bu only **admin** and **advanced user** might be able to call the appropriate API.
+    - This endpoint handles the pagination. In fact in the object response count will provide the number of the total elements retrieved, next and previous instead will provide the link for the pages keeping the filters. Queryng a page that doesn't exist will return a 404 error.
 
     #### Request Examples
 
@@ -707,7 +707,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     Add a forecast object
 
     API reasoning:
-    - Every forecast date will be saved putting the seconds at 0
+    - The forecast is 
 
     * **URL:** `/api/weather/forecast/`
     * **Method:** `POST`
@@ -723,8 +723,8 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | `forecast_hour` | `int` | **Yes** | The forecast hour |
     | `weather_info.temperature` | `float` | **Yes** | The temperature in Celsius. (e.g., `28.5`) |
     | `weather_info.condition` | `string` | **Yes** | The forecast decription. |
-    | `weather_info.humidity` | `int` | **Yes** | Humidity percentage |
-    | `weather_info.uv_index` | `int` | **Yes** | UV index |
+    | `weather_info.humidity` | `int` | **Yes** | Humidity percentage. Min value `0` max `100` |
+    | `weather_info.uv_index` | `int` | **Yes** | UV index Min value `0` |
 
     #### Request Example
 
@@ -740,7 +740,8 @@ The project includes a pre-populated SQLite database located at `weatherforecast
         "weather_info": {
             "temperature": 28,
             "condition": "Snowy condition",
-            "humidity": 99
+            "humidity": 99,
+            "uv_index": 3
         }
     }'
     ```
@@ -843,8 +844,8 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | `forecast_hour` | `int` | **Yes** | The forecast hour |
     | `weather_info.temperature` | `float` | **Yes** | The temperature in Celsius. (e.g., `28.5`) |
     | `weather_info.condition` | `string` | **Yes** | The forecast decription. |
-    | `weather_info.humidity` | `int` | **Yes** | Humidity percentage |
-    | `weather_info.uv_index` | `int` | **Yes** | UV index |
+    | `weather_info.humidity` | `int` | **Yes** | Humidity percentage. Min value `0` max `100` |
+    | `weather_info.uv_index` | `int` | **Yes** | UV index Min value `0` |
 
     #### Request Example
 
@@ -1136,8 +1137,8 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | :--- | :--- | :--- | :--- |
     | `name` | `string` | **Yes** | The location name. |
     | `country` | `string` | **Yes** | ISO Country Code (e.g., IT, US, FR) |
-    | `latitude` | `float` | **No** | The location latitude |
-    | `longitude` | `float` | **No** | The location longitude |
+    | `latitude` | `decimal(2,6)` | **No** | The location latitude. Min value `-90` Max value `90` |
+    | `longitude` | `decimal(2,6)` | **No** | The location longitude. Min value `-180` Max value `180` |
 
     #### Request Example
 
@@ -1199,8 +1200,8 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | :--- | :--- | :--- | :--- |
     | `name` | `string` | **Yes** | The location name. |
     | `country` | `string` | **Yes** | ISO Country Code (e.g., IT, US, FR) |
-    | `latitude` | `float` | **No** | The location latitude |
-    | `longitude` | `float` | **No** | The location longitude |
+    | `latitude` | `decimal(2,6)` | **No** | The location latitude. Min value `-90` Max value `90` |
+    | `longitude` | `decimal(2,6)` | **No** | The location longitude. Min value `-180` Max value `180` |
 
     #### Request Example
 
