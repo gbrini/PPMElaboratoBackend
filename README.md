@@ -7,21 +7,17 @@ The Weather API is a REST API project developed using the Django REST Framework 
 
 ## API Testing Workflow
 
-A complete Insomnia collection is included in the repository to reproduce the main API workflows.
-
+The repository includes a comprehensive Insomnia collection for replicating the main API workflows.
 The collection file is:
-
 ```
 docs/api_collection.yaml
 ```
-
-Instructions for importing and using the collection are available in:
-
+Instructions for importing and using the collection are available at:
 ```
 docs/README.md
 ```
-
-The collection supports all the endpoints developed.
+The collection supports all the endpoints that have been developed. For testing purposes, the database is populated with these six cities (Berlin, Tokyo, New York, London, Paris, Florence, Milan and Rome), and daily weather forecasts are available for all of them from 9 July (00:00) until 16 July (23:00).
+Please note that all data is available in the admin panel, where access is restricted to the `admin_demo` user only.
 
 ---
 
