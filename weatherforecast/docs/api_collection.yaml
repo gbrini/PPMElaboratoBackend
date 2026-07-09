@@ -11,7 +11,7 @@ collection:
     meta:
       id: fld_9b14e9a02a6f46a086fe6beb5ebd4fe0
       created: 1782675663594
-      modified: 1783535647549
+      modified: 1783603050446
       sortKey: -1782675663594
       description: ""
     children:
@@ -20,7 +20,7 @@ collection:
         meta:
           id: req_7c7d27a36d614a97b31502c8033d9254
           created: 1782675666984
-          modified: 1783534499562
+          modified: 1783596922786
           isPrivate: false
           description: ""
           sortKey: -1782675666984
@@ -29,9 +29,9 @@ collection:
           mimeType: application/json
           text: |-
             {
-                "username": "boh",
-                "password": "sd!",
-                "password2": "sa!"
+                "username": "premium_demo",
+                "password": "Password123!",
+                "password2": "Password123!"
             }
         headers:
           - name: Content-Type
@@ -51,7 +51,7 @@ collection:
         meta:
           id: req_75538fc57a0b4752a89c1116246a0eb7
           created: 1782675824011
-          modified: 1783446061134
+          modified: 1783600560176
           isPrivate: false
           description: ""
           sortKey: -1782675666934
@@ -60,7 +60,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-                "username": "admin_demo",
+                "username": "standard_demo",
                 "password": "Password123!"
             }
         headers:
@@ -138,11 +138,16 @@ collection:
         meta:
           id: req_a0e3d7f0b93e40a4a948812ae53275d6
           created: 1782676038736
-          modified: 1783445640251
+          modified: 1783599888809
           isPrivate: false
           description: ""
           sortKey: -1782676228933
         method: GET
+        parameters:
+          - name: today
+            value: "true"
+            description: ""
+            disabled: false
         authentication:
           type: bearer
           token: "{{ _.access_token }}"
@@ -167,11 +172,20 @@ collection:
         meta:
           id: req_f8f215d1703844b08d1b05d99d669f84
           created: 1782676269331
-          modified: 1783445610374
+          modified: 1783599688508
           isPrivate: false
           description: ""
           sortKey: -1782676272161
         method: GET
+        parameters:
+          - name: page
+            value: "1"
+            description: ""
+            disabled: false
+          - name: page_size
+            value: "25"
+            description: ""
+            disabled: false
         authentication:
           type: bearer
           token: "{{ _.access_token }}"
@@ -183,12 +197,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.local_url }}weather/forecast/history/52"
+      - url: "{{ _.local_url }}weather/forecast/history/22"
         name: History detail
         meta:
           id: req_edbe30535ec742f69548573056a35372
           created: 1782676300438
-          modified: 1783445616179
+          modified: 1783600165948
           isPrivate: false
           description: ""
           sortKey: -1782676250547
@@ -212,12 +226,12 @@ collection:
       sortKey: -1782750522148
       description: ""
     children:
-      - url: "{{ _.local_url }}weather/forecast/11"
+      - url: "{{ _.local_url }}weather/forecast/2"
         name: Modify forecast
         meta:
           id: req_3dfe7a196cc4486188ee0e7faa7f0e52
           created: 1782756264763
-          modified: 1783445579876
+          modified: 1783599564971
           isPrivate: false
           description: ""
           sortKey: -1782756264763
@@ -226,13 +240,14 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"location_id": 1, 
-            	"forecast_date": "2026-07-12",
-            	"forecast_hour": 17,
+            	"location_id": 5, 
+            	"forecast_date": "2026-07-09",
+            	"forecast_hour": 16,
             	"weather_info": {
-            		"temperature": 22,
+            		"temperature": 23,
             		"condition": "Snowy condition test",
-            		"humidity": 13
+            		"humidity": 13,
+            		"uv_index": 2
             	}
             }
         headers:
@@ -254,14 +269,14 @@ collection:
         meta:
           id: req_fb760356396e411ebd93b4836c77325c
           created: 1782756397999
-          modified: 1783536636421
+          modified: 1783603096440
           isPrivate: false
           description: ""
           sortKey: -1782713419265
         method: GET
         parameters:
           - name: location
-            value: prato
+            value: tokyo
             description: ""
             disabled: false
           - name: date_range_after
@@ -269,7 +284,7 @@ collection:
             description: ""
             disabled: true
           - name: date_range_before
-            value: ""
+            value: 2026-07-11
             description: ""
             disabled: true
           - name: date
@@ -277,15 +292,23 @@ collection:
             description: ""
             disabled: false
           - name: hour_min
-            value: ""
+            value: "15"
             description: ""
             disabled: true
           - name: hour_max
-            value: ""
+            value: "23"
             description: ""
             disabled: true
           - name: unit
             value: F
+            description: ""
+            disabled: true
+          - name: page
+            value: "1"
+            description: ""
+            disabled: true
+          - name: page_size
+            value: "25"
             description: ""
             disabled: true
         headers:
@@ -330,7 +353,7 @@ collection:
         meta:
           id: req_7a06613eaae74a519d90ffcbdd70647d
           created: 1782846142109
-          modified: 1783536105497
+          modified: 1783599389085
           isPrivate: false
           description: ""
           sortKey: -1782753415566
@@ -339,9 +362,9 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"location_id": 1, 
+            	"location_id": 5, 
             	"forecast_date": "2026-07-09",
-            	"forecast_hour": 1,
+            	"forecast_hour": 16,
             	"weather_info": {
             		"temperature": 28,
             		"condition": "Sunny",
@@ -368,7 +391,7 @@ collection:
         meta:
           id: req_a1981366fda14f658d4e5055d708d5f4
           created: 1783536661725
-          modified: 1783536668639
+          modified: 1783597119334
           isPrivate: false
           description: ""
           sortKey: -1782694845713
@@ -400,6 +423,14 @@ collection:
             disabled: true
           - name: unit
             value: F
+            description: ""
+            disabled: true
+          - name: page
+            value: "1"
+            description: ""
+            disabled: true
+          - name: page_size
+            value: "25"
             description: ""
             disabled: true
         headers:
@@ -457,7 +488,7 @@ collection:
         meta:
           id: req_e80a1e175c834ee092116245d0cd6257
           created: 1782934405823
-          modified: 1783535713878
+          modified: 1783596795062
           isPrivate: false
           description: ""
           sortKey: -1782934405823
@@ -485,12 +516,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.local_url }}weather/location/1"
+      - url: "{{ _.local_url }}weather/location/5"
         name: Edit Weather Location
         meta:
           id: req_e5043a486354469dbc9539a74a069138
           created: 1783364078407
-          modified: 1783536295540
+          modified: 1783596832904
           isPrivate: false
           description: ""
           sortKey: -1782934402078
@@ -518,12 +549,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.local_url }}weather/location/3"
+      - url: "{{ _.local_url }}weather/location/5"
         name: Remove Weather Location
         meta:
           id: req_d6a99a8878054a8596888fae2cd37814
           created: 1783364090086
-          modified: 1783536303496
+          modified: 1783596810241
           isPrivate: false
           description: ""
           sortKey: -1782934403950.5
@@ -585,12 +616,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.local_url }}users/5/"
+      - url: "{{ _.local_url }}users/6/"
         name: Change user role
         meta:
           id: req_98f939c7fec9494b8a8d87b9682fd098
           created: 1783277360486
-          modified: 1783445497522
+          modified: 1783596961324
           isPrivate: false
           description: ""
           sortKey: -1783105464070.5
@@ -599,7 +630,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"role": "sd"
+            	"role": "premium"
             }
         headers:
           - name: Content-Type
@@ -620,7 +651,7 @@ collection:
         meta:
           id: req_54b5307c628d41c2b0c56cf48ee99368
           created: 1783277797071
-          modified: 1783445509814
+          modified: 1783596892134
           isPrivate: false
           description: ""
           sortKey: -1783019934946.75
@@ -655,7 +686,7 @@ collection:
         meta:
           id: req_34c99beec32e457f9789b52df90a6aaf
           created: 1783326975485
-          modified: 1783445447782
+          modified: 1783600205357
           isPrivate: false
           description: ""
           sortKey: -1783350570531
@@ -676,7 +707,7 @@ collection:
         meta:
           id: req_7ff4011618d24b479ec76605f9de24f1
           created: 1783353235106
-          modified: 1783445475148
+          modified: 1783597036157
           isPrivate: false
           description: ""
           sortKey: -1783313546424.5
@@ -685,9 +716,9 @@ collection:
           mimeType: application/json
           text: |-
             {
-            		"old_password": "Password123!",
-            		"new_password": "dsf",
-            		"confirm_new_password": "adsgasdg"
+            		"old_password": "Password1235!",
+            		"new_password": "Password123!",
+            		"confirm_new_password": "Password123!"
             }
         headers:
           - name: Content-Type
@@ -708,19 +739,19 @@ cookieJar:
   meta:
     id: jar_dcc5a390d7add28ecf5feb4d148564e98af16292
     created: 1782675647657
-    modified: 1783535647547
+    modified: 1783603050440
 environments:
   name: Base Environment
   meta:
     id: env_dcc5a390d7add28ecf5feb4d148564e98af16292
     created: 1782675647656
-    modified: 1783535647548
+    modified: 1783603050442
     isPrivate: false
   data:
     local_url: " http://127.0.0.1:8000/api/"
     deployed_url: https://guidobriniweatherapi.onrender.com/api/
-    access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzNTM3NDQ3LCJpYXQiOjE3ODM1MzU2NDcsImp0aSI6ImY1OWFmOGI1ZTMxZDQ2ZDE5OWZhM2Q2MzM1MmY0YzM4IiwidXNlcl9pZCI6IjEifQ.6cRlm9KwpTKw-AS1Z6-CVAhCRu_sraaEkP37kZBw4qA
-    refresh_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4MzYyMjA0NywiaWF0IjoxNzgzNTM1NjQ3LCJqdGkiOiJiZWM3ODNhOWMxODM0OGU2ODdkMGU0Y2IzOWMxMTg5NiIsInVzZXJfaWQiOiIxIn0.LZ4sbcagw3kWsrSQeXoPtODTa6WKoPMgTEFwC7XYhns
+    access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzNjA0ODUwLCJpYXQiOjE3ODM2MDMwNTAsImp0aSI6ImY5ZTM3OGNjZTVkODRjOTVhZTI5MDdkMTM3NmIzNGNjIiwidXNlcl9pZCI6IjMifQ.BaOz_FrY-74F8CRtUDdLsQmTYVkSzIWHCvBOYmwojkg
+    refresh_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4MzY4OTQ1MCwiaWF0IjoxNzgzNjAzMDUwLCJqdGkiOiIzZDM0MDVhZWZmNGE0MzQ1OWNhMWZlOTdkOGZmZTU3MiIsInVzZXJfaWQiOiIzIn0.uoLS4iIbULioF417sLHWsmCn2qp22A-2s9mePrNv8vo
   subEnvironments:
     - name: New Environment
       meta:
