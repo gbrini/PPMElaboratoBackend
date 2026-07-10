@@ -73,13 +73,13 @@ Weather forecast requests are rate limited according to the authenticated role:
 ## Online Deployment
 The APIs are live and available at the following production URL: https://guidobriniweatherapi.onrender.com
 
-As indicated on my render distribution dashboard,  **your free instance will be shut down if it remains inactive, which could cause a delay of 50 seconds or more in your requests**. I therefore strongly recommend that you visit the site before making any API calls, so that you can activate it in advance and avoid any timeouts or similar issues.
+As indicated on the Render Dashboard, **your free instance will be shut down if it remains inactive, which could cause a delay of 50 seconds or more in your requests**. I therefore strongly recommend that you visit the site before making any API calls, so that you can activate it in advance and avoid any timeouts or similar issues.
 
 ---
 
 ## Local Installation
 
-This project was developed and tested with Python 3.14.6 and django 6.0.5 and Django rest framework 3.17.1
+This project was developed and tested with Python 3.14.6, Django 6.0.5 and Django Rest Framework 3.17.1
 
 Follow these steps to get the project running locally:
 
@@ -136,6 +136,12 @@ Only follow these steps when setting up a brand new database.
 
 ```bash
 # Inside the Django project directory
+
+# Delete the db.sqlite3 file and all migration files in the project, taking care not to delete either the “migrations” folder or the __pycache__ data it contains
+
+python manage.py makemigrations
+
+python manage.py migrate
 
 # Create an administrator account
 python manage.py createsuperuser
