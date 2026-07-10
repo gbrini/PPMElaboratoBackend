@@ -212,8 +212,8 @@ if env('REDIS_URL', default=None):
     }
 else:
     CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-            'LOCATION': 'throttle_cache_table',
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+            "LOCATION": "local-dev-cache",
         }
     }
