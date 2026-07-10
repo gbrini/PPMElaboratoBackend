@@ -4,14 +4,14 @@ name: GuidoBriniWeatherApi
 meta:
   id: wrk_738b2fb742a34d09b4e8d45272841a2d
   created: 1782675647654
-  modified: 1782675647654
+  modified: 1783690255884
   description: ""
 collection:
   - name: Auth
     meta:
       id: fld_9b14e9a02a6f46a086fe6beb5ebd4fe0
       created: 1782675663594
-      modified: 1783614159352
+      modified: 1783687907865
       sortKey: -1782675663594
       description: ""
     children:
@@ -20,7 +20,7 @@ collection:
         meta:
           id: req_7c7d27a36d614a97b31502c8033d9254
           created: 1782675666984
-          modified: 1783596922786
+          modified: 1783687664221
           isPrivate: false
           description: ""
           sortKey: -1782675666984
@@ -29,9 +29,9 @@ collection:
           mimeType: application/json
           text: |-
             {
-                "username": "premium_demo",
-                "password": "Password123!",
-                "password2": "Password123!"
+              "username": "test",
+              "password": "Password123!",
+              "password2": "Password123!"
             }
         headers:
           - name: Content-Type
@@ -476,7 +476,7 @@ collection:
         meta:
           id: req_200a974cd36043c88fb06e651516ae36
           created: 1782934398333
-          modified: 1783615151539
+          modified: 1783623832268
           isPrivate: false
           description: ""
           sortKey: -1782934398333
@@ -619,7 +619,7 @@ collection:
         meta:
           id: req_90759541ef9d4e5da0108784abf47c92
           created: 1783276520040
-          modified: 1783612197929
+          modified: 1783625442350
           isPrivate: false
           description: ""
           sortKey: -1783276522318
@@ -631,7 +631,7 @@ collection:
           - name: page
             value: "1"
             description: ""
-            disabled: true
+            disabled: false
           - name: page_size
             value: "10"
             description: ""
@@ -778,19 +778,19 @@ cookieJar:
   meta:
     id: jar_dcc5a390d7add28ecf5feb4d148564e98af16292
     created: 1782675647657
-    modified: 1783614159348
+    modified: 1783687907863
 environments:
   name: Base Environment
   meta:
     id: env_dcc5a390d7add28ecf5feb4d148564e98af16292
     created: 1782675647656
-    modified: 1783614159349
+    modified: 1783687907864
     isPrivate: false
   data:
     local_url: " http://127.0.0.1:8000/api/"
     deployed_url: https://guidobriniweatherapi.onrender.com/api/
-    access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzNjE1OTU5LCJpYXQiOjE3ODM2MTQxNTksImp0aSI6IjMzZmEwY2ZjZTZmODRmODZhNWUwYzYzMGUzNmIxZjVjIiwidXNlcl9pZCI6IjEifQ.TLRhKKmOXr5ROTIqoo6zz7bEI3uAOxQ9DTG_SqTIih8
-    refresh_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4MzcwMDU1OSwiaWF0IjoxNzgzNjE0MTU5LCJqdGkiOiI3N2MyMzA2NDZkOTE0ZjFlYTQ2ZWRlZWY4ZWMyYTc0MCIsInVzZXJfaWQiOiIxIn0.4yszZ00Mry1AYqhBhgmAwRULn2bRIiBFMjPkVLMPjO4
+    access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzNjg5NzA3LCJpYXQiOjE3ODM2ODc5MDcsImp0aSI6IjY1M2IwZWFmNDllMjQ3Y2M5NGY0YmY2OTNmOTdiYjlhIiwidXNlcl9pZCI6IjEifQ.zhfWf3Q_rJd4nHHcKcP401OwvaNhYyu-OHGL1pvFFAU
+    refresh_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4Mzc3NDMwNywiaWF0IjoxNzgzNjg3OTA3LCJqdGkiOiIxN2I5MWU1ZDMxYTg0NzkwYjkxZjJkYjFkNjQ5ODc0NSIsInVzZXJfaWQiOiIxIn0.V3bdGkY7boja2J6KoGyxkZZ0f-_OFqt4BkhYAInCopI
   subEnvironments:
     - name: New Environment
       meta:

@@ -73,13 +73,13 @@ Weather forecast requests are rate limited according to the authenticated role:
 ## Online Deployment
 The APIs are live and available at the following production URL: https://guidobriniweatherapi.onrender.com
 
-As indicated on my render distribution dashboard,  **your free instance will be shut down if it remains inactive, which could cause a delay of 50 seconds or more in your requests**. I therefore strongly recommend that you visit the site before making any API calls, so that you can activate it in advance and avoid any timeouts or similar issues.
+As indicated on the Render Dashboard, **your free instance will be shut down if it remains inactive, which could cause a delay of 50 seconds or more in your requests**. I therefore strongly recommend that you visit the site before making any API calls, so that you can activate it in advance and avoid any timeouts or similar issues.
 
 ---
 
 ## Local Installation
 
-This project was developed and tested with Python 3.14.6 and django 6.0.5 and Django rest framework 3.17.1
+This project was developed and tested with Python 3.14.6, Django 6.0.5 and Django Rest Framework 3.17.1
 
 Follow these steps to get the project running locally:
 
@@ -137,6 +137,12 @@ Only follow these steps when setting up a brand new database.
 ```bash
 # Inside the Django project directory
 
+# Delete the db.sqlite3 file and all migration files in the project, taking care not to delete either the “migrations” folder or the __pycache__ data it contains
+
+python manage.py makemigrations
+
+python manage.py migrate
+
 # Create an administrator account
 python manage.py createsuperuser
 
@@ -150,7 +156,7 @@ python manage.py shell
 >>> user.save()
 >>> exit()
 ```
-After completing these steps, the user will have all the permissions required to access the Django admin panel.
+After completing these steps, the user will be an admin, after that you can run all the API needed. 
 
 ---
 
@@ -167,7 +173,7 @@ For this API there are already set up 3 different users:
 The project includes a pre-populated SQLite database located at `weatherforecast/db.sqlite3`. It contains all the required tables, roles, and demo data, allowing to test the REST APIs immediately without any additional setup.
 
 ## Endpoint documentation
-- All endpoints that support pagination return **10** items per page by default. You can change this by using the `page_size` query parameter, up to a maximum of **25** items per page. The paginated response includes `next` and `previous` fields, which contain the URLs for the next and previous pages, respectively.
+- All endpoints that support pagination return **10** items per page by default. You can change this by using the `page_size` query parameter, up to a maximum of **25** items per page. The paginated response includes `next` and `previous` fields, which contain the URLs for the next and previous pages, respectively. In fact in the object response count will provide the number of the total elements retrieved. Queriyng a page that doesn't exist will return a 404 error.
 
 - ### register
     Register a user, the assigned role is `standard`, to change this use the dedicated api. The username must be unique.
@@ -181,7 +187,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-    | `username` | `string` | **Yes** | Username |
+    | `username` | `string` | **Yes** | Username, must be unique |
     | `password` | `string` | **Yes** | Password, at least 8 characters. |
     | `password2` | `string` | **Yes** | Password, must be the same as `password` |
     | `email` | `string` | **No** | email |
@@ -207,7 +213,8 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     ```json
     {
-        "username": "",
+        "id": 1,
+        "username": "admin_demo",
         "email": "",
         "first_name": "",
         "last_name": ""
@@ -306,7 +313,8 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     ```json
     {
-        "access": ""
+        "access": "",
+        "refresh": ""
     }
     ```
 
@@ -578,7 +586,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **URL:** `/api/weather/forecast/`
     * **Method:** `GET`
     * **Auth Required:** `Optional`
-    * **Role:** `Any + Anon`
+    * **Role:** ``
 
     #### Query Parameters
 
@@ -602,8 +610,8 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     Api behaviour:
     - If the hour_range is not provided will return all the data that matches the other filter starting from the midnight of the initial date
-    - All the will be saved in the history bu only **admin** and **advanced user** might be able to call the appropriate API.
-    - This endpoint handles the pagination. In fact in the object response count will provide the number of the total elements retrieved, next and previous instead will provide the link for the pages keeping the filters. Queryng a page that doesn't exist will return a 404 error.
+    - Every authenticathed forecast GET request will be saved, but only  **admin** or **premium user** will be able to query them.
+    - This endpoint handles the pagination.
 
     #### Request Examples
 
@@ -1023,7 +1031,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 - ### weather_forecast_tracking
     Get the tracking of the request limit, grouped by day. There are shown only days with at least `1` request. On the object with the date of the requesting day, will be added `throttle_rate`, displaying the user's throttle rate.
 
-    * **URL:** `/api/weather/forecast/tracking/`
+    * **URL:** `/api/weather/forecast/tracking`
     * **Method:** `GET`
     * **Auth Required:** `Yes`
     * **Role:** `Any`
@@ -1033,11 +1041,6 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `today` | `string` | **No** | `true` or `false` default `true`, If `false` will return the last **30** days tracking |
-
-    #### Request Body
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
 
     #### Request Example
 
@@ -1072,8 +1075,8 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     * **URL:** `/api/weather/location/`
     * **Method:** `GET`
-    * **Auth Required:** `Optional`
-    * **Role:** ``
+    * **Auth Required:** `Yes`
+    * **Role:** `Any`
 
     #### Query Parameters
 
@@ -1287,7 +1290,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 Run the following commands from the main weatherforecast project directory.
 
 ```bash
-#On the main weatherforecast folder
+# On the main weatherforecast folder
 
 # Run all tests 
 python manage.py test 
