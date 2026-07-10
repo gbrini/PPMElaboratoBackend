@@ -586,7 +586,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **URL:** `/api/weather/forecast/`
     * **Method:** `GET`
     * **Auth Required:** `Optional`
-    * **Role:** `Any + Anon`
+    * **Role:** ``
 
     #### Query Parameters
 
@@ -1031,7 +1031,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 - ### weather_forecast_tracking
     Get the tracking of the request limit, grouped by day. There are shown only days with at least `1` request. On the object with the date of the requesting day, will be added `throttle_rate`, displaying the user's throttle rate.
 
-    * **URL:** `/api/weather/forecast/tracking/`
+    * **URL:** `/api/weather/forecast/tracking`
     * **Method:** `GET`
     * **Auth Required:** `Yes`
     * **Role:** `Any`
@@ -1041,11 +1041,6 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `today` | `string` | **No** | `true` or `false` default `true`, If `false` will return the last **30** days tracking |
-
-    #### Request Body
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
 
     #### Request Example
 
@@ -1080,8 +1075,8 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     * **URL:** `/api/weather/location/`
     * **Method:** `GET`
-    * **Auth Required:** `Optional`
-    * **Role:** ``
+    * **Auth Required:** `Yes`
+    * **Role:** `Any`
 
     #### Query Parameters
 
@@ -1295,7 +1290,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 Run the following commands from the main weatherforecast project directory.
 
 ```bash
-#On the main weatherforecast folder
+# On the main weatherforecast folder
 
 # Run all tests 
 python manage.py test 
