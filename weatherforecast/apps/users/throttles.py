@@ -1,12 +1,5 @@
 from rest_framework.throttling import SimpleRateThrottle
 
-from django.core.cache import cache, caches
-from django.conf import settings
-
-print(caches["default"].__class__)
-cache.set("test_key", "hello", 60)
-print(cache.get("test_key"))
-
 class RoleBasedThrottle(SimpleRateThrottle):
     scope = "standard"
 
@@ -42,7 +35,16 @@ class RoleBasedThrottle(SimpleRateThrottle):
     def allow_request(self, request, view):
         self.configure(request)
 
+        print("scope:", self.scope)
+        print("key:", self.key)
+        print("before:", self.cache.get(self.key))
+
         if self.key is None:
             return True
 
-        return super().allow_request(request, view)
+        allowed = super().allow_request(request, view)
+
+        print("after:", self.cache.get(self.key))
+        print("allowed:", allowed)
+
+        return allowed
