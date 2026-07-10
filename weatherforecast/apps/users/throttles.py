@@ -40,11 +40,6 @@ class RoleBasedThrottle(SimpleRateThrottle):
 
     def allow_request(self, request, view):
         self.configure(request)
-        
-        print("THROTTLE")
-        print("scope:", self.scope)
-        print("rate:", self.rate)
-        print("key:", self.key)
 
         if self.key is None:
             return True
