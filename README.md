@@ -167,8 +167,7 @@ For this API there are already set up 3 different users:
 The project includes a pre-populated SQLite database located at `weatherforecast/db.sqlite3`. It contains all the required tables, roles, and demo data, allowing to test the REST APIs immediately without any additional setup.
 
 ## Endpoint documentation
-- All endpoints that support pagination return **10** items per page by default. You can change this by using the `page_size` query parameter, up to a maximum of **25** items per page. The paginated response includes `next` and `previous` fields, which contain the URLs for the next and previous pages, respectively.
-- All endpoints that support pagination return **25** items per page by default. You can change this by using the `page_size` query parameter, up to a maximum of **100** items per page. The paginated response includes `next` and `previous` fields, which contain the URLs for the next and previous pages, respectively. In fact in the object response count will provide the number of the total elements retrieved. Queryng a page that doesn't exist will return raise a 404 error.
+- All endpoints that support pagination return **10** items per page by default. You can change this by using the `page_size` query parameter, up to a maximum of **25** items per page. The paginated response includes `next` and `previous` fields, which contain the URLs for the next and previous pages, respectively. In fact in the object response count will provide the number of the total elements retrieved. Queryng a page that doesn't exist will return raise a 404 error.
 
 - ### register
     Register a user, the assigned role is `standard`, to change this use the dedicated api. The username must be unique.
