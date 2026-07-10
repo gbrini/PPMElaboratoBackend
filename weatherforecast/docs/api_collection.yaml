@@ -4,14 +4,14 @@ name: GuidoBriniWeatherApi
 meta:
   id: wrk_738b2fb742a34d09b4e8d45272841a2d
   created: 1782675647654
-  modified: 1783690255884
+  modified: 1783701332948
   description: ""
 collection:
   - name: Auth
     meta:
       id: fld_9b14e9a02a6f46a086fe6beb5ebd4fe0
       created: 1782675663594
-      modified: 1783687907865
+      modified: 1783701124284
       sortKey: -1782675663594
       description: ""
     children:
@@ -20,7 +20,7 @@ collection:
         meta:
           id: req_7c7d27a36d614a97b31502c8033d9254
           created: 1782675666984
-          modified: 1783687664221
+          modified: 1783690582110
           isPrivate: false
           description: ""
           sortKey: -1782675666984
@@ -29,7 +29,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-              "username": "test",
+              "username": "test2",
               "password": "Password123!",
               "password2": "Password123!"
             }
@@ -51,7 +51,7 @@ collection:
         meta:
           id: req_75538fc57a0b4752a89c1116246a0eb7
           created: 1782675824011
-          modified: 1783611970756
+          modified: 1783701120030
           isPrivate: false
           description: ""
           sortKey: -1782675666934
@@ -402,14 +402,14 @@ collection:
         meta:
           id: req_a1981366fda14f658d4e5055d708d5f4
           created: 1783536661725
-          modified: 1783613003183
+          modified: 1783701086538
           isPrivate: false
           description: ""
           sortKey: -1782694845713
         method: GET
         parameters:
           - name: location
-            value: prato
+            value: tokyo
             description: ""
             disabled: false
           - name: country
@@ -427,7 +427,7 @@ collection:
           - name: date
             value: 2026-07-09
             description: ""
-            disabled: false
+            disabled: true
           - name: hour_min
             value: ""
             description: ""
@@ -476,7 +476,7 @@ collection:
         meta:
           id: req_200a974cd36043c88fb06e651516ae36
           created: 1782934398333
-          modified: 1783623832268
+          modified: 1783690685430
           isPrivate: false
           description: ""
           sortKey: -1782934398333
@@ -489,7 +489,7 @@ collection:
           - name: country
             value: IT
             description: ""
-            disabled: false
+            disabled: true
           - name: page
             value: "1"
             description: ""
@@ -515,7 +515,7 @@ collection:
         meta:
           id: req_e80a1e175c834ee092116245d0cd6257
           created: 1782934405823
-          modified: 1783615129105
+          modified: 1783690718012
           isPrivate: false
           description: ""
           sortKey: -1782934405823
@@ -524,7 +524,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"name": "Prato",
+            	"name": "Carmignano",
             	"country": "IT",
             	"latitude": 43.880001,
             	"longitude": 11.098333
@@ -578,12 +578,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.local_url }}weather/location/5"
+      - url: "{{ _.local_url }}weather/location/23"
         name: Remove Weather Location
         meta:
           id: req_d6a99a8878054a8596888fae2cd37814
           created: 1783364090086
-          modified: 1783603328811
+          modified: 1783690741948
           isPrivate: false
           description: ""
           sortKey: -1782934403950.5
@@ -651,12 +651,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.local_url }}users/6/"
+      - url: "{{ _.local_url }}users/8/"
         name: Change user role
         meta:
           id: req_98f939c7fec9494b8a8d87b9682fd098
           created: 1783277360486
-          modified: 1783603312632
+          modified: 1783690606260
           isPrivate: false
           description: ""
           sortKey: -1783105464070.5
@@ -682,12 +682,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.local_url }}users/5/"
+      - url: "{{ _.local_url }}users/8/"
         name: Delete user
         meta:
           id: req_54b5307c628d41c2b0c56cf48ee99368
           created: 1783277797071
-          modified: 1783603320047
+          modified: 1783701158407
           isPrivate: false
           description: ""
           sortKey: -1783019934946.75
@@ -745,7 +745,7 @@ collection:
         meta:
           id: req_7ff4011618d24b479ec76605f9de24f1
           created: 1783353235106
-          modified: 1783603277269
+          modified: 1783690660384
           isPrivate: false
           description: ""
           sortKey: -1783313546424.5
@@ -778,19 +778,19 @@ cookieJar:
   meta:
     id: jar_dcc5a390d7add28ecf5feb4d148564e98af16292
     created: 1782675647657
-    modified: 1783687907863
+    modified: 1783701124280
 environments:
   name: Base Environment
   meta:
     id: env_dcc5a390d7add28ecf5feb4d148564e98af16292
     created: 1782675647656
-    modified: 1783687907864
+    modified: 1783701324335
     isPrivate: false
   data:
-    local_url: " http://127.0.0.1:8000/api/"
+    local_url: http://127.0.0.1:8000/api/
     deployed_url: https://guidobriniweatherapi.onrender.com/api/
-    access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzNjg5NzA3LCJpYXQiOjE3ODM2ODc5MDcsImp0aSI6IjY1M2IwZWFmNDllMjQ3Y2M5NGY0YmY2OTNmOTdiYjlhIiwidXNlcl9pZCI6IjEifQ.zhfWf3Q_rJd4nHHcKcP401OwvaNhYyu-OHGL1pvFFAU
-    refresh_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4Mzc3NDMwNywiaWF0IjoxNzgzNjg3OTA3LCJqdGkiOiIxN2I5MWU1ZDMxYTg0NzkwYjkxZjJkYjFkNjQ5ODc0NSIsInVzZXJfaWQiOiIxIn0.V3bdGkY7boja2J6KoGyxkZZ0f-_OFqt4BkhYAInCopI
+    access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzNzAyOTI0LCJpYXQiOjE3ODM3MDExMjQsImp0aSI6IjgzOTNmYzViOWRlOTRiYWJhOGEzMzNhNmQyZDU5NjNhIiwidXNlcl9pZCI6IjEifQ.9Kd-qeibzO63lSklikaCRMjBGz-c8VmqTUTSEmHTqcc
+    refresh_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4Mzc4NzUyNCwiaWF0IjoxNzgzNzAxMTI0LCJqdGkiOiJkNTg3YmY4Mzk4ZTM0MjI2OTNlYmE0Mzk1MTg4YmRhNyIsInVzZXJfaWQiOiIxIn0.Dv2NN6dTSescbBECGPeZVNyzj2hKvDkkXzYE4uK7ME4
   subEnvironments:
     - name: New Environment
       meta:
