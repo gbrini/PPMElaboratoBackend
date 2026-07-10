@@ -1,6 +1,6 @@
 from rest_framework.throttling import SimpleRateThrottle
 
-from django.core.cache import cache
+from django.core.cache import cache, caches
 from django.conf import settings
 
 print(caches["default"].__class__)
