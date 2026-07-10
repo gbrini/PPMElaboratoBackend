@@ -176,8 +176,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication'
     ],
     'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
-        'apps.users.throttles.RoleBasedThrottle'
+        # 'rest_framework.throttling.AnonRateThrottle',
+        # 'apps.users.throttles.RoleBasedThrottle'
     ],
     'DEFAULT_THROTTLE_RATES': {
         'anon': str(MY_PROJECT_SETTINGS['THROTTLE_RATE']['anon']) + '/day',
