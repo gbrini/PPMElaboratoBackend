@@ -127,6 +127,8 @@ python -c 'from django.core.management.utils import get_random_secret_key; print
 # Apply database migrations
 python manage.py migrate
 
+python manage.py createcachetable
+
 # Start the local development server
 python manage.py runserver
 ```
@@ -142,6 +144,8 @@ Only follow these steps when setting up a brand new database.
 python manage.py makemigrations
 
 python manage.py migrate
+
+python manage.py createcachetable
 
 # Create an administrator account
 python manage.py createsuperuser
