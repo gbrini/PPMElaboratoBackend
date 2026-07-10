@@ -6,6 +6,8 @@ class RoleBasedThrottle(SimpleRateThrottle):
     def configure(self, request):
         if not request.user.is_authenticated:
             self.scope = "anon"
+            xff = request.META.get("HTTP_X_FORWARDED_FOR")
+            
             if xff:
                 ident = xff.split(",")[0].strip()
             else:
