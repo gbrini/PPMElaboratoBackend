@@ -8,7 +8,7 @@ To use the collection, import the `api_collection.yaml` file into the Insomnia a
 
 The collection also includes an environment containing two variables:
 
-* `local_url`: the local development server URL
+* `local_url`: the local development server URL (Please verify that it is the same as the actual django local running server)
 * `deployed_url`: the online deployed API URL
 
 By default, all requests use the local environment URL. To test the deployed API, change the environment variable used in the request URL from the local value to the deployed value.
