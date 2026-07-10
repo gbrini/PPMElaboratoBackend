@@ -35,6 +35,9 @@ class RoleBasedThrottle(SimpleRateThrottle):
     def allow_request(self, request, view):
         self.configure(request)
 
+        print(request.META.get("REMOTE_ADDR"))
+        print(request.META.get("HTTP_X_FORWARDED_FOR"))
+
         print("scope:", self.scope)
         print("key:", self.key)
         print("before:", self.cache.get(self.key))

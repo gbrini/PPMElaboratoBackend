@@ -92,7 +92,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'xff.middleware.XForwardedForMiddleware',
+    #'xff.middleware.XForwardedForMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -102,9 +102,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-XFF_TRUSTED_PROXY_DEPTH = 1
-XFF_STRICT = False
-XFF_NO_SPOOFING = False
+# XFF_TRUSTED_PROXY_DEPTH = 1
+# XFF_STRICT = False
+# XFF_NO_SPOOFING = False
 
 ROOT_URLCONF = 'weatherforecast.urls'
 
