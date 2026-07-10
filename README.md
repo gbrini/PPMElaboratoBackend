@@ -7,21 +7,17 @@ The Weather API is a REST API project developed using the Django REST Framework 
 
 ## API Testing Workflow
 
-A complete Insomnia collection is included in the repository to reproduce the main API workflows.
-
+The repository includes a comprehensive Insomnia collection for replicating the main API workflows.
 The collection file is:
-
 ```
-docs/api_collection.yaml
+weatherforecast/docs/api_collection.yaml
 ```
-
-Instructions for importing and using the collection are available in:
-
+Instructions for importing and using the collection are available at:
 ```
-docs/README.md
+weatherforecast/docs/README.md
 ```
-
-The collection supports all the endpoints developed.
+The collection supports all the endpoints that have been developed. For testing purposes, the database is populated with these six cities (Berlin, Tokyo, New York, London, Paris, Florence, Milan and Rome), and daily weather forecasts are available for all of them from 9 July (00:00) until 16 July (23:00).
+Please note that all data is available in the admin panel, where access is restricted to the `admin_demo` user only.
 
 ---
 
@@ -29,7 +25,7 @@ The collection supports all the endpoints developed.
 
 The API uses role-based access control with four permission levels: **Anonymous**, **Standard**, **Premium**, and **Admin**.
 
-- **Anonymous** users can register, authenticate, refresh access tokens, and retrieve weather forecasts with a limited daily quota.
+- **Anonymous** users can register, authenticate and retrieve weather forecasts with a limited daily quota.
 - **Standard** users gain access to their profile information, password management, weather locations, and an increased weather forecast quota. 
 - **Premium** users inherit all Standard permissions and additionally have access to forecast query history and tracking endpoints, along with a higher daily forecast limit. 
 - **Admin** users have unrestricted access to all API endpoints, including user management, weather forecast and location administration, and are not subject to forecast request limits.
@@ -70,18 +66,20 @@ Weather forecast requests are rate limited according to the authenticated role:
 | anon | 5/day |
 | standard | 50/day |
 | premium | 100/day |
-| admin token | unlimited |
+| admin  | unlimited |
 
 ---
 
 ## Online Deployment
 The APIs are live and available at the following production URL: https://guidobriniweatherapi.onrender.com
 
+As indicated on my render distribution dashboard,  **your free instance will be shut down if it remains inactive, which could cause a delay of 50 seconds or more in your requests**. I therefore strongly recommend that you visit the site before making any API calls, so that you can activate it in advance and avoid any timeouts or similar issues.
+
 ---
 
 ## Local Installation
 
-This project was developed and tested with Python 3.14.6
+This project was developed and tested with Python 3.14.6 and django 6.0.5 and Django rest framework 3.17.1
 
 Follow these steps to get the project running locally:
 
@@ -105,15 +103,25 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+Project structure:
+
+```text
+weatherforecast/
+├── manage.py
+├── db.sqlite3
+└── weatherforecast/
+```
+
+In the following sections, run all commands from the **outer `weatherforecast/` directory** (the Django project directory), the one containing `manage.py`.
+
 ## Start the application
 ```bash
-# Navigate to the Django project directory
-cd weatherforecast
+# Inside the Django project directory
 
 # Create a local environment file
 cp .env.sample .env
 
-# Generate a Django secret key
+# Generate a Django secret key and put the value in the .env as SECRET_KEY value
 python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
 
 # Apply database migrations
@@ -122,14 +130,12 @@ python manage.py migrate
 # Start the local development server
 python manage.py runserver
 ```
-Open the `.env` file and paste the generated value as the `SECRET_KEY`.
 
 ## Execute this part only with a brand new db
 Only follow these steps when setting up a brand new database.
 
 ```bash
-# Navigate to the Django project directory
-cd weatherforecast
+# Inside the Django project directory
 
 # Create an administrator account
 python manage.py createsuperuser
@@ -161,22 +167,18 @@ For this API there are already set up 3 different users:
 The project includes a pre-populated SQLite database located at `weatherforecast/db.sqlite3`. It contains all the required tables, roles, and demo data, allowing to test the REST APIs immediately without any additional setup.
 
 ## Endpoint documentation
+- All endpoints that support pagination return **10** items per page by default. You can change this by using the `page_size` query parameter, up to a maximum of **25** items per page. The paginated response includes `next` and `previous` fields, which contain the URLs for the next and previous pages, respectively.
 - All endpoints that support pagination return **25** items per page by default. You can change this by using the `page_size` query parameter, up to a maximum of **100** items per page. The paginated response includes `next` and `previous` fields, which contain the URLs for the next and previous pages, respectively. In fact in the object response count will provide the number of the total elements retrieved. Queryng a page that doesn't exist will return raise a 404 error.
 
 - ### register
-    Register a user, the assigned role is `standard` by default. The username must be unique.
+    Register a user, the assigned role is `standard`, to change this use the dedicated api. The username must be unique.
 
     * **URL:** `/api/users/register/`
     * **Method:** `POST`
     * **Auth Required:** `No`
     * **Role:** `Anon`
 
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
-    #### Query Parameters
+    #### Request body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -231,12 +233,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `No`
     * **Role:** `Anon`
 
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -287,12 +284,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `No`
     * **Role:** `Anon`
 
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -337,16 +329,6 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `YES`
     * **Role:** `Any`
 
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
-    #### Query Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
     #### Request Example
 
     ```bash
@@ -386,12 +368,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `Yes`
     * **Role:** `Any`
 
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -433,24 +410,19 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     ```
 
 - ### list_users (GET)
-    Add a location object
+    Get a list of all the users
 
     * **URL:** `/api/users/list/`
     * **Method:** `GET`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
 
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-    | `page` | `int` | **No** | The page number. |
-    | `page_size` | `int` | **No** | The page size. |
-
     #### Query Parameters
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
+    | `page` | `int` | **No** | The page number. |
+    | `page_size` | `int` | **No** | Pagination size. |
 
     #### Request Example
     ```bash
@@ -515,7 +487,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 - ### detail_user (PUT)
     Change the user role
 
-    * **URL:** `/api/users/<int:pk>/`
+    * **URL:** `/api/users/{pk}/`
     * **Method:** `PUT`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
@@ -524,11 +496,13 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
+    | `pk` | `int` | **Yes** | The user id |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
+    | `role` | `string` | **Yes** | The new role for the user |
 
     #### Request Example
     ```bash
@@ -562,9 +536,9 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     ```
 
 - ### detail_user (DELETE)
-    REmove a user
+    Remove a user. Note that will remove all the associated history, locations and forecasts.
 
-    * **URL:** `/api/users/<int:pk>/`
+    * **URL:** `/api/users/{pk}/`
     * **Method:** `DELETE`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
@@ -573,11 +547,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-
-    #### Query Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
+    | `pk` | `int` | **Yes** | The user id |
 
     #### Request Example
     ```bash
@@ -611,11 +581,12 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `Optional`
     * **Role:** `Any + Anon`
 
-    #### Path Parameters
+    #### Query Parameters
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-    | `location` | `int` | **Yes** | The location id of the city you want to query. |
+    | `location` | `string` | **Yes** | The city you want to query. |
+    | `country` | `string` | **No** | The country you want to query. (ISO format) |
     | `date` | `string` | **No** | The date you want to query, in the format yyyy-mm-dd. |
     | `date_range_before` | `string` | **No** | The date range you want to query, in the format yyyy-mm-dd. |
     | `date_range_after` | `string` | **No** | The date range you want to query, in the format yyyy-mm-dd. |
@@ -623,17 +594,12 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | `hour_max` | `string` | **No** | The hour range you want to query (Both 09 and 9 are valid). |
     | `unit` | `string` | **No** | Optional parameter to retrieve the temperature in the desired measurement unit (`C` the default value or `F`). |
     | `page` | `int` | **No** | The page number. |
-    | `page_size` | `int` | **No** | The page size. |
-
-    #### Query Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
+    | `page_size` | `int` | **No** | Pagination size. |
 
     These are the assumptions for these filters:
     - If neither date or date range is provided then the default date is the request day.
-    - If both date and at least one date range filter is provided, the the range will be discarded.
-    - Both bour_min and hour_max are constrained between 0 and 23, hour_max has to be greater or equal then hour_min.
+    - If both date and at least one date range filter is provided, the the range will be discarded, and will be taken only the date.
+    - Both hour_min and hour_max are constrained between 0 and 23, hour_max has to be greater or equal then hour_min.
 
     Api behaviour:
     - If the hour_range is not provided will return all the data that matches the other filter starting from the midnight of the initial date
@@ -742,19 +708,14 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     Add a forecast object
 
     API reasoning:
-    - Every forecast date will be saved putting the seconds at 0
+    - The forecast is 
 
     * **URL:** `/api/weather/forecast/`
     * **Method:** `POST`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
 
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -763,8 +724,8 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | `forecast_hour` | `int` | **Yes** | The forecast hour |
     | `weather_info.temperature` | `float` | **Yes** | The temperature in Celsius. (e.g., `28.5`) |
     | `weather_info.condition` | `string` | **Yes** | The forecast decription. |
-    | `weather_info.humidity` | `int` | **Yes** | Humidity percentage |
-    | `weather_info.uv_index` | `int` | **Yes** | UV index |
+    | `weather_info.humidity` | `int` | **Yes** | Humidity percentage. Min value `0` max `100` |
+    | `weather_info.uv_index` | `int` | **Yes** | UV index Min value `0` |
 
     #### Request Example
 
@@ -780,7 +741,8 @@ The project includes a pre-populated SQLite database located at `weatherforecast
         "weather_info": {
             "temperature": 28,
             "condition": "Snowy condition",
-            "humidity": 99
+            "humidity": 99,
+            "uv_index": 3
         }
     }'
     ```
@@ -825,7 +787,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 - ### weather_forecast_detail (DELETE)
     DELETE a forecast object
 
-    * **URL:** `/api/weather/forecast/`
+    * **URL:** `/api/weather/forecast/{pk}`
     * **Method:** `DELETE`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
@@ -835,11 +797,6 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `pk` | `int` | **Yes** | The forecast object id. |
-
-    #### Query Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
 
     #### Request Example
 
@@ -868,7 +825,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 - ### weather_forecast_detail (PUT)
     Modify a forecast object
 
-    * **URL:** `/api/weather/forecast/`
+    * **URL:** `/api/weather/forecast/{pk}`
     * **Method:** `PUT`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
@@ -879,11 +836,17 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | :--- | :--- | :--- | :--- |
     | `pk` | `int` | **Yes** | The forecast object id. |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-    | `data` | `object` | **Yes** | The forecast object. |
+    | `location_id` | `int` | **Yes** | The forecast location id. |
+    | `forecast_date` | `string` | **Yes** | The forecast date, by the format YYYY-MM-DD |
+    | `forecast_hour` | `int` | **Yes** | The forecast hour |
+    | `weather_info.temperature` | `float` | **Yes** | The temperature in Celsius. (e.g., `28.5`) |
+    | `weather_info.condition` | `string` | **Yes** | The forecast decription. |
+    | `weather_info.humidity` | `int` | **Yes** | Humidity percentage. Min value `0` max `100` |
+    | `weather_info.uv_index` | `int` | **Yes** | UV index Min value `0` |
 
     #### Request Example
 
@@ -951,17 +914,12 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `Required`
     * **Role:** `Admin`, `Premium`
 
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-    | `page` | `int` | **No** | The page number. |
-    | `page_size` | `int` | **No** | The page size. |
-
     #### Query Parameters
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
+    | `page` | `int` | **No** | The page number. |
+    | `page_size` | `int` | **No** | Pagination size. |
 
     #### Request Example
 
@@ -1031,11 +989,6 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     | :--- | :--- | :--- | :--- |
     | `pk` | `int` | **Yes** | The log id. |
 
-    #### Query Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
     #### Request Example
 
     ```bash
@@ -1076,13 +1029,13 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `Yes`
     * **Role:** `Any`
 
-    #### Path Parameters
+    #### Query Parameters
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `today` | `string` | **No** | `true` or `false` default `true`, If `false` will return the last **30** days tracking |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
@@ -1123,17 +1076,14 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `Optional`
     * **Role:** ``
 
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-    | `name` | `string` | **No** | The location name, could be an inside the string. The search will be effected with an icontains method |
-    | `page` | `string` | **No** | The page number |
-
     #### Query Parameters
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
+    | `name` | `string` | **No** | The location name, could be an inside the string. The search will be effected with an icontains method |
+    | `country` | `string` | **No** | The country you want to query. (ISO format) |
+    | `page` | `string` | **No** | The page number |
+    | `page_size` | `string` | **No** | Pagination size |
 
     #### Request Example
 
@@ -1168,8 +1118,8 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     ```json
     {
-        "name": [
-            "This field is required."
+        "country": [
+            "Country code must be exactly two letters (e.g., IT, JP)"
         ]
     }
     ```
@@ -1182,19 +1132,14 @@ The project includes a pre-populated SQLite database located at `weatherforecast
     * **Auth Required:** `Required`
     * **Role:** `Admin`
 
-    #### Path Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
-
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `name` | `string` | **Yes** | The location name. |
     | `country` | `string` | **Yes** | ISO Country Code (e.g., IT, US, FR) |
-    | `latitude` | `float` | **No** | The location latitude |
-    | `longitude` | `float` | **No** | The location longitude |
+    | `latitude` | `decimal(2,6)` | **No** | The location latitude. Min value `-90` Max value `90` |
+    | `longitude` | `decimal(2,6)` | **No** | The location longitude. Min value `-180` Max value `180` |
 
     #### Request Example
 
@@ -1239,7 +1184,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 - ### weather_location_detail (PUT)
     Edit a location object
 
-    * **URL:** `/api/weather/location/<int:pk>`
+    * **URL:** `/api/weather/location/{pk}`
     * **Method:** `PUT`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
@@ -1248,15 +1193,16 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
+    | `id` | `int` | **Yes** | the weather location id |
 
-    #### Query Parameters
+    #### Request Body
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
     | `name` | `string` | **Yes** | The location name. |
     | `country` | `string` | **Yes** | ISO Country Code (e.g., IT, US, FR) |
-    | `latitude` | `float` | **No** | The location latitude |
-    | `longitude` | `float` | **No** | The location longitude |
+    | `latitude` | `decimal(2,6)` | **No** | The location latitude. Min value `-90` Max value `90` |
+    | `longitude` | `decimal(2,6)` | **No** | The location longitude. Min value `-180` Max value `180` |
 
     #### Request Example
 
@@ -1300,7 +1246,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 - ### weather_location (DELETE)
     Delete a location object. Pay attention, delteting a location will also delete every weather forecast linked to it.
 
-    * **URL:** `/api/weather/location/<int:pk>`
+    * **URL:** `/api/weather/location/{pk}`
     * **Method:** `DELETE`
     * **Auth Required:** `Required`
     * **Role:** `Admin`
@@ -1309,11 +1255,7 @@ The project includes a pre-populated SQLite database located at `weatherforecast
 
     | Parameter | Type | Required | Description |
     | :--- | :--- | :--- | :--- |
-
-    #### Query Parameters
-
-    | Parameter | Type | Required | Description |
-    | :--- | :--- | :--- | :--- |
+    | `id` | `int` | **Yes** | The weather location id |
 
     #### Request Example
 

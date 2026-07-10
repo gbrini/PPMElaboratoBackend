@@ -11,7 +11,11 @@ collection:
     meta:
       id: fld_9b14e9a02a6f46a086fe6beb5ebd4fe0
       created: 1782675663594
+<<<<<<< HEAD
       modified: 1783625435308
+=======
+      modified: 1783614159352
+>>>>>>> main
       sortKey: -1782675663594
       description: ""
     children:
@@ -476,7 +480,11 @@ collection:
         meta:
           id: req_200a974cd36043c88fb06e651516ae36
           created: 1782934398333
+<<<<<<< HEAD
           modified: 1783623832268
+=======
+          modified: 1783615151539
+>>>>>>> main
           isPrivate: false
           description: ""
           sortKey: -1782934398333
@@ -619,7 +627,11 @@ collection:
         meta:
           id: req_90759541ef9d4e5da0108784abf47c92
           created: 1783276520040
+<<<<<<< HEAD
           modified: 1783625442350
+=======
+          modified: 1783612197929
+>>>>>>> main
           isPrivate: false
           description: ""
           sortKey: -1783276522318
@@ -632,6 +644,10 @@ collection:
             value: "1"
             description: ""
             disabled: false
+          - name: page_size
+            value: "10"
+            description: ""
+            disabled: true
           - name: page_size
             value: "10"
             description: ""
@@ -778,19 +794,32 @@ cookieJar:
   meta:
     id: jar_dcc5a390d7add28ecf5feb4d148564e98af16292
     created: 1782675647657
+<<<<<<< HEAD
     modified: 1783625435305
+=======
+    modified: 1783614159348
+>>>>>>> main
 environments:
   name: Base Environment
   meta:
     id: env_dcc5a390d7add28ecf5feb4d148564e98af16292
     created: 1782675647656
+<<<<<<< HEAD
     modified: 1783625435307
+=======
+    modified: 1783614159349
+>>>>>>> main
     isPrivate: false
   data:
     local_url: " http://127.0.0.1:8000/api/"
     deployed_url: https://guidobriniweatherapi.onrender.com/api/
+<<<<<<< HEAD
     access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzNjI3MjM1LCJpYXQiOjE3ODM2MjU0MzUsImp0aSI6Ijg2OWY5ZDE1YTgzODQwZDNhNWVlMWM1OWNlODgyNDAxIiwidXNlcl9pZCI6IjEifQ.4mhcg5igzxCsikcOfCm4HckEq68GNvlHA2OKJ37C3dQ
     refresh_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4MzcxMTgzNSwiaWF0IjoxNzgzNjI1NDM1LCJqdGkiOiJjYzBmOWQyMjc4NjA0YzZmODEwZGU2YTRkNWYxMWY3OSIsInVzZXJfaWQiOiIxIn0.Yj0I56fMLGlvVvkOewyREeoK8RJKB_j33aMyCqipz48
+=======
+    access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgzNjE1OTU5LCJpYXQiOjE3ODM2MTQxNTksImp0aSI6IjMzZmEwY2ZjZTZmODRmODZhNWUwYzYzMGUzNmIxZjVjIiwidXNlcl9pZCI6IjEifQ.TLRhKKmOXr5ROTIqoo6zz7bEI3uAOxQ9DTG_SqTIih8
+    refresh_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4MzcwMDU1OSwiaWF0IjoxNzgzNjE0MTU5LCJqdGkiOiI3N2MyMzA2NDZkOTE0ZjFlYTQ2ZWRlZWY4ZWMyYTc0MCIsInVzZXJfaWQiOiIxIn0.4yszZ00Mry1AYqhBhgmAwRULn2bRIiBFMjPkVLMPjO4
+>>>>>>> main
   subEnvironments:
     - name: New Environment
       meta:
