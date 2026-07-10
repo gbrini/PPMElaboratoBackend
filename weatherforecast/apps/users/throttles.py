@@ -3,8 +3,9 @@ from rest_framework.throttling import SimpleRateThrottle
 from django.core.cache import cache
 from django.conf import settings
 
-print(cache.__class__)
-print(settings.CACHES)
+print(caches["default"].__class__)
+cache.set("test_key", "hello", 60)
+print(cache.get("test_key"))
 
 class RoleBasedThrottle(SimpleRateThrottle):
     scope = "standard"
